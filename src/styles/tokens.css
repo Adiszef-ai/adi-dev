@@ -1,0 +1,227 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Wymuś generację utility z naszej palety nawet jeśli jeszcze
+   nigdzie nie użyte — żeby tokens były dostępne podczas refactoru.
+   ============================================================ */
+@source inline("{hover:,focus:,group-hover:,}{bg,text,border,ring,from,via,to,shadow,fill,stroke}-aura-{aether,vital,flow}-{start,mid,end}");
+@source inline("{hover:,focus:,}{bg,text,border}-{bg-deep,bg-surface,bg-elevated,bg-glass,text-primary,text-secondary,text-muted,border-subtle,border-strong}");
+@source inline("{hover:,}{bg,text,border}-{success,warning,danger,info}");
+@source inline("aura-bg-{aether,vital,flow}");
+@source inline("aura-text-{aether,vital,flow}");
+@source inline("blob-bg aura-shimmer");
+
+/* ============================================================
+   Adrian Runiewicz — Design Tokens (zgodne z DESIGN.md v0.1)
+   Tailwind v4 @theme directive
+   ============================================================ */
+
+@theme {
+  /* ===== AURA SYSTEM (3 gradients × 3 stops) ===== */
+  --color-aura-aether-start: #22d3ee;
+  --color-aura-aether-mid:   #6366f1;
+  --color-aura-aether-end:   #d946ef;
+
+  --color-aura-vital-start:  #fb7185;
+  --color-aura-vital-mid:    #e879f9;
+  --color-aura-vital-end:    #a855f7;
+
+  --color-aura-flow-start:   #34d399;
+  --color-aura-flow-mid:     #f472b6;
+  --color-aura-flow-end:     #fbbf24;
+
+  /* ===== BAZOWA CIEMNOŚĆ ===== */
+  --color-bg-deep:           #08070d;
+  --color-bg-surface:        #13111c;
+  --color-bg-elevated:       #1c1a2a;
+  --color-bg-glass:          rgb(28 26 42 / 0.6);
+
+  /* ===== NEUTRALS ===== */
+  --color-text-primary:      #f8f7fa;
+  --color-text-secondary:    #a8a5b8;
+  --color-text-muted:        #6b6678;
+  --color-border-subtle:     #2e2a3d;
+  --color-border-strong:     #4a4458;
+
+  /* ===== SEMANTIC ===== */
+  --color-success:           #34d399;
+  --color-warning:           #fbbf24;
+  --color-danger:            #fb7185;
+  --color-info:              #22d3ee;
+
+  /* ===== TYPOGRAPHY ===== */
+  --font-display: "Fraunces", "Georgia", serif;
+  --font-body:    "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* ===== TYPE SCALE ===== */
+  --text-display:    4.5rem;     /* 72px hero */
+  --text-display--line-height: 1.05;
+  --text-display--letter-spacing: -0.02em;
+  --text-display--font-weight: 600;
+
+  --text-h1:         3rem;       /* 48px */
+  --text-h1--line-height: 1.1;
+  --text-h1--font-weight: 600;
+
+  --text-h2:         2.25rem;    /* 36px */
+  --text-h2--line-height: 1.2;
+  --text-h2--font-weight: 500;
+
+  --text-h3:         1.5rem;     /* 24px */
+  --text-h3--line-height: 1.3;
+  --text-h3--font-weight: 500;
+
+  --text-lead:       1.25rem;    /* 20px */
+  --text-lead--line-height: 1.5;
+
+  --text-base:       1rem;       /* 16px */
+  --text-base--line-height: 1.65;
+
+  --text-sm:         0.875rem;   /* 14px */
+  --text-sm--line-height: 1.5;
+
+  --text-xs:         0.75rem;    /* 12px label */
+  --text-xs--line-height: 1.4;
+  --text-xs--letter-spacing: 0.05em;
+  --text-xs--font-weight: 500;
+
+  --text-mono-sm:    0.8125rem;  /* 13px tags/code */
+  --text-mono-sm--line-height: 1.4;
+
+  /* ===== SPACING (4px base) ===== */
+  --spacing-1:  0.25rem;
+  --spacing-2:  0.5rem;
+  --spacing-3:  0.75rem;
+  --spacing-4:  1rem;
+  --spacing-5:  1.5rem;
+  --spacing-6:  2rem;
+  --spacing-7:  3rem;
+  --spacing-8:  4rem;
+  --spacing-9:  6rem;
+  --spacing-10: 8rem;
+
+  /* ===== BREAKPOINTS ===== */
+  --breakpoint-sm:  40rem;   /* 640 */
+  --breakpoint-md:  48rem;   /* 768 */
+  --breakpoint-lg:  64rem;   /* 1024 */
+  --breakpoint-xl:  80rem;   /* 1280 */
+  --breakpoint-2xl: 96rem;   /* 1536 */
+
+  /* ===== RADIUS — molten/liquid blobs ===== */
+  --radius-blob-sm: 20% 80% 70% 30% / 30% 30% 70% 70%;
+  --radius-blob-md: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  --radius-blob-lg: 40% 60% 60% 40% / 50% 30% 70% 50%;
+  --radius-pill:    9999px;
+  --radius-soft:    1.5rem;
+  --radius-sharp:   0.25rem;
+
+  /* ===== EASINGS & DURATIONS ===== */
+  --ease-soft:   cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-energy: cubic-bezier(0.34, 1.20, 0.64, 1);
+  --ease-flow:   cubic-bezier(0.65, 0, 0.35, 1);
+
+  --duration-fast: 150ms;
+  --duration-base: 300ms;
+  --duration-slow: 600ms;
+  --duration-aura: 8s;
+
+  /* ===== ANIMATIONS ===== */
+  --animate-aura-shimmer: aura-shimmer 8s ease-in-out infinite;
+  --animate-blob-morph:   blob-morph 12s ease-in-out infinite;
+  --animate-aura-pulse:   aura-pulse 3s ease-in-out infinite;
+}
+
+/* ============================================================
+   Custom keyframes
+   ============================================================ */
+@keyframes aura-shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+
+@keyframes blob-morph {
+  0%, 100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+  25%      { border-radius: 60% 40% 30% 70% / 70% 50% 50% 30%; }
+  50%      { border-radius: 70% 30% 50% 50% / 30% 60% 40% 70%; }
+  75%      { border-radius: 40% 60% 70% 30% / 50% 30% 70% 50%; }
+}
+
+@keyframes aura-pulse {
+  0%, 100% { transform: scale(1);    opacity: 1;   }
+  50%      { transform: scale(1.15); opacity: 0.7; }
+}
+
+/* ============================================================
+   Custom utilities (zgodne z DESIGN.md sekcja 5 + 7)
+   ============================================================ */
+@utility blob-bg {
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  animation: blob-morph 12s ease-in-out infinite;
+}
+
+@utility aura-shimmer {
+  background-size: 200% auto;
+  animation: aura-shimmer 8s ease-in-out infinite;
+}
+
+@utility aura-text-aether {
+  background-image: linear-gradient(135deg, #22d3ee 0%, #6366f1 50%, #d946ef 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: aura-shimmer 8s ease-in-out infinite;
+}
+
+@utility aura-text-vital {
+  background-image: linear-gradient(135deg, #fb7185 0%, #e879f9 50%, #a855f7 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: aura-shimmer 8s ease-in-out infinite;
+}
+
+@utility aura-text-flow {
+  background-image: linear-gradient(135deg, #34d399 0%, #f472b6 50%, #fbbf24 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: aura-shimmer 8s ease-in-out infinite;
+}
+
+@utility aura-bg-aether {
+  background-image: linear-gradient(135deg, #22d3ee 0%, #6366f1 50%, #d946ef 100%);
+}
+
+@utility aura-bg-vital {
+  background-image: linear-gradient(135deg, #fb7185 0%, #e879f9 50%, #a855f7 100%);
+}
+
+@utility aura-bg-flow {
+  background-image: linear-gradient(135deg, #34d399 0%, #f472b6 50%, #fbbf24 100%);
+}
+
+/* ============================================================
+   Body baseline — przejście na nową paletę bez ruszania starego CSS
+   ============================================================ */
+body {
+  background-color: var(--color-bg-deep);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+}
+
+/* ============================================================
+   Reduced motion respect (DESIGN.md sekcja 7.4)
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .aura-shimmer,
+  .aura-text-aether,
+  .aura-text-vital,
+  .aura-text-flow,
+  .blob-bg {
+    animation: none !important;
+  }
+}
