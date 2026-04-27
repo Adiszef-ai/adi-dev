@@ -2,16 +2,58 @@ import { motion } from 'framer-motion';
 import { FiBarChart2, FiExternalLink, FiGithub } from 'react-icons/fi';
 import { useLang } from '../contexts/LanguageContext';
 
+type Aura = 'aether' | 'vital' | 'flow';
+
 interface Analysis {
   id: string;
   titleKey: string;
   descKey: string;
   tags: string[];
-  color: string;
+  aura: Aura;
   metrics: { label: string; value: string }[];
   chartType: 'bar' | 'line' | 'scatter';
   github?: string;
 }
+
+const auraColors: Record<Aura, string> = {
+  aether: '#6366f1',
+  vital: '#e879f9',
+  flow: '#f472b6',
+};
+
+const auraStyles: Record<Aura, {
+  text: string;
+  blob: string;
+  border: string;
+  shadow: string;
+  metricText: string;
+  iconBg: string;
+}> = {
+  aether: {
+    text: 'text-aura-aether-mid',
+    blob: 'bg-aura-aether-mid/20 group-hover:bg-aura-aether-mid/40',
+    border: 'hover:border-aura-aether-mid/40',
+    shadow: '0 0 30px -10px rgb(99 102 241 / 0.2)',
+    metricText: 'text-aura-aether-start',
+    iconBg: 'bg-aura-aether-mid/15 text-aura-aether-mid',
+  },
+  vital: {
+    text: 'text-aura-vital-mid',
+    blob: 'bg-aura-vital-mid/20 group-hover:bg-aura-vital-mid/40',
+    border: 'hover:border-aura-vital-mid/40',
+    shadow: '0 0 30px -10px rgb(232 121 249 / 0.2)',
+    metricText: 'text-aura-vital-start',
+    iconBg: 'bg-aura-vital-mid/15 text-aura-vital-mid',
+  },
+  flow: {
+    text: 'text-aura-flow-mid',
+    blob: 'bg-aura-flow-mid/20 group-hover:bg-aura-flow-mid/40',
+    border: 'hover:border-aura-flow-mid/40',
+    shadow: '0 0 30px -10px rgb(244 114 182 / 0.2)',
+    metricText: 'text-aura-flow-start',
+    iconBg: 'bg-aura-flow-mid/15 text-aura-flow-mid',
+  },
+};
 
 const analyses: Analysis[] = [
   {
@@ -19,7 +61,7 @@ const analyses: Analysis[] = [
     titleKey: 'anTitle1',
     descKey: 'anDesc1',
     tags: ['Pandas', 'Matplotlib', 'Seaborn'],
-    color: '#06b6d4',
+    aura: 'aether',
     metrics: [
       { label: 'Records', value: '50K+' },
       { label: 'Features', value: '12' },
@@ -32,7 +74,7 @@ const analyses: Analysis[] = [
     titleKey: 'anTitle2',
     descKey: 'anDesc2',
     tags: ['NLP', 'OpenAI', 'Pandas', 'Plotly'],
-    color: '#f59e0b',
+    aura: 'vital',
     metrics: [
       { label: 'Reviews', value: '10K+' },
       { label: 'Languages', value: '3' },
@@ -45,7 +87,7 @@ const analyses: Analysis[] = [
     titleKey: 'anTitle3',
     descKey: 'anDesc3',
     tags: ['Scikit-learn', 'K-Means', 'PCA', 'Plotly'],
-    color: '#4ade80',
+    aura: 'flow',
     metrics: [
       { label: 'Clusters', value: '5' },
       { label: 'Samples', value: '25K' },
@@ -58,7 +100,7 @@ const analyses: Analysis[] = [
 function MiniChart({ type, color }: { type: string; color: string }) {
   if (type === 'bar') {
     return (
-      <svg viewBox="0 0 120 50" className="analysis-card__chart">
+      <svg viewBox="0 0 120 50" className="w-full h-full">
         {[15, 30, 22, 40, 35, 45, 28, 38, 42, 48].map((h, i) => (
           <rect
             key={i}
@@ -68,7 +110,7 @@ function MiniChart({ type, color }: { type: string; color: string }) {
             height={h}
             rx="2"
             fill={color}
-            opacity={0.15 + (i * 0.08)}
+            opacity={0.2 + (i * 0.07)}
           />
         ))}
       </svg>
@@ -76,42 +118,39 @@ function MiniChart({ type, color }: { type: string; color: string }) {
   }
   if (type === 'line') {
     return (
-      <svg viewBox="0 0 120 50" className="analysis-card__chart">
+      <svg viewBox="0 0 120 50" className="w-full h-full">
+        <defs>
+          <linearGradient id={`gradient-${color.slice(1)}`} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor={color} stopOpacity="0.4" />
+            <stop offset="100%" stopColor={color} stopOpacity="0" />
+          </linearGradient>
+        </defs>
+        <polygon
+          points="0,40 15,35 30,38 45,25 60,28 75,15 90,18 105,10 120,5 120,50 0,50"
+          fill={`url(#gradient-${color.slice(1)})`}
+        />
         <polyline
           points="0,40 15,35 30,38 45,25 60,28 75,15 90,18 105,10 120,5"
           fill="none"
           stroke={color}
           strokeWidth="2"
-          opacity="0.5"
+          opacity="0.7"
         />
-        <polyline
-          points="0,40 15,35 30,38 45,25 60,28 75,15 90,18 105,10 120,5"
-          fill={`url(#gradient-${color})`}
-          opacity="0.1"
-          stroke="none"
-        />
-        <defs>
-          <linearGradient id={`gradient-${color}`} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor={color} stopOpacity="0.3" />
-            <stop offset="100%" stopColor={color} stopOpacity="0" />
-          </linearGradient>
-        </defs>
         {[0, 15, 30, 45, 60, 75, 90, 105, 120].map((x, i) => {
           const y = [40, 35, 38, 25, 28, 15, 18, 10, 5][i];
-          return <circle key={i} cx={x} cy={y} r="2.5" fill={color} opacity="0.7" />;
+          return <circle key={i} cx={x} cy={y} r="2.5" fill={color} opacity="0.85" />;
         })}
       </svg>
     );
   }
-  // scatter
   return (
-    <svg viewBox="0 0 120 50" className="analysis-card__chart">
+    <svg viewBox="0 0 120 50" className="w-full h-full">
       {[
         [10, 35], [20, 25], [25, 30], [35, 15], [40, 20],
         [55, 10], [60, 18], [70, 8], [80, 25], [85, 12],
         [95, 30], [100, 22], [110, 15], [15, 42], [50, 38],
       ].map(([x, y], i) => (
-        <circle key={i} cx={x} cy={y} r="3" fill={color} opacity={0.2 + (i * 0.05)} />
+        <circle key={i} cx={x} cy={y} r="3" fill={color} opacity={0.25 + (i * 0.04)} />
       ))}
     </svg>
   );
@@ -122,7 +161,7 @@ const cardVariants = {
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { delay: i * 0.15, duration: 0.6, ease: 'easeOut' },
+    transition: { delay: i * 0.15, duration: 0.6, ease: 'easeOut' as const },
   }),
 };
 
@@ -130,71 +169,105 @@ export default function Analyses() {
   const { t } = useLang();
 
   return (
-    <section id="analyses" className="analyses">
+    <section
+      id="analyses"
+      className="relative px-8 md:px-20 lg:px-28 xl:px-36 py-20 md:py-28"
+    >
       <motion.div
-        className="section-header"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
+        className="mb-12 md:mb-16"
       >
-        <span className="section-label">{t('analysesLabel')}</span>
-        <h2 className="section-title">{t('analysesTitle')}</h2>
+        <span className="block font-mono text-xs uppercase tracking-[0.3em] text-text-muted mb-3">
+          {t('analysesLabel')}
+        </span>
+        <h2 className="font-display text-3xl md:text-5xl font-semibold tracking-tight">
+          <span className="aura-text-flow">{t('analysesTitle')}</span>
+        </h2>
       </motion.div>
 
-      <div className="analyses__grid">
-        {analyses.map((analysis, i) => (
-          <motion.article
-            key={analysis.id}
-            className="analysis-card"
-            style={{ '--card-color': analysis.color } as React.CSSProperties}
-            variants={cardVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: '-50px' }}
-            custom={i}
-          >
-            <div className="analysis-card__chart-container">
-              <MiniChart type={analysis.chartType} color={analysis.color} />
-            </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+        {analyses.map((analysis, i) => {
+          const s = auraStyles[analysis.aura];
+          const color = auraColors[analysis.aura];
+          return (
+            <motion.article
+              key={analysis.id}
+              variants={cardVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: '-50px' }}
+              custom={i}
+              className={`group relative overflow-hidden bg-bg-surface/60 backdrop-blur-sm border border-border-subtle rounded-3xl transition-all duration-500 ${s.border}`}
+              style={{ boxShadow: s.shadow }}
+            >
+              <div
+                className={`absolute -right-10 -top-10 w-32 h-32 blur-3xl rounded-full pointer-events-none transition-colors duration-500 ${s.blob}`}
+              />
 
-            <div className="analysis-card__content">
-              <div className="analysis-card__icon" style={{ color: analysis.color }}>
-                <FiBarChart2 />
+              <div className="relative h-32 md:h-36 px-5 pt-5 flex items-end">
+                <MiniChart type={analysis.chartType} color={color} />
               </div>
-              <h3 className="analysis-card__title">{t(analysis.titleKey)}</h3>
-              <p className="analysis-card__desc">{t(analysis.descKey)}</p>
 
-              <div className="analysis-card__metrics">
-                {analysis.metrics.map((m) => (
-                  <div key={m.label} className="analysis-card__metric">
-                    <span className="analysis-card__metric-value" style={{ color: analysis.color }}>
-                      {m.value}
+              <div className="relative p-5 md:p-6 pt-3">
+                <div className={`inline-flex items-center justify-center w-10 h-10 rounded-xl mb-3 ${s.iconBg}`}>
+                  <FiBarChart2 className="text-lg" />
+                </div>
+                <h3 className="font-display text-xl md:text-2xl font-semibold text-text-primary mb-2">
+                  {t(analysis.titleKey)}
+                </h3>
+                <p className="text-sm text-text-secondary leading-relaxed mb-4">
+                  {t(analysis.descKey)}
+                </p>
+
+                <div className="grid grid-cols-3 gap-2 mb-4">
+                  {analysis.metrics.map((m) => (
+                    <div
+                      key={m.label}
+                      className="bg-bg-elevated/40 border border-border-subtle rounded-lg p-2 text-center"
+                    >
+                      <div className={`font-display text-base font-semibold ${s.metricText}`}>
+                        {m.value}
+                      </div>
+                      <div className="font-mono text-[9px] uppercase tracking-wider text-text-muted mt-0.5">
+                        {m.label}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex flex-wrap gap-1.5 mb-4">
+                  {analysis.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="px-2 py-0.5 rounded-md border border-border-subtle bg-bg-elevated/40 font-mono text-[10px] text-text-secondary"
+                    >
+                      {tag}
                     </span>
-                    <span className="analysis-card__metric-label">{m.label}</span>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
 
-              <div className="analysis-card__tags">
-                {analysis.tags.map((tag) => (
-                  <span key={tag} className="analysis-card__tag">{tag}</span>
-                ))}
+                <div className="flex items-center gap-3">
+                  {analysis.github && (
+                    <a
+                      href={analysis.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`inline-flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md ${s.text} hover:bg-bg-elevated/40 transition-colors`}
+                    >
+                      <FiGithub /> Notebook
+                    </a>
+                  )}
+                  <span className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md border border-dashed border-border-subtle text-text-muted">
+                    <FiExternalLink /> {t('anComingSoon')}
+                  </span>
+                </div>
               </div>
-
-              <div className="analysis-card__links">
-                {analysis.github && (
-                  <a href={analysis.github} target="_blank" rel="noopener noreferrer" className="analysis-card__link">
-                    <FiGithub /> Notebook
-                  </a>
-                )}
-                <span className="analysis-card__link analysis-card__link--soon">
-                  <FiExternalLink /> {t('anComingSoon')}
-                </span>
-              </div>
-            </div>
-          </motion.article>
-        ))}
+            </motion.article>
+          );
+        })}
       </div>
     </section>
   );

@@ -214,6 +214,77 @@ body {
 }
 
 /* ============================================================
+   LIGHT MODE — aktywne gdy <html data-theme="light">
+   Override CSS variables; wszystkie utility (bg-bg-deep, text-text-primary,
+   border-border-subtle itp.) automatycznie podchwytują te wartości.
+   ============================================================ */
+:root[data-theme="light"] {
+  /* Bazowa jasność — kremowa biel z fioletowym micro-podtonem */
+  --color-bg-deep:           #faf8fd;
+  --color-bg-surface:        #ffffff;
+  --color-bg-elevated:       #f4f1f9;
+  --color-bg-glass:          rgb(255 255 255 / 0.7);
+
+  /* Neutrals — odwrócone, ale zachowują fioletowy charakter */
+  --color-text-primary:      #1a1825;
+  --color-text-secondary:    #5b556b;
+  --color-text-muted:        #8b8499;
+  --color-border-subtle:     #e6e2ee;
+  --color-border-strong:     #c4bdd2;
+
+  /* Aury — przyciemnione/desaturowane na białym żeby nie kłuły w oczy.
+     Zachowują charakter (cool/warm/transformative) ale są bardziej "w skórze". */
+  --color-aura-aether-start: #0891b2;  /* cyan-700 */
+  --color-aura-aether-mid:   #4f46e5;  /* indigo-600 */
+  --color-aura-aether-end:   #c026d3;  /* fuchsia-600 */
+
+  --color-aura-vital-start:  #e11d48;  /* rose-600 */
+  --color-aura-vital-mid:    #c026d3;  /* fuchsia-600 */
+  --color-aura-vital-end:    #7c3aed;  /* violet-600 */
+
+  --color-aura-flow-start:   #059669;  /* emerald-600 */
+  --color-aura-flow-mid:     #db2777;  /* pink-600 */
+  --color-aura-flow-end:     #d97706;  /* amber-600 */
+
+  /* Semantic */
+  --color-success:           #059669;
+  --color-warning:           #d97706;
+  --color-danger:            #e11d48;
+  --color-info:              #0891b2;
+}
+
+/* Aktualizuję też utility aura-text-* / aura-bg-* (one używają hardcoded hex
+   bo gradient wymaga konkretnych wartości w background-image) */
+:root[data-theme="light"] .aura-text-aether {
+  background-image: linear-gradient(135deg, #0891b2 0%, #4f46e5 50%, #c026d3 100%);
+}
+:root[data-theme="light"] .aura-text-vital {
+  background-image: linear-gradient(135deg, #e11d48 0%, #c026d3 50%, #7c3aed 100%);
+}
+:root[data-theme="light"] .aura-text-flow {
+  background-image: linear-gradient(135deg, #059669 0%, #db2777 50%, #d97706 100%);
+}
+:root[data-theme="light"] .aura-bg-aether {
+  background-image: linear-gradient(135deg, #0891b2 0%, #4f46e5 50%, #c026d3 100%);
+}
+:root[data-theme="light"] .aura-bg-vital {
+  background-image: linear-gradient(135deg, #e11d48 0%, #c026d3 50%, #7c3aed 100%);
+}
+:root[data-theme="light"] .aura-bg-flow {
+  background-image: linear-gradient(135deg, #059669 0%, #db2777 50%, #d97706 100%);
+}
+
+/* Smooth theme transition na podstawowych właściwościach.
+   NIE na transformach/opacity, żeby nie psuć hover/scroll animacji. */
+html, body, section, article, header, footer, nav, aside, main, div, span, h1, h2, h3, h4, p, a, button, input, textarea {
+  transition:
+    background-color 0.35s ease,
+    border-color 0.35s ease,
+    color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+/* ============================================================
    Reduced motion respect (DESIGN.md sekcja 7.4)
    ============================================================ */
 @media (prefers-reduced-motion: reduce) {

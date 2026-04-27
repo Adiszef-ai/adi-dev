@@ -83,7 +83,7 @@ export default function Timeline() {
         </h2>
       </motion.div>
 
-      <div className="relative max-w-3xl ml-3 md:ml-6 border-l border-border-subtle pl-8 md:pl-14 space-y-12 md:space-y-16">
+      <div className="relative max-w-3xl ml-0 md:ml-6 border-l border-border-subtle pl-6 md:pl-14 space-y-12 md:space-y-16">
         {timelineData.map((item, i) => {
           const s = auraStyles[item.aura];
           return (
@@ -97,7 +97,7 @@ export default function Timeline() {
             >
               {/* Node on the line */}
               <div
-                className={`absolute -left-[41px] md:-left-[63px] top-1.5 w-5 h-5 rounded-full bg-bg-deep border-2 ${s.nodeBorder} ${s.nodeShadow} flex items-center justify-center transition-transform duration-300 group-hover:scale-125`}
+                className={`absolute -left-[45px] md:-left-[69px] top-1.5 w-5 h-5 rounded-full bg-bg-deep border-2 ${s.nodeBorder} ${s.nodeShadow} flex items-center justify-center transition-transform duration-300 group-hover:scale-125`}
               >
                 <div className={`w-1.5 h-1.5 rounded-full ${s.nodeInner}`} />
               </div>

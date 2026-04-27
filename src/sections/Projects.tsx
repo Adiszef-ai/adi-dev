@@ -125,7 +125,7 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className="relative px-6 md:px-16 lg:px-24 xl:px-32 py-20 md:py-28"
+      className="relative px-8 md:px-20 lg:px-28 xl:px-36 py-20 md:py-28"
     >
       <motion.div
         initial={{ opacity: 0, y: 20 }}

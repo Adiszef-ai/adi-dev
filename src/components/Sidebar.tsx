@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { FiUser, FiFolder, FiMail, FiMenu, FiX, FiSun, FiMoon, FiClock, FiBarChart2, FiCpu, FiInfo, FiTarget, FiAward } from 'react-icons/fi';
+import { FiUser, FiFolder, FiMail, FiMenu, FiX, FiSun, FiMoon, FiClock, FiBarChart2, FiCpu, FiInfo, FiTarget, FiAward, FiGithub, FiLinkedin } from 'react-icons/fi';
 import { useLang } from '../contexts/LanguageContext';
 import { useTheme } from '../contexts/ThemeContext';
 
@@ -59,57 +59,88 @@ export default function Sidebar() {
         aria-hidden="true"
       />
 
-      <nav className={`sidebar ${open ? 'sidebar--open' : ''}`}>
-            <div className="sidebar__logo">
-              <div className="sidebar__logo-icon">AR</div>
-              <div className="sidebar__logo-text">
-                <span className="sidebar__name">Adrian Runiewicz</span>
-                <span className="sidebar__role">DATA / AI</span>
-              </div>
+      <nav className={`sidebar ${open ? 'sidebar--open' : ''} flex flex-col gap-6 p-6`}>
+        {/* Logo + name */}
+        <div className="flex items-center gap-3">
+          <div className="relative w-10 h-10 rounded-xl p-[2px] aura-bg-aether shadow-[0_0_20px_-5px_rgb(99_102_241/0.5)]">
+            <div className="w-full h-full rounded-[10px] bg-bg-deep flex items-center justify-center font-display text-sm font-semibold text-text-primary">
+              AR
             </div>
+          </div>
+          <div className="flex flex-col leading-tight">
+            <span className="text-sm font-semibold text-text-primary">Adrian Runiewicz</span>
+            <span className="font-mono text-[9px] uppercase tracking-[0.25em] text-text-muted mt-0.5">
+              DATA / AI
+            </span>
+          </div>
+        </div>
 
-            <ul className="sidebar__nav">
-              {navItems.map((item) => (
-                <li key={item.id}>
-                  <a
-                    href={item.href}
-                    className={`sidebar__link ${activeSection === item.id ? 'sidebar__link--active' : ''}`}
-                    onClick={() => setOpen(false)}
-                  >
-                    <span className="sidebar__icon">{item.icon}</span>
-                    <span className="sidebar__label">{item.label}</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
+        {/* Nav */}
+        <ul className="flex-1 flex flex-col gap-1">
+          {navItems.map((item) => {
+            const isActive = activeSection === item.id;
+            return (
+              <li key={item.id}>
+                <a
+                  href={item.href}
+                  onClick={() => setOpen(false)}
+                  className={`group flex items-center gap-2.5 px-3 py-2 rounded-xl border font-mono text-[10px] uppercase tracking-[0.15em] transition-all duration-300 ${
+                    isActive
+                      ? 'text-aura-aether-mid bg-aura-aether-mid/10 border-aura-aether-mid/30 shadow-[0_0_15px_-5px_rgb(99_102_241/0.4)]'
+                      : 'text-text-muted bg-transparent border-transparent hover:text-text-primary hover:bg-bg-glass hover:border-border-subtle'
+                  }`}
+                >
+                  <span className={`text-base transition-colors duration-300 ${isActive ? 'text-aura-aether-mid' : 'group-hover:text-aura-aether-start'}`}>
+                    {item.icon}
+                  </span>
+                  <span>{item.label}</span>
+                </a>
+              </li>
+            );
+          })}
+        </ul>
 
-            <div className="sidebar__controls">
-              <button className="sidebar__control-btn" onClick={toggleLang} title="Language">
-                {lang === 'pl' ? 'EN' : 'PL'}
-              </button>
-              <button className="sidebar__control-btn" onClick={toggleTheme} title="Theme">
-                {theme === 'dark' ? <FiSun /> : <FiMoon />}
-              </button>
-            </div>
+        {/* Controls */}
+        <div className="flex gap-2">
+          <button
+            onClick={toggleLang}
+            title="Language"
+            className="flex-1 flex items-center justify-center px-3 py-2 rounded-xl border border-border-subtle bg-bg-glass text-text-muted font-mono text-[11px] font-semibold hover:text-aura-vital-mid hover:border-aura-vital-mid/40 hover:bg-aura-vital-mid/8 transition-all duration-300"
+          >
+            {lang === 'pl' ? 'EN' : 'PL'}
+          </button>
+          <button
+            onClick={toggleTheme}
+            title="Theme"
+            className="flex-1 flex items-center justify-center px-3 py-2 rounded-xl border border-border-subtle bg-bg-glass text-text-muted hover:text-aura-flow-mid hover:border-aura-flow-mid/40 hover:bg-aura-flow-mid/8 transition-all duration-300"
+          >
+            {theme === 'dark' ? <FiSun className="text-base" /> : <FiMoon className="text-base" />}
+          </button>
+        </div>
 
-            <div className="sidebar__socials">
-              <a
-                href="https://github.com/Adiszef-ai"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="sidebar__social-link"
-              >
-                GH
-              </a>
-              <a
-                href="https://www.linkedin.com/in/adrian-runiewicz-4a3759259/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="sidebar__social-link"
-              >
-                IN
-              </a>
-            </div>
+        {/* Socials */}
+        <div className="flex gap-2">
+          <a
+            href="https://github.com/Adiszef-ai"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub"
+            className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl border border-border-subtle bg-bg-glass text-text-muted hover:text-aura-aether-mid hover:border-aura-aether-mid/40 hover:bg-aura-aether-mid/8 transition-all duration-300"
+          >
+            <FiGithub className="text-sm" />
+            <span className="font-mono text-[10px] uppercase tracking-wider">GH</span>
+          </a>
+          <a
+            href="https://www.linkedin.com/in/adrian-runiewicz-4a3759259/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn"
+            className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl border border-border-subtle bg-bg-glass text-text-muted hover:text-aura-vital-mid hover:border-aura-vital-mid/40 hover:bg-aura-vital-mid/8 transition-all duration-300"
+          >
+            <FiLinkedin className="text-sm" />
+            <span className="font-mono text-[10px] uppercase tracking-wider">IN</span>
+          </a>
+        </div>
       </nav>
     </>
   );
