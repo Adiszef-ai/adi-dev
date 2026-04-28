@@ -41,35 +41,50 @@
    container + positioning + mobile transform (poniżej w @media). */
 
 /* ========== MAIN CONTENT ========== */
+/* Sekcje są statyczne — globalnie zablokowany user-scroll na .main.
+   Programowy scrollTop (z SlideNav) działa, bo overflow: hidden tylko
+   tnie user input, nie blokuje JS-owego ustawiania pozycji. Sekcje, które
+   nie mieszczą contentu, scrollują wewnątrz siebie do końca sekcji. */
 .main {
   margin-left: 360px;
   position: relative;
   z-index: 1;
   height: 100vh;
+  overflow: hidden;
+}
+
+.main > section {
+  min-height: 100vh;
+  max-height: 100vh;
   overflow-y: auto;
   overflow-x: hidden;
-  scroll-snap-type: y mandatory;
+  display: flex;
+  flex-direction: column;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
 
-.main::-webkit-scrollbar {
+.main > section::-webkit-scrollbar {
   display: none;
 }
 
-.main > section {
-  scroll-snap-align: start;
-  scroll-snap-stop: normal;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+/* Wszystkie sekcje OPRÓCZ #hero startują contentem od identycznego topu —
+   nagłówki landują zawsze w tym samym miejscu w pionie. !important bije
+   Tailwindowe pt-X / py-X w plikach sekcji. Hero ma własny "splash" layout. */
+.main > section:not(#hero) {
+  justify-content: flex-start !important;
+  padding-top: 5rem !important;
+  padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)) !important;
+}
+
+#hero {
   justify-content: center;
-  padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
 }
 
 @media (min-width: 768px) {
-  .main > section {
-    padding-bottom: 56px;
+  .main > section:not(#hero) {
+    padding-top: 4.5rem !important;
+    padding-bottom: 5rem !important;
   }
 }
 
@@ -844,14 +859,19 @@
     height: 56px;
     padding: 8px 24px;
     left: 360px;
-    justify-content: flex-end;
-    gap: 8px;
+    justify-content: center;
+    gap: 16px;
   }
   /* Desktop: buttons go back to fixed size (no flex:1) */
   .slide-nav .nav-btn {
     flex: 0 0 auto;
-    width: 44px;
+    width: 48px;
     height: 40px;
+  }
+  /* Hamburger służy tylko do otwierania sidebaru na mobile;
+     desktop ma sidebar widoczny zawsze, więc ukrywamy. */
+  .slide-nav .slide-nav__menu-btn {
+    display: none;
   }
 }
 
