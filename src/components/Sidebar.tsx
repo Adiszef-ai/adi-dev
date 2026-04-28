@@ -82,7 +82,7 @@ export default function Sidebar() {
         </div>
 
         {/* B: Nav — grid 2-col mobile, vertical list desktop */}
-        <ul className="flex-1 grid grid-cols-2 md:grid-cols-1 gap-2 md:gap-1.5 content-start">
+        <ul className="flex-1 min-h-0 overflow-y-auto grid grid-cols-2 md:grid-cols-1 gap-2 md:gap-1.5 content-start">
           {navItems.map((item) => {
             const isActive = activeSection === item.id;
             return (
