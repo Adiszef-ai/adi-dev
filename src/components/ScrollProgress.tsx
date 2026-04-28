@@ -14,7 +14,8 @@ export default function ScrollProgress() {
         left: 0,
         right: 0,
         height: '3px',
-        background: 'linear-gradient(90deg, #06b6d4, #f59e0b)',
+        background: 'linear-gradient(90deg, var(--color-aura-aether-start), var(--color-aura-aether-mid), var(--color-aura-aether-end))',
+        boxShadow: '0 0 12px -2px rgba(99, 102, 241, 0.6)',
         zIndex: 9999,
       }}
     />

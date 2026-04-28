@@ -1,89 +1,123 @@
 import { motion } from 'framer-motion';
+import { useState } from 'react';
 import { useLang } from '../contexts/LanguageContext';
 
 type Ring = 'mastered' | 'using' | 'learning' | 'exploring';
+type Quadrant = 0 | 1 | 2 | 3;
 
 interface TechItem {
   name: string;
   ring: Ring;
-  quadrant: number; // 0-3
+  quadrant: Quadrant;
 }
 
-const ringConfig: Record<Ring, { labelKey: string; color: string; radius: number }> = {
-  mastered:  { labelKey: 'radarMastered',  color: '#34d399', radius: 25 }, // flow-start
-  using:     { labelKey: 'radarUsing',     color: '#22d3ee', radius: 45 }, // aether-start
-  learning:  { labelKey: 'radarLearning',  color: '#e879f9', radius: 65 }, // vital-mid
-  exploring: { labelKey: 'radarExploring', color: '#fbbf24', radius: 85 }, // flow-end
+const ringConfig: Record<Ring, { labelKey: string; color: string; glow: string; intensity: number }> = {
+  mastered:  { labelKey: 'radarMastered',  color: '#10b981', glow: 'rgba(16, 185, 129, 0.45)',  intensity: 1.00 },
+  using:     { labelKey: 'radarUsing',     color: '#06b6d4', glow: 'rgba(6, 182, 212, 0.40)',   intensity: 0.85 },
+  learning:  { labelKey: 'radarLearning',  color: '#8b5cf6', glow: 'rgba(139, 92, 246, 0.35)',  intensity: 0.70 },
+  exploring: { labelKey: 'radarExploring', color: '#f59e0b', glow: 'rgba(245, 158, 11, 0.30)',  intensity: 0.55 },
 };
 
+const quadrantKeys = ['radarQ1', 'radarQ2', 'radarQ3', 'radarQ4'] as const;
+
 const techItems: TechItem[] = [
-  // Mastered
+  // Q0 — Languages
   { name: 'Python', ring: 'mastered', quadrant: 0 },
-  { name: 'React', ring: 'mastered', quadrant: 1 },
-  { name: 'SQL', ring: 'mastered', quadrant: 2 },
-  { name: 'Git', ring: 'mastered', quadrant: 3 },
-
-  // Using daily
   { name: 'TypeScript', ring: 'using', quadrant: 0 },
-  { name: 'FastAPI', ring: 'using', quadrant: 1 },
-  { name: 'Docker', ring: 'using', quadrant: 2 },
-  { name: 'PostgreSQL', ring: 'using', quadrant: 3 },
-  { name: 'OpenAI', ring: 'using', quadrant: 0 },
-  { name: 'Supabase', ring: 'using', quadrant: 1 },
-
-  // Learning
-  { name: 'Next.js', ring: 'learning', quadrant: 1 },
-  { name: 'LangChain', ring: 'learning', quadrant: 0 },
-  { name: 'RAG', ring: 'learning', quadrant: 2 },
-  { name: 'Embeddings', ring: 'learning', quadrant: 3 },
-  { name: 'CrewAI', ring: 'learning', quadrant: 0 },
-
-  // Exploring
+  { name: 'SQL', ring: 'using', quadrant: 0 },
   { name: 'Rust', ring: 'exploring', quadrant: 0 },
+
+  // Q1 — Frameworks
+  { name: 'React', ring: 'mastered', quadrant: 1 },
+  { name: 'FastAPI', ring: 'using', quadrant: 1 },
+  { name: 'Next.js', ring: 'learning', quadrant: 1 },
+  { name: 'Tailwind', ring: 'using', quadrant: 1 },
+  { name: 'Vite', ring: 'using', quadrant: 1 },
+
+  // Q2 — Infra
+  { name: 'Git', ring: 'mastered', quadrant: 2 },
+  { name: 'Docker', ring: 'using', quadrant: 2 },
+  { name: 'PostgreSQL', ring: 'using', quadrant: 2 },
+  { name: 'Supabase', ring: 'using', quadrant: 2 },
+  { name: 'Hetzner', ring: 'learning', quadrant: 2 },
   { name: 'Kubernetes', ring: 'exploring', quadrant: 2 },
+
+  // Q3 — AI / Data
+  { name: 'OpenAI', ring: 'mastered', quadrant: 3 },
+  { name: 'Claude SDK', ring: 'using', quadrant: 3 },
+  { name: 'LangChain', ring: 'learning', quadrant: 3 },
+  { name: 'CrewAI', ring: 'learning', quadrant: 3 },
+  { name: 'RAG', ring: 'learning', quadrant: 3 },
+  { name: 'Embeddings', ring: 'learning', quadrant: 3 },
   { name: 'Fine-tuning', ring: 'exploring', quadrant: 3 },
-  { name: 'Claude SDK', ring: 'exploring', quadrant: 1 },
   { name: 'MCP', ring: 'exploring', quadrant: 3 },
 ];
 
-function getPosition(item: TechItem, index: number): { x: number; y: number } {
-  const ring = ringConfig[item.ring];
-  const baseAngle = item.quadrant * 90 + 45;
-  const spreadAngle = 20;
-  const itemsInQuadrant = techItems.filter(
-    (t) => t.ring === item.ring && t.quadrant === item.quadrant
+const HEX_CLIP = 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)';
+
+function Hex({ name, ring, hovered, onHover }: { name: string; ring: typeof ringConfig[Ring]; hovered: boolean; onHover: (v: boolean) => void }) {
+  return (
+    <motion.div
+      onMouseEnter={() => onHover(true)}
+      onMouseLeave={() => onHover(false)}
+      whileHover={{ scale: 1.08, y: -2 }}
+      transition={{ type: 'spring', stiffness: 400, damping: 22 }}
+      className="relative cursor-default"
+      style={{ width: 64, height: 72 }}
+    >
+      <div
+        className="absolute inset-0"
+        style={{
+          clipPath: HEX_CLIP,
+          background: hovered ? ring.color : `${ring.color}22`,
+          boxShadow: hovered ? `0 0 24px ${ring.glow}` : 'none',
+          transition: 'background 200ms ease, box-shadow 200ms ease',
+        }}
+      />
+      <div
+        className="absolute inset-[1.5px]"
+        style={{
+          clipPath: HEX_CLIP,
+          background: hovered
+            ? `linear-gradient(140deg, ${ring.color}cc, ${ring.color}66)`
+            : 'rgb(20, 18, 32)',
+          transition: 'background 200ms ease',
+        }}
+      />
+      <div className="relative z-10 w-full h-full flex items-center justify-center px-1.5">
+        <span
+          className="font-mono text-[9px] font-medium text-center leading-tight tracking-tight"
+          style={{
+            color: hovered ? '#0b0918' : ring.color,
+            opacity: hovered ? 1 : ring.intensity,
+            transition: 'color 200ms ease, opacity 200ms ease',
+          }}
+        >
+          {name}
+        </span>
+      </div>
+    </motion.div>
   );
-  const posInQuadrant = itemsInQuadrant.indexOf(item);
-  const angle = (baseAngle + (posInQuadrant - (itemsInQuadrant.length - 1) / 2) * spreadAngle) * (Math.PI / 180);
-  const jitter = (index % 3 - 1) * 4;
-
-  return {
-    x: 50 + (ring.radius + jitter) * Math.cos(angle) * 0.48,
-    y: 50 + (ring.radius + jitter) * Math.sin(angle) * 0.48,
-  };
 }
-
-const quadrantLabels = [
-  { key: 'radarQ1', x: 15, y: 8 },
-  { key: 'radarQ2', x: 70, y: 8 },
-  { key: 'radarQ3', x: 70, y: 95 },
-  { key: 'radarQ4', x: 15, y: 95 },
-];
 
 export default function TechRadar() {
   const { t } = useLang();
+  const [hovered, setHovered] = useState<string | null>(null);
+
+  const cellCounts: Record<string, number> = {};
+  techItems.forEach((item) => {
+    const key = `${item.quadrant}-${item.ring}`;
+    cellCounts[key] = (cellCounts[key] ?? 0) + 1;
+  });
 
   return (
-    <section
-      id="radar"
-      className="relative px-8 md:px-20 lg:px-28 xl:px-36 py-20 md:py-28"
-    >
+    <section id="radar" className="relative px-8 md:px-20 lg:px-28 xl:px-36 py-20 md:py-28">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        className="mb-12 md:mb-16"
+        className="mb-10 md:mb-14"
       >
         <span className="block font-mono text-xs uppercase tracking-[0.3em] text-text-muted mb-3">
           {t('radarLabel')}
@@ -93,118 +127,97 @@ export default function TechRadar() {
         </h2>
       </motion.div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-10 items-start">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
-          className="relative aspect-square w-full max-w-[640px] mx-auto bg-bg-surface/30 backdrop-blur-sm border border-border-subtle rounded-3xl p-4"
-          style={{ boxShadow: '0 0 60px -20px rgb(99 102 241 / 0.2)' }}
-        >
-          <svg viewBox="0 0 100 100" className="w-full h-full">
-            {/* Rings */}
-            {Object.values(ringConfig).map((ring) => (
-              <circle
-                key={ring.radius}
-                cx="50"
-                cy="50"
-                r={ring.radius * 0.48}
-                fill="none"
-                stroke={ring.color}
-                strokeWidth="0.3"
-                opacity="0.25"
-              />
-            ))}
-
-            {/* Crosshairs */}
-            <line x1="50" y1="5" x2="50" y2="95" stroke="rgba(168, 165, 184, 0.1)" strokeWidth="0.2" />
-            <line x1="5" y1="50" x2="95" y2="50" stroke="rgba(168, 165, 184, 0.1)" strokeWidth="0.2" />
-
-            {/* Quadrant labels */}
-            {quadrantLabels.map((q) => (
-              <text
-                key={q.key}
-                x={q.x}
-                y={q.y}
-                fill="rgba(168, 165, 184, 0.5)"
-                fontSize="2.5"
-                fontFamily="JetBrains Mono, monospace"
-              >
-                {t(q.key)}
-              </text>
-            ))}
-
-            {/* Tech dots */}
-            {techItems.map((item, i) => {
-              const pos = getPosition(item, i);
-              const ring = ringConfig[item.ring];
-              return (
-                <g key={item.name}>
-                  <circle
-                    cx={pos.x}
-                    cy={pos.y}
-                    r="1.8"
-                    fill={ring.color}
-                    opacity="0.85"
-                  />
-                  <text
-                    x={pos.x}
-                    y={pos.y + 3.5}
-                    fill="rgba(248, 247, 250, 0.75)"
-                    fontSize="1.8"
-                    textAnchor="middle"
-                    fontFamily="JetBrains Mono, monospace"
-                  >
-                    {item.name}
-                  </text>
-                </g>
-              );
-            })}
-          </svg>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, x: 30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="flex flex-col gap-5"
-        >
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="relative bg-bg-surface/30 backdrop-blur-sm border border-border-subtle rounded-3xl p-5 md:p-8 overflow-x-auto"
+        style={{ boxShadow: '0 0 60px -25px rgb(99 102 241 / 0.25)' }}
+      >
+        {/* Legend strip */}
+        <div className="flex flex-wrap gap-x-5 gap-y-2 mb-6 pb-5 border-b border-border-subtle">
           {(Object.entries(ringConfig) as [Ring, typeof ringConfig[Ring]][]).map(([key, ring]) => {
-            const items = techItems.filter((t) => t.ring === key);
+            const count = techItems.filter((tech) => tech.ring === key).length;
             return (
-              <div
-                key={key}
-                className="bg-bg-surface/40 backdrop-blur-sm border border-border-subtle rounded-2xl p-4"
-              >
-                <div className="flex items-center gap-2 mb-3">
+              <div key={key} className="flex items-center gap-2">
+                <span
+                  className="w-3 h-3"
+                  style={{
+                    clipPath: HEX_CLIP,
+                    background: ring.color,
+                    boxShadow: `0 0 8px ${ring.glow}`,
+                  }}
+                />
+                <span className="font-mono text-[10px] uppercase tracking-[0.18em]" style={{ color: ring.color }}>
+                  {t(ring.labelKey)}
+                </span>
+                <span className="font-mono text-[10px] text-text-muted">
+                  {count}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Matrix */}
+        <div
+          className="grid gap-x-4 gap-y-3 min-w-[640px]"
+          style={{ gridTemplateColumns: '110px repeat(4, minmax(0, 1fr))' }}
+        >
+          {/* Header row */}
+          <div />
+          {quadrantKeys.map((qKey, qIdx) => (
+            <div key={qKey} className="flex items-end pb-2 border-b border-border-subtle">
+              <span className="font-mono text-[10px] md:text-[11px] uppercase tracking-[0.22em] text-text-secondary">
+                <span className="text-text-muted mr-1.5">0{qIdx + 1}</span>
+                {t(qKey)}
+              </span>
+            </div>
+          ))}
+
+          {/* Body rows */}
+          {(Object.entries(ringConfig) as [Ring, typeof ringConfig[Ring]][]).map(([rKey, ring]) => (
+            <div key={`row-${rKey}`} className="contents">
+              <div className="flex items-center pr-2">
+                <div className="flex flex-col gap-1">
                   <span
-                    className="w-2.5 h-2.5 rounded-full"
-                    style={{ background: ring.color, boxShadow: `0 0 10px ${ring.color}` }}
-                  />
-                  <span
-                    className="font-mono text-xs uppercase tracking-[0.2em]"
+                    className="font-mono text-[10px] uppercase tracking-[0.2em]"
                     style={{ color: ring.color }}
                   >
                     {t(ring.labelKey)}
                   </span>
-                </div>
-                <div className="flex flex-wrap gap-1.5">
-                  {items.map((item) => (
-                    <span
-                      key={item.name}
-                      className="px-2 py-0.5 rounded-md bg-bg-elevated/50 border border-border-subtle font-mono text-[11px] text-text-secondary"
-                    >
-                      {item.name}
-                    </span>
-                  ))}
+                  <span className="font-mono text-[9px] text-text-muted tracking-wider">
+                    {Math.round(ring.intensity * 100)}%
+                  </span>
                 </div>
               </div>
-            );
-          })}
-        </motion.div>
-      </div>
+              {[0, 1, 2, 3].map((q) => {
+                const cellItems = techItems.filter((tech) => tech.ring === rKey && tech.quadrant === q);
+                return (
+                  <div
+                    key={`cell-${rKey}-${q}`}
+                    className="relative flex flex-wrap gap-x-1 gap-y-1.5 items-start py-2 px-1 rounded-xl border border-transparent hover:border-border-subtle/50 transition-colors min-h-[72px]"
+                  >
+                    {cellItems.length === 0 && (
+                      <span className="font-mono text-[10px] text-text-muted/40 self-center mx-auto">·</span>
+                    )}
+                    {cellItems.map((item) => (
+                      <Hex
+                        key={item.name}
+                        name={item.name}
+                        ring={ring}
+                        hovered={hovered === item.name}
+                        onHover={(v) => setHovered(v ? item.name : null)}
+                      />
+                    ))}
+                  </div>
+                );
+              })}
+            </div>
+          ))}
+        </div>
+      </motion.div>
     </section>
   );
 }

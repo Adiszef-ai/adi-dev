@@ -61,13 +61,13 @@ export default function Sidebar() {
 
       <nav className={`sidebar ${open ? 'sidebar--open' : ''} flex flex-col gap-6 p-6`}>
         {/* Logo + name */}
-        <div className="flex items-center gap-3">
-          <div className="relative w-10 h-10 rounded-xl p-[2px] aura-bg-aether shadow-[0_0_20px_-5px_rgb(99_102_241/0.5)]">
-            <div className="w-full h-full rounded-[10px] bg-bg-deep flex items-center justify-center font-display text-sm font-semibold text-text-primary">
+        <div className="flex flex-col gap-3">
+          <div className="relative w-full aspect-square rounded-2xl p-[2px] aura-bg-aether shadow-[0_0_30px_-8px_rgb(99_102_241/0.6)]">
+            <div className="w-full h-full rounded-[14px] bg-bg-deep flex items-center justify-center font-display text-5xl font-semibold text-text-primary">
               AR
             </div>
           </div>
-          <div className="flex flex-col leading-tight">
+          <div className="flex flex-col leading-tight px-1">
             <span className="text-sm font-semibold text-text-primary">Adrian Runiewicz</span>
             <span className="font-mono text-[9px] uppercase tracking-[0.25em] text-text-muted mt-0.5">
               DATA / AI
