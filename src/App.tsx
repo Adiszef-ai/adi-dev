@@ -5,6 +5,7 @@ import Sidebar from './components/Sidebar';
 import ScrollProgress from './components/ScrollProgress';
 import ParticlesBackground from './components/ParticlesBackground';
 import SlideNav from './components/SlideNav';
+import ThemeToggleFloating from './components/ThemeToggleFloating';
 import EasterEgg from './components/EasterEgg';
 import Hero from './sections/Hero';
 import About from './sections/About';
@@ -26,6 +27,7 @@ export default function App() {
           <ScrollProgress />
           <EasterEgg />
           <SlideNav />
+          <ThemeToggleFloating />
 
           {/* Ambient aura background — 3 blobs subtelnie się mieniące */}
           <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
