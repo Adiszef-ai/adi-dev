@@ -142,18 +142,21 @@ export default function Skills() {
   return (
     <section
       id="skills"
-      className="relative px-8 md:px-20 lg:px-28 xl:px-36 py-20 md:py-28"
+      className="relative px-6 sm:px-10 md:px-20 lg:px-28 xl:px-36 pt-20 pb-32 md:py-24"
     >
+      <div className="w-full max-w-7xl mx-auto md:mx-0 flex flex-col gap-7 md:gap-10">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        viewport={{ once: true, margin: '-80px' }}
         transition={{ duration: 0.5 }}
-        className="mb-12 md:mb-16"
       >
-        <span className="block font-mono text-xs uppercase tracking-[0.3em] text-text-muted mb-3">
+        <span className="block font-mono text-[11px] sm:text-xs uppercase tracking-[0.32em] text-text-muted mb-2.5">
           {t('skillsLabel')}
         </span>
+        <h2 className="font-display text-[clamp(2rem,8vw,3.25rem)] md:text-5xl font-semibold tracking-tight leading-[1.05]">
+          <span className="aura-text-vital">{t('skillsTitle')}</span>
+        </h2>
       </motion.div>
 
       <motion.div
@@ -161,7 +164,7 @@ export default function Skills() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: '-50px' }}
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5"
       >
         {skillGroups.map((group) => {
           const s = auraStyles[group.aura];
@@ -197,6 +200,7 @@ export default function Skills() {
           );
         })}
       </motion.div>
+      </div>
     </section>
   );
 }

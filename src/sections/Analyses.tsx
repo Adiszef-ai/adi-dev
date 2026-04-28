@@ -13,6 +13,7 @@ interface Analysis {
   metrics: { label: string; value: string }[];
   chartType: 'bar' | 'line' | 'scatter';
   github?: string;
+  notebookUrl?: string;
 }
 
 const auraColors: Record<Aura, string> = {
@@ -57,17 +58,19 @@ const auraStyles: Record<Aura, {
 
 const analyses: Analysis[] = [
   {
-    id: 'eda-sales',
+    id: 'jjit-eda',
     titleKey: 'anTitle1',
     descKey: 'anDesc1',
-    tags: ['Pandas', 'Matplotlib', 'Seaborn'],
+    tags: ['Pandas', 'Matplotlib', 'Seaborn', 'Plotly', 'Web scraping'],
     aura: 'aether',
     metrics: [
-      { label: 'Records', value: '50K+' },
-      { label: 'Features', value: '12' },
-      { label: 'Accuracy', value: '94%' },
+      { label: 'Offers', value: '5K+' },
+      { label: 'Charts', value: '12+' },
+      { label: 'Insights', value: 'Salary · Tech · Geo' },
     ],
     chartType: 'bar',
+    notebookUrl: '/notebooks/justjoinit-eda.html',
+    github: 'https://github.com/Adiszef-ai/adi-dev/blob/main/data-notebooks/justjoinit_EDA_archive_Adiszef-ai.ipynb',
   },
   {
     id: 'sentiment',
@@ -171,24 +174,24 @@ export default function Analyses() {
   return (
     <section
       id="analyses"
-      className="relative px-8 md:px-20 lg:px-28 xl:px-36 py-20 md:py-28"
+      className="relative px-6 sm:px-10 md:px-20 lg:px-28 xl:px-36 pt-20 pb-32 md:py-24"
     >
+      <div className="w-full max-w-7xl mx-auto md:mx-0 flex flex-col gap-7 md:gap-10">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        viewport={{ once: true, margin: '-80px' }}
         transition={{ duration: 0.5 }}
-        className="mb-12 md:mb-16"
       >
-        <span className="block font-mono text-xs uppercase tracking-[0.3em] text-text-muted mb-3">
+        <span className="block font-mono text-[11px] sm:text-xs uppercase tracking-[0.32em] text-text-muted mb-2.5">
           {t('analysesLabel')}
         </span>
-        <h2 className="font-display text-3xl md:text-5xl font-semibold tracking-tight">
+        <h2 className="font-display text-[clamp(2rem,8vw,3.25rem)] md:text-5xl font-semibold tracking-tight leading-[1.05]">
           <span className="aura-text-flow">{t('analysesTitle')}</span>
         </h2>
       </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
         {analyses.map((analysis, i) => {
           const s = auraStyles[analysis.aura];
           const color = auraColors[analysis.aura];
@@ -249,25 +252,38 @@ export default function Analyses() {
                   ))}
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 flex-wrap">
+                  {analysis.notebookUrl && (
+                    <a
+                      href={analysis.notebookUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`inline-flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md ${s.text} hover:bg-bg-elevated/40 transition-colors`}
+                    >
+                      <FiExternalLink /> {t('anView')}
+                    </a>
+                  )}
                   {analysis.github && (
                     <a
                       href={analysis.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`inline-flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md ${s.text} hover:bg-bg-elevated/40 transition-colors`}
+                      className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md border border-border-subtle text-text-secondary hover:text-text-primary hover:border-border-strong transition-colors"
                     >
-                      <FiGithub /> Notebook
+                      <FiGithub /> Source
                     </a>
                   )}
-                  <span className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md border border-dashed border-border-subtle text-text-muted">
-                    <FiExternalLink /> {t('anComingSoon')}
-                  </span>
+                  {!analysis.notebookUrl && !analysis.github && (
+                    <span className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md border border-dashed border-border-subtle text-text-muted">
+                      <FiExternalLink /> {t('anComingSoon')}
+                    </span>
+                  )}
                 </div>
               </div>
             </motion.article>
           );
         })}
+      </div>
       </div>
     </section>
   );

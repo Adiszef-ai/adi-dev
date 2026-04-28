@@ -12,6 +12,7 @@ export default function Sidebar() {
   const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
+    const main = document.querySelector('.main');
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -20,7 +21,7 @@ export default function Sidebar() {
           }
         });
       },
-      { rootMargin: '-40% 0px -40% 0px', threshold: 0 }
+      { root: main, rootMargin: '-40% 0px -40% 0px', threshold: 0 }
     );
 
     sectionIds.forEach((id) => {
@@ -83,7 +84,16 @@ export default function Sidebar() {
               <li key={item.id}>
                 <a
                   href={item.href}
-                  onClick={() => setOpen(false)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const target = document.getElementById(item.id);
+                    const main = document.querySelector('.main') as HTMLElement | null;
+                    if (target && main) {
+                      main.scrollTo({ top: target.offsetTop, behavior: 'smooth' });
+                      history.replaceState(null, '', item.href);
+                    }
+                    setOpen(false);
+                  }}
                   className={`group flex items-center gap-2.5 px-3 py-2 rounded-xl border font-mono text-[10px] uppercase tracking-[0.15em] transition-all duration-300 ${
                     isActive
                       ? 'text-aura-aether-mid bg-aura-aether-mid/10 border-aura-aether-mid/30 shadow-[0_0_15px_-5px_rgb(99_102_241/0.4)]'

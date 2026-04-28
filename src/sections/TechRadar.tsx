@@ -21,20 +21,17 @@ const ringConfig: Record<Ring, { labelKey: string; color: string; glow: string; 
 const quadrantKeys = ['radarQ1', 'radarQ2', 'radarQ3', 'radarQ4'] as const;
 
 const techItems: TechItem[] = [
-  // Q0 — Languages
   { name: 'Python', ring: 'mastered', quadrant: 0 },
   { name: 'TypeScript', ring: 'using', quadrant: 0 },
   { name: 'SQL', ring: 'using', quadrant: 0 },
   { name: 'Rust', ring: 'exploring', quadrant: 0 },
 
-  // Q1 — Frameworks
   { name: 'React', ring: 'mastered', quadrant: 1 },
   { name: 'FastAPI', ring: 'using', quadrant: 1 },
   { name: 'Next.js', ring: 'learning', quadrant: 1 },
   { name: 'Tailwind', ring: 'using', quadrant: 1 },
   { name: 'Vite', ring: 'using', quadrant: 1 },
 
-  // Q2 — Infra
   { name: 'Git', ring: 'mastered', quadrant: 2 },
   { name: 'Docker', ring: 'using', quadrant: 2 },
   { name: 'PostgreSQL', ring: 'using', quadrant: 2 },
@@ -42,7 +39,6 @@ const techItems: TechItem[] = [
   { name: 'Hetzner', ring: 'learning', quadrant: 2 },
   { name: 'Kubernetes', ring: 'exploring', quadrant: 2 },
 
-  // Q3 — AI / Data
   { name: 'OpenAI', ring: 'mastered', quadrant: 3 },
   { name: 'Claude SDK', ring: 'using', quadrant: 3 },
   { name: 'LangChain', ring: 'learning', quadrant: 3 },
@@ -55,7 +51,20 @@ const techItems: TechItem[] = [
 
 const HEX_CLIP = 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)';
 
-function Hex({ name, ring, hovered, onHover }: { name: string; ring: typeof ringConfig[Ring]; hovered: boolean; onHover: (v: boolean) => void }) {
+function Hex({
+  name,
+  ring,
+  hovered,
+  onHover,
+  size = 'md',
+}: {
+  name: string;
+  ring: typeof ringConfig[Ring];
+  hovered: boolean;
+  onHover: (v: boolean) => void;
+  size?: 'sm' | 'md';
+}) {
+  const dims = size === 'sm' ? { w: 56, h: 64, font: 8.5 } : { w: 64, h: 72, font: 9 };
   return (
     <motion.div
       onMouseEnter={() => onHover(true)}
@@ -63,7 +72,7 @@ function Hex({ name, ring, hovered, onHover }: { name: string; ring: typeof ring
       whileHover={{ scale: 1.08, y: -2 }}
       transition={{ type: 'spring', stiffness: 400, damping: 22 }}
       className="relative cursor-default"
-      style={{ width: 64, height: 72 }}
+      style={{ width: dims.w, height: dims.h }}
     >
       <div
         className="absolute inset-0"
@@ -86,8 +95,9 @@ function Hex({ name, ring, hovered, onHover }: { name: string; ring: typeof ring
       />
       <div className="relative z-10 w-full h-full flex items-center justify-center px-1.5">
         <span
-          className="font-mono text-[9px] font-medium text-center leading-tight tracking-tight"
+          className="font-mono font-medium text-center leading-tight tracking-tight"
           style={{
+            fontSize: `${dims.font}px`,
             color: hovered ? '#0b0918' : ring.color,
             opacity: hovered ? 1 : ring.intensity,
             transition: 'color 200ms ease, opacity 200ms ease',
@@ -104,120 +114,154 @@ export default function TechRadar() {
   const { t } = useLang();
   const [hovered, setHovered] = useState<string | null>(null);
 
-  const cellCounts: Record<string, number> = {};
-  techItems.forEach((item) => {
-    const key = `${item.quadrant}-${item.ring}`;
-    cellCounts[key] = (cellCounts[key] ?? 0) + 1;
-  });
-
   return (
-    <section id="radar" className="relative px-8 md:px-20 lg:px-28 xl:px-36 py-20 md:py-28">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-        className="mb-10 md:mb-14"
-      >
-        <span className="block font-mono text-xs uppercase tracking-[0.3em] text-text-muted mb-3">
-          {t('radarLabel')}
-        </span>
-        <h2 className="font-display text-3xl md:text-5xl font-semibold tracking-tight">
-          <span className="aura-text-aether">{t('radarTitle')}</span>
-        </h2>
-      </motion.div>
+    <section id="radar" className="relative px-6 sm:px-10 md:px-20 lg:px-28 xl:px-36 pt-20 pb-32 md:py-24">
+      <div className="w-full max-w-7xl mx-auto md:mx-0 flex flex-col gap-7 md:gap-10">
 
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-        className="relative bg-bg-surface/30 backdrop-blur-sm border border-border-subtle rounded-3xl p-5 md:p-8 overflow-x-auto"
-        style={{ boxShadow: '0 0 60px -25px rgb(99 102 241 / 0.25)' }}
-      >
-        {/* Legend strip */}
-        <div className="flex flex-wrap gap-x-5 gap-y-2 mb-6 pb-5 border-b border-border-subtle">
-          {(Object.entries(ringConfig) as [Ring, typeof ringConfig[Ring]][]).map(([key, ring]) => {
-            const count = techItems.filter((tech) => tech.ring === key).length;
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.5 }}
+        >
+          <span className="block font-mono text-[11px] sm:text-xs uppercase tracking-[0.32em] text-text-muted mb-2.5">
+            {t('radarLabel')}
+          </span>
+          <h2 className="font-display text-[clamp(2rem,8vw,3.25rem)] md:text-5xl font-semibold tracking-tight leading-[1.05]">
+            <span className="aura-text-aether">{t('radarTitle')}</span>
+          </h2>
+        </motion.div>
+
+        {/* Mobile / Tablet — stacked ring cards */}
+        <div className="flex flex-col gap-3 md:hidden">
+          {(Object.entries(ringConfig) as [Ring, typeof ringConfig[Ring]][]).map(([rKey, ring]) => {
+            const items = techItems.filter((tech) => tech.ring === rKey);
             return (
-              <div key={key} className="flex items-center gap-2">
-                <span
-                  className="w-3 h-3"
-                  style={{
-                    clipPath: HEX_CLIP,
-                    background: ring.color,
-                    boxShadow: `0 0 8px ${ring.glow}`,
-                  }}
-                />
-                <span className="font-mono text-[10px] uppercase tracking-[0.18em]" style={{ color: ring.color }}>
-                  {t(ring.labelKey)}
-                </span>
-                <span className="font-mono text-[10px] text-text-muted">
-                  {count}
-                </span>
-              </div>
+              <motion.div
+                key={`m-${rKey}`}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-80px' }}
+                transition={{ duration: 0.45 }}
+                className="bg-bg-surface/40 backdrop-blur-sm border border-border-subtle rounded-2xl p-4"
+                style={{ boxShadow: `0 0 30px -16px ${ring.glow}` }}
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <span
+                      className="w-2.5 h-2.5"
+                      style={{
+                        clipPath: HEX_CLIP,
+                        background: ring.color,
+                        boxShadow: `0 0 8px ${ring.glow}`,
+                      }}
+                    />
+                    <span
+                      className="font-mono text-[11px] uppercase tracking-[0.2em] font-semibold"
+                      style={{ color: ring.color }}
+                    >
+                      {t(ring.labelKey)}
+                    </span>
+                  </div>
+                  <span className="font-mono text-[10px] text-text-muted tracking-wider">
+                    {items.length} · {Math.round(ring.intensity * 100)}%
+                  </span>
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {items.map((item) => (
+                    <Hex
+                      key={item.name}
+                      name={item.name}
+                      ring={ring}
+                      hovered={hovered === item.name}
+                      onHover={(v) => setHovered(v ? item.name : null)}
+                      size="sm"
+                    />
+                  ))}
+                </div>
+              </motion.div>
             );
           })}
         </div>
 
-        {/* Matrix */}
-        <div
-          className="grid gap-x-4 gap-y-3 min-w-[640px]"
-          style={{ gridTemplateColumns: '110px repeat(4, minmax(0, 1fr))' }}
+        {/* Desktop — quadrant×ring matrix */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.55 }}
+          className="hidden md:block relative bg-bg-surface/30 backdrop-blur-sm border border-border-subtle rounded-3xl p-5 md:p-8 overflow-x-auto"
+          style={{ boxShadow: '0 0 60px -25px rgb(99 102 241 / 0.25)' }}
         >
-          {/* Header row */}
-          <div />
-          {quadrantKeys.map((qKey, qIdx) => (
-            <div key={qKey} className="flex items-end pb-2 border-b border-border-subtle">
-              <span className="font-mono text-[10px] md:text-[11px] uppercase tracking-[0.22em] text-text-secondary">
-                <span className="text-text-muted mr-1.5">0{qIdx + 1}</span>
-                {t(qKey)}
-              </span>
-            </div>
-          ))}
-
-          {/* Body rows */}
-          {(Object.entries(ringConfig) as [Ring, typeof ringConfig[Ring]][]).map(([rKey, ring]) => (
-            <div key={`row-${rKey}`} className="contents">
-              <div className="flex items-center pr-2">
-                <div className="flex flex-col gap-1">
+          {/* Matrix */}
+          <div
+            className="grid gap-x-4 gap-y-3 min-w-[640px]"
+            style={{ gridTemplateColumns: '110px repeat(4, minmax(0, 1fr))' }}
+          >
+            <div />
+            {quadrantKeys.map((qKey, qIdx) => {
+              const ringForCol = (Object.values(ringConfig))[qIdx];
+              return (
+                <div
+                  key={qKey}
+                  className="flex items-end pb-2 border-b"
+                  style={{ borderColor: `${ringForCol.color}66` }}
+                >
                   <span
-                    className="font-mono text-[10px] uppercase tracking-[0.2em]"
-                    style={{ color: ring.color }}
+                    className="font-mono text-[10px] md:text-[11px] uppercase tracking-[0.22em] font-semibold"
+                    style={{ color: ringForCol.color, textShadow: `0 0 12px ${ringForCol.glow}` }}
                   >
-                    {t(ring.labelKey)}
-                  </span>
-                  <span className="font-mono text-[9px] text-text-muted tracking-wider">
-                    {Math.round(ring.intensity * 100)}%
+                    <span className="opacity-55 mr-1.5">0{qIdx + 1}</span>
+                    {t(qKey)}
                   </span>
                 </div>
-              </div>
-              {[0, 1, 2, 3].map((q) => {
-                const cellItems = techItems.filter((tech) => tech.ring === rKey && tech.quadrant === q);
-                return (
-                  <div
-                    key={`cell-${rKey}-${q}`}
-                    className="relative flex flex-wrap gap-x-1 gap-y-1.5 items-start py-2 px-1 rounded-xl border border-transparent hover:border-border-subtle/50 transition-colors min-h-[72px]"
-                  >
-                    {cellItems.length === 0 && (
-                      <span className="font-mono text-[10px] text-text-muted/40 self-center mx-auto">·</span>
-                    )}
-                    {cellItems.map((item) => (
-                      <Hex
-                        key={item.name}
-                        name={item.name}
-                        ring={ring}
-                        hovered={hovered === item.name}
-                        onHover={(v) => setHovered(v ? item.name : null)}
-                      />
-                    ))}
+              );
+            })}
+
+            {(Object.entries(ringConfig) as [Ring, typeof ringConfig[Ring]][]).map(([rKey, ring]) => (
+              <div key={`row-${rKey}`} className="contents">
+                <div className="flex items-center pr-2">
+                  <div className="flex flex-col gap-1">
+                    <span
+                      className="font-mono text-[10px] uppercase tracking-[0.2em]"
+                      style={{ color: ring.color }}
+                    >
+                      {t(ring.labelKey)}
+                    </span>
+                    <span className="font-mono text-[9px] text-text-muted tracking-wider">
+                      {Math.round(ring.intensity * 100)}%
+                    </span>
                   </div>
-                );
-              })}
-            </div>
-          ))}
-        </div>
-      </motion.div>
+                </div>
+                {[0, 1, 2, 3].map((q) => {
+                  const cellItems = techItems.filter((tech) => tech.ring === rKey && tech.quadrant === q);
+                  return (
+                    <div
+                      key={`cell-${rKey}-${q}`}
+                      className="relative flex flex-wrap gap-x-1 gap-y-1.5 items-start py-2 px-1 rounded-xl border border-transparent hover:border-border-subtle/50 transition-colors min-h-[72px]"
+                    >
+                      {cellItems.length === 0 && (
+                        <span className="font-mono text-[10px] text-text-muted/40 self-center mx-auto">·</span>
+                      )}
+                      {cellItems.map((item) => (
+                        <Hex
+                          key={item.name}
+                          name={item.name}
+                          ring={ring}
+                          hovered={hovered === item.name}
+                          onHover={(v) => setHovered(v ? item.name : null)}
+                        />
+                      ))}
+                    </div>
+                  );
+                })}
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+      </div>
     </section>
   );
 }

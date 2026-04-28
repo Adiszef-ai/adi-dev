@@ -13,7 +13,7 @@ function AnimatedCounter({ target, suffix = '' }: { target: number; suffix?: str
   useEffect(() => {
     if (!inView) return;
     let start = 0;
-    const duration = 2000;
+    const duration = 1800;
     const step = target / (duration / 16);
     const timer = setInterval(() => {
       start += step;
@@ -74,120 +74,84 @@ const counterAuraStyles: Record<Aura, { iconColor: string; blob: string; border:
   },
 };
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-};
-
 export default function About() {
   const { t } = useLang();
 
   return (
     <section
       id="about"
-      className="relative px-8 md:px-20 lg:px-28 xl:px-36 py-20 md:py-28"
+      className="relative px-6 sm:px-10 md:px-20 lg:px-28 xl:px-36 pt-20 pb-32 md:py-24"
     >
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-        className="mb-12 md:mb-16"
-      >
-        <span className="block font-mono text-xs uppercase tracking-[0.3em] text-text-muted mb-3">
-          {t('aboutLabel')}
-        </span>
-        <h2 className="font-display text-3xl md:text-5xl font-semibold tracking-tight">
-          <span className="aura-text-flow">{t('aboutTitle')}</span>
-        </h2>
-      </motion.div>
+      <div className="w-full max-w-6xl mx-auto md:mx-0 flex flex-col gap-8 md:gap-10">
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start mb-12 md:mb-16">
-        {/* Avatar with Aura Flow ring */}
+        {/* Section header */}
         <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="lg:col-span-4 flex flex-col items-center lg:items-start gap-4"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{ duration: 0.5 }}
         >
-          <div className="relative">
-            <div className="relative w-44 h-44 md:w-52 md:h-52 rounded-full p-[3px] aura-bg-flow shadow-[0_0_50px_-10px_rgb(244_114_182/0.4)]">
-              <div className="w-full h-full rounded-full bg-bg-deep flex items-center justify-center font-display text-5xl md:text-6xl font-semibold text-text-primary">
-                AR
-              </div>
-            </div>
-            {/* Orbital pulse dots */}
-            <div className="absolute -top-1 right-4 w-2.5 h-2.5 rounded-full bg-aura-flow-end shadow-[0_0_10px_rgb(251_191_36/0.7)] animate-pulse" />
-            <div
-              className="absolute bottom-6 -left-2 w-2 h-2 rounded-full bg-aura-flow-start shadow-[0_0_8px_rgb(52_211_153/0.7)] animate-pulse"
-              style={{ animationDelay: '-1.5s' }}
-            />
-          </div>
-
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-border-subtle bg-bg-glass backdrop-blur-sm">
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full rounded-full bg-success opacity-75 animate-ping" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-success" />
-            </span>
-            <span className="font-mono text-xs uppercase tracking-widest text-text-secondary">
-              {t('aboutAvailable')}
-            </span>
-          </div>
+          <span className="block font-mono text-[11px] sm:text-xs uppercase tracking-[0.32em] text-text-muted mb-2.5">
+            {t('aboutLabel')}
+          </span>
+          <h2 className="font-display text-[clamp(2rem,8vw,3.25rem)] md:text-5xl font-semibold tracking-tight leading-[1.05]">
+            <span className="aura-text-flow">{t('aboutTitle')}</span>
+          </h2>
         </motion.div>
 
-        {/* Narrative */}
+        {/* Narrative — pełna szerokość, wszystkie 3 paragrafy */}
         <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="lg:col-span-8 flex flex-col gap-5"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.55, delay: 0.1 }}
+          className="flex flex-col gap-4 max-w-3xl"
         >
-          <p className="text-base md:text-lg text-text-secondary leading-relaxed">
+          <p className="text-base sm:text-lg md:text-lg text-text-secondary leading-relaxed">
             {t('aboutP1')}
           </p>
-          <p className="text-base md:text-lg text-text-secondary leading-relaxed">
+          <p className="text-base sm:text-lg md:text-lg text-text-secondary leading-relaxed">
             {t('aboutP2')}
           </p>
-          <p className="text-base md:text-lg text-text-secondary leading-relaxed">
+          <p className="text-base sm:text-lg md:text-lg text-text-secondary leading-relaxed">
             {t('aboutP3')}
           </p>
         </motion.div>
-      </div>
 
-      {/* Counters */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4"
-      >
-        {counters.map((c) => {
-          const s = counterAuraStyles[c.aura];
-          return (
-            <div
-              key={c.labelKey}
-              className={`group relative overflow-hidden bg-bg-surface/60 backdrop-blur-sm border border-border-subtle rounded-2xl p-4 md:p-5 transition-all duration-500 ${s.border}`}
-              style={{ boxShadow: s.shadow }}
-            >
+        {/* Counters — 2x2 mobile, 4x1 desktop */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4"
+        >
+          {counters.map((c) => {
+            const s = counterAuraStyles[c.aura];
+            return (
               <div
-                className={`absolute -right-6 -top-6 w-24 h-24 blur-3xl rounded-full transition-colors duration-500 ${s.blob}`}
-              />
-              <div className="relative flex flex-col gap-2">
-                <span className={`text-xl ${s.iconColor}`}>{c.icon}</span>
-                <span className="font-display text-2xl md:text-3xl font-semibold text-text-primary">
-                  <AnimatedCounter target={c.target} suffix={c.suffix} />
-                </span>
-                <span className="font-mono text-[10px] md:text-xs uppercase tracking-widest text-text-muted">
-                  {t(c.labelKey)}
-                </span>
+                key={c.labelKey}
+                className={`group relative overflow-hidden bg-bg-surface/60 backdrop-blur-sm border border-border-subtle rounded-2xl p-4 md:p-5 transition-all duration-500 ${s.border}`}
+                style={{ boxShadow: s.shadow }}
+              >
+                <div
+                  className={`absolute -right-6 -top-6 w-24 h-24 blur-3xl rounded-full transition-colors duration-500 ${s.blob}`}
+                />
+                <div className="relative flex flex-col gap-1.5">
+                  <span className={`text-lg md:text-xl ${s.iconColor}`}>{c.icon}</span>
+                  <span className="font-display text-2xl md:text-3xl font-semibold text-text-primary leading-none">
+                    <AnimatedCounter target={c.target} suffix={c.suffix} />
+                  </span>
+                  <span className="font-mono text-[10px] md:text-xs uppercase tracking-wider md:tracking-widest text-text-muted leading-snug">
+                    {t(c.labelKey)}
+                  </span>
+                </div>
               </div>
-            </div>
-          );
-        })}
-      </motion.div>
+            );
+          })}
+        </motion.div>
+
+      </div>
     </section>
   );
 }

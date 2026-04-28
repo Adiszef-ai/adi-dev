@@ -3,7 +3,7 @@ import { ThemeProvider } from './contexts/ThemeContext';
 import Sidebar from './components/Sidebar';
 import ScrollProgress from './components/ScrollProgress';
 import ParticlesBackground from './components/ParticlesBackground';
-import BackToTop from './components/BackToTop';
+import SlideNav from './components/SlideNav';
 import EasterEgg from './components/EasterEgg';
 import Hero from './sections/Hero';
 import About from './sections/About';
@@ -23,7 +23,7 @@ export default function App() {
       <ThemeProvider>
         <ScrollProgress />
         <EasterEgg />
-        <BackToTop />
+        <SlideNav />
 
         {/* Ambient aura background — 3 blobs subtelnie się mieniące */}
         <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">

@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { useState } from 'react';
 import { FiArrowRight, FiGithub, FiLock } from 'react-icons/fi';
 import { useLang } from '../contexts/LanguageContext';
 
@@ -25,6 +26,7 @@ interface ProjectData {
   github?: string;
   privateLabelKey?: string;
   aura: Aura;
+  image?: string;
 }
 
 const projects: ProjectData[] = [
@@ -38,6 +40,7 @@ const projects: ProjectData[] = [
     tech: ['Python', 'FastAPI', 'PostgreSQL', 'React', 'TypeScript', 'Tailwind', 'Blender', 'Supabase'],
     url: 'https://careerguide.pl',
     aura: 'vital',
+    image: '/projects/career-guide.png',
   },
   {
     id: 'runewitch',
@@ -49,6 +52,7 @@ const projects: ProjectData[] = [
     tech: ['React 19', 'FastAPI', 'SQLite', 'Groq', 'Gemini', 'OpenAI', 'ElevenLabs', 'Replicate', 'Docker'],
     url: 'https://runewitch.app',
     aura: 'aether',
+    image: '/projects/runewitch.png',
   },
   {
     id: 'rybaika',
@@ -59,6 +63,7 @@ const projects: ProjectData[] = [
     highlightKey: 'ryHighlight',
     tech: ['React', 'TypeScript (strict)', 'Vite', 'FastAPI', 'PostgreSQL', 'Redis', 'FAISS', 'GPT-4o-mini', 'Vitest'],
     aura: 'flow',
+    image: '/projects/rybaika.png',
   },
   {
     id: 'akasha',
@@ -70,6 +75,7 @@ const projects: ProjectData[] = [
     tech: ['React 18', 'TypeScript', 'Fastify', 'Drizzle ORM', 'PostgreSQL', 'Groq', 'ElevenLabs', 'PWA'],
     privateLabelKey: 'akPrivate',
     aura: 'aether',
+    image: '/projects/akasha.png',
   },
 ];
 
@@ -125,29 +131,75 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className="relative px-8 md:px-20 lg:px-28 xl:px-36 py-20 md:py-28"
+      className="relative px-6 sm:px-10 md:px-20 lg:px-28 xl:px-36 pt-20 pb-32 md:py-24"
     >
+      <div className="w-full max-w-7xl mx-auto md:mx-0 flex flex-col gap-7 md:gap-10">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        viewport={{ once: true, margin: '-80px' }}
         transition={{ duration: 0.6 }}
-        className="mb-12 md:mb-16"
       >
-        <span className="block font-mono text-xs uppercase tracking-[0.3em] text-text-muted mb-3">
+        <span className="block font-mono text-[11px] sm:text-xs uppercase tracking-[0.32em] text-text-muted mb-2.5">
           {t('projectsLabel')}
         </span>
-        <h2 className="font-display text-3xl md:text-5xl font-semibold tracking-tight max-w-3xl">
+        <h2 className="font-display text-[clamp(2rem,8vw,3.25rem)] md:text-5xl font-semibold tracking-tight leading-[1.05] max-w-3xl">
           <span className="aura-text-vital">{t('projectsTitle')}</span>
         </h2>
       </motion.div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-7">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 md:gap-7">
         {projects.map((project, i) => (
           <ProjectCard key={project.id} project={project} index={i} t={t} />
         ))}
       </div>
+      </div>
     </section>
+  );
+}
+
+const auraGradients: Record<Aura, string> = {
+  aether: 'linear-gradient(135deg, #22d3ee 0%, #6366f1 50%, #d946ef 100%)',
+  vital: 'linear-gradient(135deg, #fb7185 0%, #e879f9 50%, #a855f7 100%)',
+  flow: 'linear-gradient(135deg, #34d399 0%, #f472b6 50%, #fbbf24 100%)',
+};
+
+function ProjectImage({ project }: { project: ProjectData }) {
+  const [errored, setErrored] = useState(false);
+  const showImage = project.image && !errored;
+  return (
+    <div className="relative aspect-[16/9] -mx-6 -mt-6 md:-mx-7 md:-mt-7 mb-5 overflow-hidden border-b border-border-subtle">
+      {/* Aura gradient placeholder — zawsze pod spodem */}
+      <div
+        className="absolute inset-0 opacity-30"
+        style={{ background: auraGradients[project.aura] }}
+      />
+      <div
+        className="absolute inset-0 mix-blend-overlay opacity-40"
+        style={{
+          backgroundImage: `radial-gradient(circle at 30% 30%, rgba(255,255,255,0.15), transparent 60%)`,
+        }}
+      />
+      {/* Title nadrukowany na placeholderze (gdy brak obrazka) */}
+      {!showImage && (
+        <div className="absolute inset-0 flex items-end p-5">
+          <span className="font-display text-3xl font-semibold text-text-primary/90 drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)]">
+            {project.title}
+          </span>
+        </div>
+      )}
+      {showImage && (
+        <img
+          src={project.image}
+          alt={project.title}
+          loading="lazy"
+          onError={() => setErrored(true)}
+          className="relative w-full h-full object-cover"
+        />
+      )}
+      {/* Gradient overlay od dołu — żeby content pod karta nie zlewał się z obrazkiem */}
+      <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-bg-surface/95 to-transparent pointer-events-none" />
+    </div>
   );
 }
 
@@ -178,6 +230,9 @@ function ProjectCard({
       />
 
       <div className="relative flex flex-col h-full">
+        {/* Project image / placeholder */}
+        <ProjectImage project={project} />
+
         {/* Category + status dot */}
         <div className="flex items-center justify-between mb-3">
           <span className="font-mono text-[10px] md:text-xs uppercase tracking-[0.2em] text-text-muted">

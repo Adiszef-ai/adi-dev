@@ -66,24 +66,24 @@ export default function Timeline() {
   return (
     <section
       id="timeline"
-      className="relative px-8 md:px-20 lg:px-28 xl:px-36 py-20 md:py-28"
+      className="relative px-6 sm:px-10 md:px-20 lg:px-28 xl:px-36 pt-20 pb-32 md:py-24"
     >
+      <div className="w-full max-w-5xl mx-auto md:mx-0 flex flex-col gap-7 md:gap-10">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        viewport={{ once: true, margin: '-80px' }}
         transition={{ duration: 0.5 }}
-        className="mb-12 md:mb-16"
       >
-        <span className="block font-mono text-xs uppercase tracking-[0.3em] text-text-muted mb-3">
+        <span className="block font-mono text-[11px] sm:text-xs uppercase tracking-[0.32em] text-text-muted mb-2.5">
           {t('timelineLabel')}
         </span>
-        <h2 className="font-display text-3xl md:text-5xl font-semibold tracking-tight">
+        <h2 className="font-display text-[clamp(2rem,8vw,3.25rem)] md:text-5xl font-semibold tracking-tight leading-[1.05]">
           <span className="aura-text-aether">{t('timelineTitle')}</span>
         </h2>
       </motion.div>
 
-      <div className="relative max-w-3xl ml-0 md:ml-6 border-l border-border-subtle pl-6 md:pl-14 space-y-12 md:space-y-16">
+      <div className="relative max-w-3xl ml-0 md:ml-6 border-l border-border-subtle pl-5 md:pl-14 space-y-7 md:space-y-12">
         {timelineData.map((item, i) => {
           const s = auraStyles[item.aura];
           return (
@@ -97,7 +97,7 @@ export default function Timeline() {
             >
               {/* Node on the line */}
               <div
-                className={`absolute -left-[45px] md:-left-[69px] top-1.5 w-5 h-5 rounded-full bg-bg-deep border-2 ${s.nodeBorder} ${s.nodeShadow} flex items-center justify-center transition-transform duration-300 group-hover:scale-125`}
+                className={`absolute -left-[35px] md:-left-[69px] top-1.5 w-4 h-4 md:w-5 md:h-5 rounded-full bg-bg-deep border-2 ${s.nodeBorder} ${s.nodeShadow} flex items-center justify-center transition-transform duration-300 group-hover:scale-125`}
               >
                 <div className={`w-1.5 h-1.5 rounded-full ${s.nodeInner}`} />
               </div>
@@ -120,6 +120,7 @@ export default function Timeline() {
             </motion.div>
           );
         })}
+      </div>
       </div>
     </section>
   );

@@ -27,6 +27,7 @@ const translations: Translations = {
 
   // Skills
   skillsLabel: { pl: 'UMIEJĘTNOŚCI', en: 'SKILLS' },
+  skillsTitle: { pl: 'Stack technologiczny', en: 'Tech stack' },
   catLanguages: { pl: 'JĘZYKI', en: 'LANGUAGES' },
   catFrameworks: { pl: 'FRAMEWORKS', en: 'FRAMEWORKS' },
   catAI: { pl: 'AI / ML', en: 'AI / ML' },
@@ -181,10 +182,10 @@ const translations: Translations = {
   // Analyses
   analysesLabel: { pl: 'ANALIZY', en: 'ANALYSES' },
   analysesTitle: { pl: 'Notebooki i wizualizacje', en: 'Notebooks & visualizations' },
-  anTitle1: { pl: 'Analiza sprzedaży — EDA', en: 'Sales Analysis — EDA' },
+  anTitle1: { pl: 'JustJoinIT — rynek pracy IT w Polsce', en: 'JustJoinIT — Polish IT job market' },
   anDesc1: {
-    pl: 'Eksploracyjna analiza danych sprzedażowych. Identyfikacja trendów, sezonowości i kluczowych czynników wpływających na przychody.',
-    en: 'Exploratory data analysis of sales data. Identifying trends, seasonality, and key revenue drivers.',
+    pl: 'Obszerna eksploracyjna analiza ofert z JustJoinIT. Mapowanie technologii, widełek wynagrodzeń, lokalizacji i wymagań seniority. 12+ wizualizacji z wnioskami dla osób wchodzących na rynek IT.',
+    en: 'Comprehensive EDA of JustJoinIT job listings. Mapping technologies, salary ranges, locations, and seniority requirements. 12+ visualizations with insights for IT job market entrants.',
   },
   anTitle2: { pl: 'Analiza sentymentu recenzji', en: 'Review Sentiment Analysis' },
   anDesc2: {
@@ -197,6 +198,7 @@ const translations: Translations = {
     en: 'Customer clustering using K-Means with PCA dimensionality reduction. Identifying 5 market segments.',
   },
   anComingSoon: { pl: 'Wkrótce', en: 'Coming soon' },
+  anView: { pl: 'Otwórz notebook', en: 'View notebook' },
 
   // Agents
   agentsLabel: { pl: 'AI AGENCI', en: 'AI AGENTS' },

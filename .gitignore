@@ -20,6 +20,9 @@ dist-ssr
 # Claude Code local settings (per-machine)
 .claude/settings.local.json
 
+# Notebook source (rendered HTML lives in public/notebooks/, source na osobnym GitHub repo)
+notebooks/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

@@ -54,27 +54,27 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="relative px-8 md:px-20 lg:px-28 xl:px-36 py-20 md:py-28"
+      className="relative px-6 sm:px-10 md:px-20 lg:px-28 xl:px-36 pt-20 pb-32 md:py-24"
     >
+      <div className="w-full max-w-7xl mx-auto md:mx-0 flex flex-col gap-7 md:gap-10">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        viewport={{ once: true, margin: '-80px' }}
         transition={{ duration: 0.5 }}
-        className="mb-12 md:mb-16"
       >
-        <span className="block font-mono text-xs uppercase tracking-[0.3em] text-text-muted mb-3">
+        <span className="block font-mono text-[11px] sm:text-xs uppercase tracking-[0.32em] text-text-muted mb-2.5">
           {t('contactLabel')}
         </span>
-        <h2 className="font-display text-3xl md:text-5xl font-semibold tracking-tight mb-3">
+        <h2 className="font-display text-[clamp(2rem,8vw,3.25rem)] md:text-5xl font-semibold tracking-tight leading-[1.05] mb-3">
           <span className="aura-text-vital">{t('contactTitle')}</span>
         </h2>
-        <p className="text-base md:text-lg text-text-secondary max-w-2xl">
+        <p className="text-base sm:text-lg text-text-secondary max-w-2xl leading-relaxed">
           {t('contactSubtitle')}
         </p>
       </motion.div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-10 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 items-start">
         <ContactForm />
 
         <div className="flex flex-col gap-3">
@@ -115,6 +115,7 @@ export default function Contact() {
             );
           })}
         </div>
+      </div>
       </div>
     </section>
   );

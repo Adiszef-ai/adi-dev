@@ -1,7 +1,21 @@
 import { motion, useScroll, useSpring } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
 
 export default function ScrollProgress() {
-  const { scrollYProgress } = useScroll();
+  const containerRef = useRef<HTMLElement | null>(null);
+  const [containerReady, setContainerReady] = useState(false);
+
+  useEffect(() => {
+    const el = document.querySelector('.main') as HTMLElement | null;
+    if (el) {
+      containerRef.current = el;
+      setContainerReady(true);
+    }
+  }, []);
+
+  const { scrollYProgress } = useScroll(
+    containerReady ? { container: containerRef as React.RefObject<HTMLElement> } : undefined
+  );
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
 
   return (
