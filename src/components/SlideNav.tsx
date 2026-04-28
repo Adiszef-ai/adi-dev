@@ -111,29 +111,27 @@ export default function SlideNav() {
         onClick={toggleSidebar}
         aria-label={sidebarOpen ? 'Close menu' : 'Open menu'}
         aria-expanded={sidebarOpen}
-        className="nav-btn"
+        className="nav-btn md:hidden"
       >
         {sidebarOpen ? <FiX /> : <FiMenu />}
       </button>
 
-      <div className="slide-nav__group">
-        <button
-          onClick={() => goToIdx(currentIdx - 1)}
-          disabled={isFirst}
-          aria-label="Previous slide"
-          className="nav-btn"
-        >
-          <FiChevronUp />
-        </button>
-        <button
-          onClick={() => goToIdx(currentIdx + 1)}
-          disabled={isLast}
-          aria-label="Next slide"
-          className="nav-btn"
-        >
-          <FiChevronDown />
-        </button>
-      </div>
+      <button
+        onClick={() => goToIdx(currentIdx - 1)}
+        disabled={isFirst}
+        aria-label="Previous slide"
+        className="nav-btn"
+      >
+        <FiChevronUp />
+      </button>
+      <button
+        onClick={() => goToIdx(currentIdx + 1)}
+        disabled={isLast}
+        aria-label="Next slide"
+        className="nav-btn"
+      >
+        <FiChevronDown />
+      </button>
     </nav>
   );
 }

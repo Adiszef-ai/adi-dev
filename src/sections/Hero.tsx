@@ -28,9 +28,19 @@ export default function Hero() {
           initial="hidden"
           animate="visible"
           custom={1}
-          className="block font-mono text-xs sm:text-sm uppercase tracking-[0.32em] text-text-muted"
+          className="block font-mono text-sm sm:text-base uppercase tracking-[0.32em] text-text-secondary"
         >
-          {t('greeting')}
+          {(() => {
+            const greeting = t('greeting');
+            const commaIdx = greeting.indexOf(',');
+            if (commaIdx === -1) return greeting;
+            return (
+              <>
+                <span className="aura-text-vital opacity-70">{greeting.slice(0, commaIdx)}</span>
+                {greeting.slice(commaIdx)}
+              </>
+            );
+          })()}
         </motion.span>
 
         {/* Hero name */}

@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
-import { FiHome, FiUser, FiFolder, FiMail, FiClock, FiBarChart2, FiCpu, FiTarget, FiAward, FiGithub, FiLinkedin, FiLayers } from 'react-icons/fi';
+import { AnimatePresence, motion } from 'framer-motion';
+import { FiHome, FiUser, FiFolder, FiMail, FiClock, FiBarChart2, FiCpu, FiTarget, FiAward, FiLayers, FiGlobe, FiSun, FiMoon } from 'react-icons/fi';
 import { useLang } from '../contexts/LanguageContext';
+import { useTheme } from '../contexts/ThemeContext';
 import { useSidebar } from '../contexts/SidebarContext';
 
 const sectionIds = ['hero', 'about', 'timeline', 'skills', 'radar', 'projects', 'analyses', 'agents', 'certs', 'contact'];
@@ -8,6 +10,7 @@ const sectionIds = ['hero', 'about', 'timeline', 'skills', 'radar', 'projects', 
 export default function Sidebar() {
   const [activeSection, setActiveSection] = useState('hero');
   const { lang, toggleLang, t } = useLang();
+  const { theme, toggleTheme } = useTheme();
   const { open, close } = useSidebar();
 
   useEffect(() => {
@@ -44,6 +47,16 @@ export default function Sidebar() {
     { icon: <FiMail />, label: t('navContact'), href: '#contact', id: 'contact' },
   ];
 
+  const isDark = theme === 'dark';
+  const langOpposite = lang === 'pl' ? 'EN' : 'PL';
+  const themeOpposite = isDark ? 'light' : 'dark';
+
+  const settingsTileClass =
+    'group flex items-center justify-center gap-2 px-3 py-3 rounded-lg border ' +
+    'bg-white/[0.03] border-border-subtle text-text-secondary ' +
+    'hover:bg-white/[0.06] hover:border-border-strong hover:text-text-primary ' +
+    'font-mono text-[11px] uppercase tracking-[0.15em] transition-all duration-300';
+
   return (
     <>
       <div
@@ -52,24 +65,24 @@ export default function Sidebar() {
         aria-hidden="true"
       />
 
-      <nav className={`sidebar ${open ? 'sidebar--open' : ''} flex flex-col gap-6 p-6`}>
-        {/* Logo + name */}
-        <div className="flex flex-col gap-3">
-          <div className="relative w-full aspect-square rounded-2xl p-[2px] aura-bg-aether shadow-[0_0_30px_-8px_rgb(99_102_241/0.6)]">
+      <nav className={`sidebar ${open ? 'sidebar--open' : ''} flex flex-col gap-4 p-5 pb-[88px] md:pb-5`}>
+        {/* A: Brand */}
+        <div className="flex flex-col items-center gap-3 pb-1">
+          <div className="relative w-[150px] h-[150px] rounded-2xl p-[2px] aura-bg-aether shadow-[0_0_36px_-8px_rgb(99_102_241/0.6)]">
             <div className="w-full h-full rounded-[14px] bg-bg-deep flex items-center justify-center font-display text-5xl font-semibold text-text-primary">
               AR
             </div>
           </div>
-          <div className="flex flex-col leading-tight px-1">
-            <span className="text-sm font-semibold text-text-primary">Adrian Runiewicz</span>
-            <span className="font-mono text-[9px] uppercase tracking-[0.25em] text-text-muted mt-0.5">
+          <div className="flex flex-col items-center gap-0.5 text-center">
+            <span className="text-base md:text-lg font-semibold text-text-primary leading-tight">Adrian Runiewicz</span>
+            <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-text-muted">
               DATA / AI
             </span>
           </div>
         </div>
 
-        {/* Nav */}
-        <ul className="flex-1 flex flex-col gap-1">
+        {/* B: Nav — grid 2-col mobile, vertical list desktop */}
+        <ul className="flex-1 grid grid-cols-2 md:grid-cols-1 gap-2 md:gap-1.5 content-start">
           {navItems.map((item) => {
             const isActive = activeSection === item.id;
             return (
@@ -86,53 +99,64 @@ export default function Sidebar() {
                     }
                     close();
                   }}
-                  className={`group flex items-center gap-2.5 px-3 py-2 rounded-xl border font-mono text-[10px] uppercase tracking-[0.15em] transition-all duration-300 ${
+                  className={`group flex items-center gap-2.5 px-3 py-3 md:py-2.5 rounded-lg border font-mono text-[11px] uppercase tracking-[0.15em] transition-all duration-300 ${
                     isActive
                       ? 'text-aura-aether-mid bg-aura-aether-mid/10 border-aura-aether-mid/30 shadow-[0_0_15px_-5px_rgb(99_102_241/0.4)]'
-                      : 'text-text-muted bg-transparent border-transparent hover:text-text-primary hover:bg-bg-glass hover:border-border-subtle'
+                      : 'text-text-muted bg-white/[0.03] border-border-subtle hover:text-text-primary hover:bg-white/[0.06] hover:border-border-strong'
                   }`}
                 >
-                  <span className={`text-base transition-colors duration-300 ${isActive ? 'text-aura-aether-mid' : 'group-hover:text-aura-aether-start'}`}>
+                  <span className={`text-lg transition-colors duration-300 ${isActive ? 'text-aura-aether-mid' : 'group-hover:text-aura-aether-start'}`}>
                     {item.icon}
                   </span>
-                  <span>{item.label}</span>
+                  <span className="truncate">{item.label}</span>
                 </a>
               </li>
             );
           })}
         </ul>
 
-        {/* Lang toggle (theme moved to bottom bar) */}
-        <button
-          onClick={toggleLang}
-          title="Language"
-          className="w-full flex items-center justify-center px-3 py-2 rounded-xl border border-border-subtle bg-bg-glass text-text-muted font-mono text-[11px] font-semibold hover:text-aura-vital-mid hover:border-aura-vital-mid/40 hover:bg-aura-vital-mid/8 transition-all duration-300"
-        >
-          {lang === 'pl' ? 'EN' : 'PL'}
-        </button>
+        {/* C: Settings — lang + theme, grid 2-col always */}
+        <div className="grid grid-cols-2 gap-2 pt-3 border-t border-border-subtle">
+          <button
+            onClick={toggleLang}
+            title={`Switch to ${langOpposite === 'EN' ? 'English' : 'Polish'}`}
+            aria-label={`Switch to ${langOpposite === 'EN' ? 'English' : 'Polish'}`}
+            className={settingsTileClass}
+          >
+            <FiGlobe className="text-base shrink-0" />
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.span
+                key={lang}
+                initial={{ opacity: 0, y: 4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
+                transition={{ duration: 0.18 }}
+              >
+                {lang.toUpperCase()}
+              </motion.span>
+            </AnimatePresence>
+          </button>
 
-        {/* Socials */}
-        <div className="flex gap-2">
-          <a
-            href="https://github.com/Adiszef-ai"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub"
-            className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl border border-border-subtle bg-bg-glass text-text-muted hover:text-aura-aether-mid hover:border-aura-aether-mid/40 hover:bg-aura-aether-mid/8 transition-all duration-300"
+          <button
+            onClick={toggleTheme}
+            title={`Switch to ${themeOpposite} theme`}
+            aria-label={`Switch to ${themeOpposite} theme`}
+            className={settingsTileClass}
           >
-            <FiGithub className="text-sm" />
-            <span className="font-mono text-[10px] uppercase tracking-wider">GH</span>
-          </a>
-          <a
-            href="https://www.linkedin.com/in/adrian-runiewicz-4a3759259/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="LinkedIn"
-            className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl border border-border-subtle bg-bg-glass text-text-muted hover:text-aura-vital-mid hover:border-aura-vital-mid/40 hover:bg-aura-vital-mid/8 transition-all duration-300"
-          >
-            <FiLinkedin className="text-sm" />
-            <span className="font-mono text-[10px] uppercase tracking-wider">IN</span>
-          </a>
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.span
+                key={theme}
+                initial={{ opacity: 0, rotate: -90 }}
+                animate={{ opacity: 1, rotate: 0 }}
+                exit={{ opacity: 0, rotate: 90 }}
+                transition={{ duration: 0.18 }}
+                className="inline-flex items-center gap-2"
+              >
+                {isDark ? <FiSun className="text-base shrink-0" /> : <FiMoon className="text-base shrink-0" />}
+                <span>{isDark ? 'DARK' : 'LIGHT'}</span>
+              </motion.span>
+            </AnimatePresence>
+          </button>
         </div>
       </nav>
     </>
