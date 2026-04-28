@@ -68,8 +68,8 @@ export default function Sidebar() {
           </div>
         </div>
 
-        {/* Nav */}
-        <ul className="flex-1 flex flex-col gap-1">
+        {/* Nav — grid 2-col on mobile, vertical list on desktop */}
+        <ul className="flex-1 grid grid-cols-2 md:grid-cols-1 gap-2 md:gap-1.5 content-start">
           {navItems.map((item) => {
             const isActive = activeSection === item.id;
             return (
@@ -86,16 +86,16 @@ export default function Sidebar() {
                     }
                     close();
                   }}
-                  className={`group flex items-center gap-2.5 px-3 py-2 rounded-xl border font-mono text-[10px] uppercase tracking-[0.15em] transition-all duration-300 ${
+                  className={`group flex items-center gap-2.5 px-3 py-3 md:py-2.5 rounded-lg border font-mono text-[11px] uppercase tracking-[0.15em] transition-all duration-300 ${
                     isActive
                       ? 'text-aura-aether-mid bg-aura-aether-mid/10 border-aura-aether-mid/30 shadow-[0_0_15px_-5px_rgb(99_102_241/0.4)]'
-                      : 'text-text-muted bg-transparent border-transparent hover:text-text-primary hover:bg-bg-glass hover:border-border-subtle'
+                      : 'text-text-muted bg-white/[0.03] border-border-subtle hover:text-text-primary hover:bg-white/[0.06] hover:border-border-strong'
                   }`}
                 >
-                  <span className={`text-base transition-colors duration-300 ${isActive ? 'text-aura-aether-mid' : 'group-hover:text-aura-aether-start'}`}>
+                  <span className={`text-lg transition-colors duration-300 ${isActive ? 'text-aura-aether-mid' : 'group-hover:text-aura-aether-start'}`}>
                     {item.icon}
                   </span>
-                  <span>{item.label}</span>
+                  <span className="truncate">{item.label}</span>
                 </a>
               </li>
             );

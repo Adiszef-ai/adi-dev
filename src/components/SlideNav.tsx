@@ -111,7 +111,7 @@ export default function SlideNav() {
         onClick={toggleSidebar}
         aria-label={sidebarOpen ? 'Close menu' : 'Open menu'}
         aria-expanded={sidebarOpen}
-        className="nav-btn"
+        className="nav-btn md:hidden"
       >
         {sidebarOpen ? <FiX /> : <FiMenu />}
       </button>
