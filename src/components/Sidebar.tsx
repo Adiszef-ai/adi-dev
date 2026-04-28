@@ -81,42 +81,8 @@ export default function Sidebar() {
           </div>
         </div>
 
-        {/* B: Nav — grid 2-col mobile, vertical list desktop */}
-        <ul className="flex-1 min-h-0 overflow-y-auto grid grid-cols-2 md:grid-cols-1 gap-2 md:gap-1.5 content-start">
-          {navItems.map((item) => {
-            const isActive = activeSection === item.id;
-            return (
-              <li key={item.id}>
-                <a
-                  href={item.href}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    const target = document.getElementById(item.id);
-                    const main = document.querySelector('.main') as HTMLElement | null;
-                    if (target && main) {
-                      main.scrollTo({ top: target.offsetTop, behavior: 'smooth' });
-                      history.replaceState(null, '', item.href);
-                    }
-                    close();
-                  }}
-                  className={`group flex items-center gap-2.5 px-3 py-3 md:py-2.5 rounded-lg border font-mono text-[11px] uppercase tracking-[0.15em] transition-all duration-300 ${
-                    isActive
-                      ? 'text-aura-aether-mid bg-aura-aether-mid/10 border-aura-aether-mid/30 shadow-[0_0_15px_-5px_rgb(99_102_241/0.4)]'
-                      : 'text-text-muted bg-white/[0.03] border-border-subtle hover:text-text-primary hover:bg-white/[0.06] hover:border-border-strong'
-                  }`}
-                >
-                  <span className={`text-lg transition-colors duration-300 ${isActive ? 'text-aura-aether-mid' : 'group-hover:text-aura-aether-start'}`}>
-                    {item.icon}
-                  </span>
-                  <span className="truncate">{item.label}</span>
-                </a>
-              </li>
-            );
-          })}
-        </ul>
-
-        {/* C: Settings — lang + theme, grid 2-col always */}
-        <div className="grid grid-cols-2 gap-2 pt-3 border-t border-border-subtle">
+        {/* B: Settings — lang + theme, pinned above nav */}
+        <div className="grid grid-cols-2 gap-2 pb-3 border-b border-border-subtle">
           <button
             onClick={toggleLang}
             title={`Switch to ${langOpposite === 'EN' ? 'English' : 'Polish'}`}
@@ -158,6 +124,40 @@ export default function Sidebar() {
             </AnimatePresence>
           </button>
         </div>
+
+        {/* C: Nav — grid 2-col mobile, vertical list desktop */}
+        <ul className="flex-1 min-h-0 overflow-y-auto grid grid-cols-2 md:grid-cols-1 gap-2 md:gap-1.5 content-start">
+          {navItems.map((item) => {
+            const isActive = activeSection === item.id;
+            return (
+              <li key={item.id}>
+                <a
+                  href={item.href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const target = document.getElementById(item.id);
+                    const main = document.querySelector('.main') as HTMLElement | null;
+                    if (target && main) {
+                      main.scrollTo({ top: target.offsetTop, behavior: 'smooth' });
+                      history.replaceState(null, '', item.href);
+                    }
+                    close();
+                  }}
+                  className={`group flex items-center gap-2.5 px-3 py-3 md:py-2.5 rounded-lg border font-mono text-[11px] uppercase tracking-[0.15em] transition-all duration-300 ${
+                    isActive
+                      ? 'text-aura-aether-mid bg-aura-aether-mid/10 border-aura-aether-mid/30 shadow-[0_0_15px_-5px_rgb(99_102_241/0.4)]'
+                      : 'text-text-muted bg-white/[0.03] border-border-subtle hover:text-text-primary hover:bg-white/[0.06] hover:border-border-strong'
+                  }`}
+                >
+                  <span className={`text-lg transition-colors duration-300 ${isActive ? 'text-aura-aether-mid' : 'group-hover:text-aura-aether-start'}`}>
+                    {item.icon}
+                  </span>
+                  <span className="truncate">{item.label}</span>
+                </a>
+              </li>
+            );
+          })}
+        </ul>
       </nav>
     </>
   );
