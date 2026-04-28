@@ -12,6 +12,13 @@ export default function Sidebar() {
   const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
+    document.body.classList.toggle('sidebar-open', open);
+    return () => {
+      document.body.classList.remove('sidebar-open');
+    };
+  }, [open]);
+
+  useEffect(() => {
     const main = document.querySelector('.main');
     const observer = new IntersectionObserver(
       (entries) => {
