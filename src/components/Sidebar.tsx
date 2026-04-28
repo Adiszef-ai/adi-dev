@@ -1,22 +1,14 @@
 import { useState, useEffect } from 'react';
-import { FiHome, FiUser, FiFolder, FiMail, FiMenu, FiX, FiSun, FiMoon, FiClock, FiBarChart2, FiCpu, FiTarget, FiAward, FiGithub, FiLinkedin, FiLayers } from 'react-icons/fi';
+import { FiHome, FiUser, FiFolder, FiMail, FiClock, FiBarChart2, FiCpu, FiTarget, FiAward, FiGithub, FiLinkedin, FiLayers } from 'react-icons/fi';
 import { useLang } from '../contexts/LanguageContext';
-import { useTheme } from '../contexts/ThemeContext';
+import { useSidebar } from '../contexts/SidebarContext';
 
 const sectionIds = ['hero', 'about', 'timeline', 'skills', 'radar', 'projects', 'analyses', 'agents', 'certs', 'contact'];
 
 export default function Sidebar() {
-  const [open, setOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
   const { lang, toggleLang, t } = useLang();
-  const { theme, toggleTheme } = useTheme();
-
-  useEffect(() => {
-    document.body.classList.toggle('sidebar-open', open);
-    return () => {
-      document.body.classList.remove('sidebar-open');
-    };
-  }, [open]);
+  const { open, close } = useSidebar();
 
   useEffect(() => {
     const main = document.querySelector('.main');
@@ -54,17 +46,9 @@ export default function Sidebar() {
 
   return (
     <>
-      <button
-        className="sidebar-toggle"
-        onClick={() => setOpen(!open)}
-        aria-label="Menu"
-      >
-        {open ? <FiX /> : <FiMenu />}
-      </button>
-
       <div
         className={`sidebar-backdrop ${open ? 'sidebar-backdrop--visible' : ''}`}
-        onClick={() => setOpen(false)}
+        onClick={close}
         aria-hidden="true"
       />
 
@@ -100,7 +84,7 @@ export default function Sidebar() {
                       main.scrollTo({ top: target.offsetTop, behavior: 'smooth' });
                       history.replaceState(null, '', item.href);
                     }
-                    setOpen(false);
+                    close();
                   }}
                   className={`group flex items-center gap-2.5 px-3 py-2 rounded-xl border font-mono text-[10px] uppercase tracking-[0.15em] transition-all duration-300 ${
                     isActive
@@ -118,23 +102,14 @@ export default function Sidebar() {
           })}
         </ul>
 
-        {/* Controls */}
-        <div className="flex gap-2">
-          <button
-            onClick={toggleLang}
-            title="Language"
-            className="flex-1 flex items-center justify-center px-3 py-2 rounded-xl border border-border-subtle bg-bg-glass text-text-muted font-mono text-[11px] font-semibold hover:text-aura-vital-mid hover:border-aura-vital-mid/40 hover:bg-aura-vital-mid/8 transition-all duration-300"
-          >
-            {lang === 'pl' ? 'EN' : 'PL'}
-          </button>
-          <button
-            onClick={toggleTheme}
-            title="Theme"
-            className="flex-1 flex items-center justify-center px-3 py-2 rounded-xl border border-border-subtle bg-bg-glass text-text-muted hover:text-aura-flow-mid hover:border-aura-flow-mid/40 hover:bg-aura-flow-mid/8 transition-all duration-300"
-          >
-            {theme === 'dark' ? <FiSun className="text-base" /> : <FiMoon className="text-base" />}
-          </button>
-        </div>
+        {/* Lang toggle (theme moved to bottom bar) */}
+        <button
+          onClick={toggleLang}
+          title="Language"
+          className="w-full flex items-center justify-center px-3 py-2 rounded-xl border border-border-subtle bg-bg-glass text-text-muted font-mono text-[11px] font-semibold hover:text-aura-vital-mid hover:border-aura-vital-mid/40 hover:bg-aura-vital-mid/8 transition-all duration-300"
+        >
+          {lang === 'pl' ? 'EN' : 'PL'}
+        </button>
 
         {/* Socials */}
         <div className="flex gap-2">

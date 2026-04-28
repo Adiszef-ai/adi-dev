@@ -1,7 +1,9 @@
 import { useEffect, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiChevronUp, FiChevronDown, FiGrid } from 'react-icons/fi';
+import { FiChevronUp, FiChevronDown, FiGrid, FiMenu, FiX, FiSun, FiMoon } from 'react-icons/fi';
 import { useLang } from '../contexts/LanguageContext';
+import { useTheme } from '../contexts/ThemeContext';
+import { useSidebar } from '../contexts/SidebarContext';
 
 function smoothScrollTo(el: HTMLElement, target: number, duration = 600) {
   const start = el.scrollTop;
@@ -36,6 +38,8 @@ export default function SlideNav() {
   const [currentIdx, setCurrentIdx] = useState(0);
   const [overlayOpen, setOverlayOpen] = useState(false);
   const { t } = useLang();
+  const { theme, toggleTheme } = useTheme();
+  const { open: sidebarOpen, toggle: toggleSidebar } = useSidebar();
 
   const goToIdx = useCallback((idx: number) => {
     if (idx < 0 || idx >= SLIDE_IDS.length) return;
@@ -46,6 +50,13 @@ export default function SlideNav() {
     smoothScrollTo(main, el.offsetTop, 600);
     history.replaceState(null, '', `#${id}`);
   }, []);
+
+  useEffect(() => {
+    document.body.classList.toggle('slide-overlay-open', overlayOpen);
+    return () => {
+      document.body.classList.remove('slide-overlay-open');
+    };
+  }, [overlayOpen]);
 
   // Track current slide via IntersectionObserver scoped to .main scroll container
   useEffect(() => {
@@ -109,36 +120,58 @@ export default function SlideNav() {
 
   return (
     <>
-      <div className="slide-nav">
-        <button
-          onClick={() => goToIdx(currentIdx - 1)}
-          disabled={isFirst}
-          aria-label="Previous slide"
-          className="slide-nav__btn slide-nav__btn--nav"
-        >
-          <FiChevronUp />
-        </button>
+      <nav className="slide-nav" aria-label="Bottom navigation">
+        <div className="slide-nav__group">
+          <button
+            onClick={toggleSidebar}
+            aria-label={sidebarOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={sidebarOpen}
+            className="slide-nav__btn"
+          >
+            {sidebarOpen ? <FiX /> : <FiMenu />}
+          </button>
+          <button
+            onClick={toggleTheme}
+            aria-label="Toggle theme"
+            className="slide-nav__btn"
+          >
+            {theme === 'dark' ? <FiSun /> : <FiMoon />}
+          </button>
+        </div>
 
-        <button
-          onClick={() => setOverlayOpen(true)}
-          aria-label="All slides"
-          className="slide-nav__btn slide-nav__btn--action"
-        >
-          <FiGrid />
-          <span className="slide-nav__counter">
-            {currentIdx + 1}<span>/{SLIDE_IDS.length}</span>
-          </span>
-        </button>
+        <div className="slide-nav__group">
+          <button
+            onClick={() => goToIdx(currentIdx - 1)}
+            disabled={isFirst}
+            aria-label="Previous slide"
+            className="slide-nav__btn"
+          >
+            <FiChevronUp />
+          </button>
 
-        <button
-          onClick={() => goToIdx(currentIdx + 1)}
-          disabled={isLast}
-          aria-label="Next slide"
-          className="slide-nav__btn slide-nav__btn--nav"
-        >
-          <FiChevronDown />
-        </button>
-      </div>
+          <button
+            onClick={() => setOverlayOpen(true)}
+            aria-label={`All slides — ${currentIdx + 1} of ${SLIDE_IDS.length}`}
+            className="slide-nav__btn slide-nav__btn--counter"
+          >
+            <FiGrid />
+            <span className="slide-nav__counter-label">
+              <span className="slide-nav__counter-current">{currentIdx + 1}</span>
+              <span className="slide-nav__counter-sep">/</span>
+              <span className="slide-nav__counter-total">{SLIDE_IDS.length}</span>
+            </span>
+          </button>
+
+          <button
+            onClick={() => goToIdx(currentIdx + 1)}
+            disabled={isLast}
+            aria-label="Next slide"
+            className="slide-nav__btn"
+          >
+            <FiChevronDown />
+          </button>
+        </div>
+      </nav>
 
       <AnimatePresence>
         {overlayOpen && (
