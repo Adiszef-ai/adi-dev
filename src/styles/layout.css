@@ -26,6 +26,16 @@
   transition: opacity 0.3s ease;
 }
 
+/* Hide scrollbar on sidebar nav list (kicks in only when content overflows) */
+.sidebar ul {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.sidebar ul::-webkit-scrollbar {
+  display: none;
+}
+
 /* Style sidebara (logo, nav, controls, socials) zostały przeniesione
    do Sidebar.tsx jako Tailwind 4 utility z aurami. Tutaj zostaje tylko
    container + positioning + mobile transform (poniżej w @media). */
