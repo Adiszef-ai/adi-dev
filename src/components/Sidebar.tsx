@@ -65,11 +65,11 @@ export default function Sidebar() {
         aria-hidden="true"
       />
 
-      <nav className={`sidebar ${open ? 'sidebar--open' : ''} flex flex-col gap-4 p-5`}>
+      <nav className={`sidebar ${open ? 'sidebar--open' : ''} flex flex-col gap-4 p-5 pb-[88px] md:pb-5`}>
         {/* A: Brand */}
         <div className="flex flex-col items-center gap-3 pb-1">
-          <div className="relative w-[120px] h-[120px] rounded-2xl p-[2px] aura-bg-aether shadow-[0_0_30px_-8px_rgb(99_102_241/0.6)]">
-            <div className="w-full h-full rounded-[14px] bg-bg-deep flex items-center justify-center font-display text-4xl font-semibold text-text-primary">
+          <div className="relative w-[150px] h-[150px] rounded-2xl p-[2px] aura-bg-aether shadow-[0_0_36px_-8px_rgb(99_102_241/0.6)]">
+            <div className="w-full h-full rounded-[14px] bg-bg-deep flex items-center justify-center font-display text-5xl font-semibold text-text-primary">
               AR
             </div>
           </div>
