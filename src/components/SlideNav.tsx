@@ -1,8 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FiChevronUp, FiChevronDown, FiGrid, FiMenu, FiX, FiSun, FiMoon } from 'react-icons/fi';
-import { useLang } from '../contexts/LanguageContext';
-import { useTheme } from '../contexts/ThemeContext';
+import { FiChevronUp, FiChevronDown, FiMenu, FiX } from 'react-icons/fi';
 import { useSidebar } from '../contexts/SidebarContext';
 
 function smoothScrollTo(el: HTMLElement, target: number, duration = 600) {
@@ -36,9 +33,6 @@ const SLIDE_IDS = [
 
 export default function SlideNav() {
   const [currentIdx, setCurrentIdx] = useState(0);
-  const [overlayOpen, setOverlayOpen] = useState(false);
-  const { t } = useLang();
-  const { theme, toggleTheme } = useTheme();
   const { open: sidebarOpen, toggle: toggleSidebar } = useSidebar();
 
   const goToIdx = useCallback((idx: number) => {
@@ -50,13 +44,6 @@ export default function SlideNav() {
     smoothScrollTo(main, el.offsetTop, 600);
     history.replaceState(null, '', `#${id}`);
   }, []);
-
-  useEffect(() => {
-    document.body.classList.toggle('slide-overlay-open', overlayOpen);
-    return () => {
-      document.body.classList.remove('slide-overlay-open');
-    };
-  }, [overlayOpen]);
 
   // Track current slide via IntersectionObserver scoped to .main scroll container
   useEffect(() => {
@@ -119,129 +106,34 @@ export default function SlideNav() {
   const isLast = currentIdx === SLIDE_IDS.length - 1;
 
   return (
-    <>
-      <nav className="slide-nav" aria-label="Bottom navigation">
-        <div className="slide-nav__group">
-          <button
-            onClick={toggleSidebar}
-            aria-label={sidebarOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={sidebarOpen}
-            className="slide-nav__btn"
-          >
-            {sidebarOpen ? <FiX /> : <FiMenu />}
-          </button>
-          <button
-            onClick={toggleTheme}
-            aria-label="Toggle theme"
-            className="slide-nav__btn"
-          >
-            {theme === 'dark' ? <FiSun /> : <FiMoon />}
-          </button>
-        </div>
-
-        <div className="slide-nav__group">
-          <button
-            onClick={() => goToIdx(currentIdx - 1)}
-            disabled={isFirst}
-            aria-label="Previous slide"
-            className="slide-nav__btn"
-          >
-            <FiChevronUp />
-          </button>
-
-          <button
-            onClick={() => setOverlayOpen(true)}
-            aria-label={`All slides — ${currentIdx + 1} of ${SLIDE_IDS.length}`}
-            className="slide-nav__btn slide-nav__btn--counter"
-          >
-            <FiGrid />
-            <span className="slide-nav__counter-label">
-              <span className="slide-nav__counter-current">{currentIdx + 1}</span>
-              <span className="slide-nav__counter-sep">/</span>
-              <span className="slide-nav__counter-total">{SLIDE_IDS.length}</span>
-            </span>
-          </button>
-
-          <button
-            onClick={() => goToIdx(currentIdx + 1)}
-            disabled={isLast}
-            aria-label="Next slide"
-            className="slide-nav__btn"
-          >
-            <FiChevronDown />
-          </button>
-        </div>
-      </nav>
-
-      <AnimatePresence>
-        {overlayOpen && (
-          <SlideOverlay
-            currentIdx={currentIdx}
-            onSelect={(idx) => {
-              setOverlayOpen(false);
-              goToIdx(idx);
-            }}
-            onClose={() => setOverlayOpen(false)}
-            t={t}
-          />
-        )}
-      </AnimatePresence>
-    </>
-  );
-}
-
-interface OverlayProps {
-  currentIdx: number;
-  onSelect: (idx: number) => void;
-  onClose: () => void;
-  t: (key: string) => string;
-}
-
-const SLIDE_LABELS: Record<typeof SLIDE_IDS[number], string> = {
-  hero: 'navHome',
-  about: 'aboutLabel',
-  timeline: 'timelineLabel',
-  skills: 'skillsLabel',
-  radar: 'radarLabel',
-  projects: 'navProjects',
-  analyses: 'analysesLabel',
-  agents: 'agentsLabel',
-  certs: 'certsLabel',
-  contact: 'navContact',
-};
-
-function SlideOverlay({ currentIdx, onSelect, onClose, t }: OverlayProps) {
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="slide-overlay"
-      onClick={onClose}
-    >
-      <motion.div
-        initial={{ scale: 0.92, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.92, opacity: 0 }}
-        transition={{ type: 'spring', damping: 22, stiffness: 280 }}
-        className="slide-overlay__grid"
-        onClick={(e) => e.stopPropagation()}
+    <nav className="slide-nav" aria-label="Bottom navigation">
+      <button
+        onClick={toggleSidebar}
+        aria-label={sidebarOpen ? 'Close menu' : 'Open menu'}
+        aria-expanded={sidebarOpen}
+        className="nav-btn"
       >
-        {SLIDE_IDS.map((id, idx) => {
-          const isActive = idx === currentIdx;
-          const labelKey = SLIDE_LABELS[id];
-          return (
-            <button
-              key={id}
-              onClick={() => onSelect(idx)}
-              className={`slide-overlay__tile ${isActive ? 'slide-overlay__tile--active' : ''}`}
-            >
-              <span className="slide-overlay__num">{String(idx + 1).padStart(2, '0')}</span>
-              <span className="slide-overlay__label">{t(labelKey)}</span>
-            </button>
-          );
-        })}
-      </motion.div>
-    </motion.div>
+        {sidebarOpen ? <FiX /> : <FiMenu />}
+      </button>
+
+      <div className="slide-nav__group">
+        <button
+          onClick={() => goToIdx(currentIdx - 1)}
+          disabled={isFirst}
+          aria-label="Previous slide"
+          className="nav-btn"
+        >
+          <FiChevronUp />
+        </button>
+        <button
+          onClick={() => goToIdx(currentIdx + 1)}
+          disabled={isLast}
+          aria-label="Next slide"
+          className="nav-btn"
+        >
+          <FiChevronDown />
+        </button>
+      </div>
+    </nav>
   );
 }
