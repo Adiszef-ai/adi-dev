@@ -53,8 +53,8 @@ export default function Sidebar() {
 
   const settingsTileClass =
     'group flex items-center justify-center gap-2 px-3 py-3 rounded-lg border ' +
-    'bg-white/[0.03] border-border-subtle text-text-secondary ' +
-    'hover:bg-white/[0.06] hover:border-border-strong hover:text-text-primary ' +
+    'bg-aura-vital-mid/[0.06] border-aura-vital-mid/30 text-aura-vital-start ' +
+    'hover:bg-aura-vital-mid/[0.14] hover:border-aura-vital-mid/55 hover:text-aura-vital-mid ' +
     'font-mono text-[11px] uppercase tracking-[0.15em] transition-all duration-300';
 
   return (
@@ -86,7 +86,7 @@ export default function Sidebar() {
         </div>
 
         {/* B: Settings — lang + theme, pinned above nav */}
-        <div className="grid grid-cols-2 gap-2 pb-3 border-b border-border-subtle">
+        <div className="grid grid-cols-2 gap-2 pb-3 border-b border-aura-vital-mid/40">
           <button
             onClick={toggleLang}
             title={`Switch to ${langOpposite === 'EN' ? 'English' : 'Polish'}`}
@@ -150,7 +150,7 @@ export default function Sidebar() {
                   className={`group flex items-center gap-2.5 px-3 py-3 md:py-2.5 rounded-lg border font-mono text-[11px] uppercase tracking-[0.15em] transition-all duration-300 ${
                     isActive
                       ? 'text-aura-aether-mid bg-aura-aether-mid/10 border-aura-aether-mid/30 shadow-[0_0_15px_-5px_rgb(99_102_241/0.4)]'
-                      : 'text-text-muted bg-white/[0.03] border-border-subtle hover:text-text-primary hover:bg-white/[0.06] hover:border-border-strong'
+                      : 'text-text-secondary bg-aura-aether-mid/[0.04] border-aura-aether-mid/20 hover:text-aura-aether-start hover:bg-aura-aether-mid/10 hover:border-aura-aether-mid/40'
                   }`}
                 >
                   <span className={`text-lg transition-colors duration-300 ${isActive ? 'text-aura-aether-mid' : 'group-hover:text-aura-aether-start'}`}>
