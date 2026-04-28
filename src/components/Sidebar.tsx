@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { FiUser, FiFolder, FiMail, FiMenu, FiX, FiSun, FiMoon, FiClock, FiBarChart2, FiCpu, FiInfo, FiTarget, FiAward, FiGithub, FiLinkedin } from 'react-icons/fi';
+import { FiHome, FiUser, FiFolder, FiMail, FiMenu, FiX, FiSun, FiMoon, FiClock, FiBarChart2, FiCpu, FiTarget, FiAward, FiGithub, FiLinkedin, FiLayers } from 'react-icons/fi';
 import { useLang } from '../contexts/LanguageContext';
 import { useTheme } from '../contexts/ThemeContext';
 
-const sectionIds = ['hero', 'about', 'timeline', 'projects', 'radar', 'analyses', 'agents', 'certs', 'contact'];
+const sectionIds = ['hero', 'about', 'timeline', 'skills', 'radar', 'projects', 'analyses', 'agents', 'certs', 'contact'];
 
 export default function Sidebar() {
   const [open, setOpen] = useState(false);
@@ -33,11 +33,12 @@ export default function Sidebar() {
   }, []);
 
   const navItems = [
-    { icon: <FiUser />, label: t('navAbout'), href: '#hero', id: 'hero' },
-    { icon: <FiInfo />, label: t('aboutLabel'), href: '#about', id: 'about' },
+    { icon: <FiHome />, label: t('navHome'), href: '#hero', id: 'hero' },
+    { icon: <FiUser />, label: t('aboutLabel'), href: '#about', id: 'about' },
     { icon: <FiClock />, label: t('timelineLabel'), href: '#timeline', id: 'timeline' },
+    { icon: <FiLayers />, label: t('skillsLabel'), href: '#skills', id: 'skills' },
+    { icon: <FiTarget />, label: t('radarLabel'), href: '#radar', id: 'radar' },
     { icon: <FiFolder />, label: t('navProjects'), href: '#projects', id: 'projects' },
-    { icon: <FiTarget />, label: 'TECH RADAR', href: '#radar', id: 'radar' },
     { icon: <FiBarChart2 />, label: t('analysesLabel'), href: '#analyses', id: 'analyses' },
     { icon: <FiCpu />, label: t('agentsLabel'), href: '#agents', id: 'agents' },
     { icon: <FiAward />, label: t('certsLabel'), href: '#certs', id: 'certs' },

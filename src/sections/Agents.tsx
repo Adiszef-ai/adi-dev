@@ -115,12 +115,13 @@ export default function Agents() {
     const step = tracePlan[stepIdx];
 
     if (step.messageKey) {
-      const isFinal = step.messageKey === 'agentDemo5';
+      const messageKey = step.messageKey;
+      const isFinal = messageKey === 'agentDemo5';
       setMessages((prev) => [
         ...prev,
         {
-          key: `${stepIdx}-${step.messageKey}`,
-          text: t(step.messageKey),
+          key: `${stepIdx}-${messageKey}`,
+          text: t(messageKey),
           badge: step.badge ?? '',
           isFinal,
         },

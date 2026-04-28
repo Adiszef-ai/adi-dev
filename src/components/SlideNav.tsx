@@ -54,18 +54,13 @@ export default function SlideNav() {
 
     const observer = new IntersectionObserver(
       (entries) => {
-        let bestEntry: IntersectionObserverEntry | null = null;
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            if (!bestEntry || entry.intersectionRatio > bestEntry.intersectionRatio) {
-              bestEntry = entry;
-            }
-          }
-        });
-        if (bestEntry) {
-          const idx = SLIDE_IDS.indexOf(bestEntry.target.id as typeof SLIDE_IDS[number]);
-          if (idx >= 0) setCurrentIdx(idx);
-        }
+        const intersecting = entries.filter((e) => e.isIntersecting);
+        if (intersecting.length === 0) return;
+        const bestEntry = intersecting.reduce((best, current) =>
+          current.intersectionRatio > best.intersectionRatio ? current : best
+        );
+        const idx = SLIDE_IDS.indexOf(bestEntry.target.id as typeof SLIDE_IDS[number]);
+        if (idx >= 0) setCurrentIdx(idx);
       },
       { root: main, threshold: [0.4, 0.6, 0.8] }
     );
@@ -170,10 +165,10 @@ interface OverlayProps {
 }
 
 const SLIDE_LABELS: Record<typeof SLIDE_IDS[number], string> = {
-  hero: 'navAbout',
+  hero: 'navHome',
   about: 'aboutLabel',
   timeline: 'timelineLabel',
-  skills: 'navAbout',
+  skills: 'skillsLabel',
   radar: 'radarLabel',
   projects: 'navProjects',
   analyses: 'analysesLabel',
