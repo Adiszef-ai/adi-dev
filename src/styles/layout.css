@@ -807,27 +807,8 @@
     padding: 8px 24px;
     left: 360px;
     justify-content: flex-end;
+    gap: 8px;
   }
-}
-
-body.sidebar-open .theme-toggle-floating {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.slide-nav__group {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-/* ========== THEME TOGGLE (floating top-right) ========== */
-.theme-toggle-floating {
-  position: fixed;
-  top: calc(16px + env(safe-area-inset-top, 0px));
-  right: 16px;
-  z-index: 1002;
-  transition: color 150ms ease, background-color 150ms ease, border-color 150ms ease, opacity 200ms ease;
 }
 
 /* ========== TIMELINE ========== */
