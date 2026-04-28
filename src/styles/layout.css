@@ -1673,9 +1673,11 @@
 /* ========== RESPONSIVE ========== */
 @media (max-width: 768px) {
   .sidebar {
+    width: min(85vw, 320px);
     transform: translateX(-100%) !important;
     transition: transform 0.3s ease;
     will-change: transform;
+    z-index: 1002;
   }
 
   .sidebar.sidebar--open {
@@ -1684,6 +1686,7 @@
 
   .sidebar-toggle {
     display: flex;
+    z-index: 1003;
   }
 
   .sidebar-backdrop {
@@ -1693,6 +1696,13 @@
   .sidebar-backdrop--visible {
     opacity: 1;
     pointer-events: auto;
+  }
+
+  body.sidebar-open .slide-nav,
+  body.sidebar-open .back-to-top {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
   }
 
   .main {

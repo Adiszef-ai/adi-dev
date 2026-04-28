@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { TypeAnimation } from 'react-type-animation';
-import { FiArrowRight, FiMail, FiChevronDown } from 'react-icons/fi';
+import { FiChevronDown } from 'react-icons/fi';
 import { useLang } from '../contexts/LanguageContext';
 
 const fadeUp = {
@@ -39,7 +39,7 @@ export default function Hero() {
           initial="hidden"
           animate="visible"
           custom={2}
-          className="font-display font-semibold tracking-tight leading-[1.02] text-[clamp(3.25rem,12vw,7rem)]"
+          className="font-display font-normal tracking-tight leading-[1.02] text-[clamp(3.25rem,12vw,7rem)]"
         >
           <span className="text-text-primary block">Adrian</span>
           <span className="aura-text-aether block">Runiewicz</span>
@@ -81,45 +81,6 @@ export default function Hero() {
         >
           {t('heroDesc')}
         </motion.p>
-
-        {/* CTAs */}
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          custom={5}
-          className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 mt-2"
-        >
-          <a
-            href="#projects"
-            onClick={(e) => {
-              e.preventDefault();
-              const main = document.querySelector('.main') as HTMLElement | null;
-              const target = document.getElementById('projects');
-              if (main && target) main.scrollTo({ top: target.offsetTop });
-              history.replaceState(null, '', '#projects');
-            }}
-            className="group relative inline-flex items-center justify-center gap-2 aura-bg-vital text-bg-deep font-mono text-sm font-semibold uppercase tracking-wider px-6 py-3.5 rounded-full shadow-[0_0_30px_-5px_rgba(232,121,249,0.4)] hover:shadow-[0_0_50px_-5px_rgba(232,121,249,0.7)] transition-shadow duration-300"
-            style={{ backgroundSize: '200% auto' }}
-          >
-            {t('viewProjects')}
-            <FiArrowRight className="transition-transform group-hover:translate-x-1" />
-          </a>
-          <a
-            href="#contact"
-            onClick={(e) => {
-              e.preventDefault();
-              const main = document.querySelector('.main') as HTMLElement | null;
-              const target = document.getElementById('contact');
-              if (main && target) main.scrollTo({ top: target.offsetTop });
-              history.replaceState(null, '', '#contact');
-            }}
-            className="group inline-flex items-center justify-center gap-2 border border-border-strong text-text-primary font-mono text-sm font-semibold uppercase tracking-wider px-6 py-3.5 rounded-full hover:border-aura-aether-mid/60 hover:bg-bg-glass transition-colors duration-300"
-          >
-            <FiMail />
-            {t('contact')}
-          </a>
-        </motion.div>
 
         {/* Scroll hint — nie zasłania FAB-ów */}
         <motion.div
