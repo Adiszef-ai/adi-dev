@@ -144,17 +144,18 @@ export default function Skills() {
       id="skills"
       className="relative px-6 sm:px-10 md:px-20 lg:px-28 xl:px-36 pt-20 pb-32 md:py-24"
     >
-      <div className="w-full max-w-7xl mx-auto md:mx-0 flex flex-col gap-7 md:gap-10">
+      <div className="w-full max-w-7xl mx-auto flex flex-col gap-5 md:gap-8">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-80px' }}
         transition={{ duration: 0.5 }}
+        className="text-center md:pr-32 lg:pr-48"
       >
-        <span className="block font-mono text-[11px] sm:text-xs uppercase tracking-[0.32em] text-text-muted mb-2.5">
+        <span className="block font-mono text-[11px] sm:text-xs uppercase tracking-[0.32em] text-text-muted mb-3 md:mb-4">
           {t('skillsLabel')}
         </span>
-        <h2 className="font-display text-[clamp(2rem,8vw,3.25rem)] md:text-5xl font-semibold tracking-tight leading-[1.05]">
+        <h2 className="font-display text-[clamp(2.75rem,10vw,4.75rem)] md:text-7xl font-semibold tracking-tight leading-[1.05]">
           <span className="aura-text-vital">{t('skillsTitle')}</span>
         </h2>
       </motion.div>
@@ -164,7 +165,7 @@ export default function Skills() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: '-50px' }}
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5"
+        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 auto-rows-fr gap-4 md:gap-6 max-w-3xl mx-auto md:-translate-x-12 lg:-translate-x-24"
       >
         {skillGroups.map((group) => {
           const s = auraStyles[group.aura];
@@ -172,25 +173,25 @@ export default function Skills() {
             <motion.div
               key={group.key}
               variants={itemVariants}
-              className={`group relative overflow-hidden bg-bg-surface/60 backdrop-blur-sm border border-border-subtle rounded-3xl p-5 md:p-6 transition-all duration-500 ${s.border}`}
+              className={`group relative overflow-hidden bg-bg-surface/60 backdrop-blur-sm border border-border-subtle rounded-3xl p-3 md:p-4 transition-all duration-500 flex flex-col ${s.border}`}
               style={{ boxShadow: s.shadow }}
             >
               <div
                 className={`absolute -right-8 -top-8 w-28 h-28 blur-3xl rounded-full pointer-events-none transition-colors duration-500 ${s.blob}`}
               />
 
-              <div className="relative">
-                <h3 className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-text-muted mb-4">
+              <div className="relative flex flex-col h-full">
+                <h3 className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-text-muted mb-2">
                   <span className={`text-base ${s.iconColor}`}>{group.headerIcon}</span>
                   {t(group.key)}
                 </h3>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-1.5 content-start">
                   {group.items.map((skill) => (
                     <span
                       key={skill.name}
-                      className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border border-border-subtle bg-bg-elevated/40 text-text-secondary font-mono text-xs transition-all duration-200 ${s.tagHover}`}
+                      className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border border-border-subtle bg-bg-elevated/40 text-text-secondary font-mono text-sm transition-all duration-200 ${s.tagHover}`}
                     >
-                      <span className={`text-sm ${s.iconColor}`}>{skill.icon}</span>
+                      <span className={`text-base ${s.iconColor}`}>{skill.icon}</span>
                       {skill.name}
                     </span>
                   ))}
