@@ -116,7 +116,7 @@ export default function TechRadar() {
 
   return (
     <section id="radar" className="relative px-6 sm:px-10 md:px-20 lg:px-28 xl:px-36 pt-20 pb-32 md:py-24">
-      <div className="w-full max-w-7xl mx-auto md:mx-0 flex flex-col gap-7 md:gap-10">
+      <div className="w-full max-w-7xl mx-auto flex flex-col gap-3 md:gap-5">
 
         {/* Header */}
         <motion.div
@@ -124,11 +124,12 @@ export default function TechRadar() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.5 }}
+          className="text-center md:pr-32 lg:pr-48"
         >
-          <span className="block font-mono text-[11px] sm:text-xs uppercase tracking-[0.32em] text-text-muted mb-2.5">
+          <span className="block font-mono text-[11px] sm:text-xs uppercase tracking-[0.32em] text-text-muted mb-5 md:mb-6">
             {t('radarLabel')}
           </span>
-          <h2 className="font-display text-[clamp(2rem,8vw,3.25rem)] md:text-5xl font-semibold tracking-tight leading-[1.05]">
+          <h2 className="font-display text-[clamp(2.75rem,10vw,4.75rem)] md:text-7xl font-semibold tracking-tight leading-[1.05]">
             <span className="aura-text-aether">{t('radarTitle')}</span>
           </h2>
         </motion.div>
@@ -191,13 +192,13 @@ export default function TechRadar() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.55 }}
-          className="hidden md:block relative bg-bg-surface/30 backdrop-blur-sm border border-border-subtle rounded-3xl p-5 md:p-8 overflow-x-auto"
+          className="hidden md:block relative bg-bg-surface/30 backdrop-blur-sm border border-border-subtle rounded-3xl p-4 md:p-5 overflow-x-auto max-w-3xl mx-auto md:-translate-x-12 lg:-translate-x-24"
           style={{ boxShadow: '0 0 60px -25px rgb(99 102 241 / 0.25)' }}
         >
           {/* Matrix */}
           <div
-            className="grid gap-x-4 gap-y-3 min-w-[640px]"
-            style={{ gridTemplateColumns: '110px repeat(4, minmax(0, 1fr))' }}
+            className="grid gap-x-3 gap-y-1.5 min-w-[600px]"
+            style={{ gridTemplateColumns: '100px repeat(4, minmax(0, 1fr))' }}
           >
             <div />
             {quadrantKeys.map((qKey, qIdx) => {
@@ -209,10 +210,9 @@ export default function TechRadar() {
                   style={{ borderColor: `${ringForCol.color}66` }}
                 >
                   <span
-                    className="font-mono text-[10px] md:text-[11px] uppercase tracking-[0.22em] font-semibold"
+                    className="font-mono text-xs md:text-sm uppercase tracking-[0.22em] font-bold"
                     style={{ color: ringForCol.color, textShadow: `0 0 12px ${ringForCol.glow}` }}
                   >
-                    <span className="opacity-55 mr-1.5">0{qIdx + 1}</span>
                     {t(qKey)}
                   </span>
                 </div>
@@ -221,15 +221,15 @@ export default function TechRadar() {
 
             {(Object.entries(ringConfig) as [Ring, typeof ringConfig[Ring]][]).map(([rKey, ring]) => (
               <div key={`row-${rKey}`} className="contents">
-                <div className="flex items-center pr-2">
-                  <div className="flex flex-col gap-1">
+                <div className="flex items-center justify-center pr-2">
+                  <div className="flex flex-col items-start gap-1 -rotate-45 origin-center">
                     <span
-                      className="font-mono text-[10px] uppercase tracking-[0.2em]"
+                      className="font-mono text-xs md:text-sm uppercase tracking-[0.2em] font-bold whitespace-pre-line leading-tight"
                       style={{ color: ring.color }}
                     >
-                      {t(ring.labelKey)}
+                      {t(ring.labelKey).split(' ').join('\n')}
                     </span>
-                    <span className="font-mono text-[9px] text-text-muted tracking-wider">
+                    <span className="font-mono text-[11px] md:text-xs text-text-muted tracking-wider font-semibold">
                       {Math.round(ring.intensity * 100)}%
                     </span>
                   </div>
@@ -239,7 +239,7 @@ export default function TechRadar() {
                   return (
                     <div
                       key={`cell-${rKey}-${q}`}
-                      className="relative flex flex-wrap gap-x-1 gap-y-1.5 items-start py-2 px-1 rounded-xl border border-transparent hover:border-border-subtle/50 transition-colors min-h-[72px]"
+                      className="relative flex flex-wrap gap-x-1 gap-y-1 items-start py-1 px-1 rounded-xl border border-transparent hover:border-border-subtle/50 transition-colors min-h-[56px]"
                     >
                       {cellItems.length === 0 && (
                         <span className="font-mono text-[10px] text-text-muted/40 self-center mx-auto">·</span>

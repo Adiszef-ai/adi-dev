@@ -60,6 +60,32 @@ const itemVariants = {
   },
 };
 
+interface CardProps {
+  item: TimelineItem;
+  s: typeof auraStyles[Aura];
+  t: (key: string) => string;
+  side: 'left' | 'right';
+}
+
+function Card({ item, s, t, side }: CardProps) {
+  return (
+    <div
+      className={`w-full max-w-[280px] bg-bg-surface/40 backdrop-blur-sm border border-border-subtle rounded-2xl p-3 transition-all duration-300 ${s.cardBorder} ${side === 'left' ? 'md:text-right' : 'md:text-left'}`}
+      style={{ boxShadow: s.cardShadow }}
+    >
+      <div className={`font-mono text-[10px] md:text-[11px] uppercase tracking-[0.2em] mb-1 ${s.yearText}`}>
+        {item.year}
+      </div>
+      <h3 className="font-display text-sm md:text-base font-semibold text-text-primary mb-1 leading-tight">
+        {t(item.titleKey)}
+      </h3>
+      <p className="text-text-secondary text-[11px] md:text-xs leading-snug line-clamp-3">
+        {t(item.descKey)}
+      </p>
+    </div>
+  );
+}
+
 export default function Timeline() {
   const { t } = useLang();
 
@@ -68,58 +94,83 @@ export default function Timeline() {
       id="timeline"
       className="relative px-6 sm:px-10 md:px-20 lg:px-28 xl:px-36 pt-20 pb-32 md:py-24"
     >
-      <div className="w-full max-w-5xl mx-auto md:mx-0 flex flex-col gap-7 md:gap-10">
+      <div className="w-full max-w-5xl mx-auto flex flex-col gap-3 md:gap-5">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-80px' }}
         transition={{ duration: 0.5 }}
+        className="text-center md:pr-32 lg:pr-48"
       >
-        <span className="block font-mono text-[11px] sm:text-xs uppercase tracking-[0.32em] text-text-muted mb-2.5">
+        <span className="block font-mono text-[11px] sm:text-xs uppercase tracking-[0.32em] text-text-muted mb-5 md:mb-6">
           {t('timelineLabel')}
         </span>
-        <h2 className="font-display text-[clamp(2rem,8vw,3.25rem)] md:text-5xl font-semibold tracking-tight leading-[1.05]">
+        <h2 className="font-display text-[clamp(2.75rem,10vw,4.75rem)] md:text-7xl font-semibold tracking-tight leading-[1.05]">
           <span className="aura-text-aether">{t('timelineTitle')}</span>
         </h2>
       </motion.div>
 
-      <div className="relative max-w-3xl ml-0 md:ml-6 border-l border-border-subtle pl-5 md:pl-14 space-y-7 md:space-y-12">
-        {timelineData.map((item, i) => {
-          const s = auraStyles[item.aura];
-          return (
-            <motion.div
-              key={i}
-              variants={itemVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: '-80px' }}
-              className="group relative"
-            >
-              {/* Node on the line */}
-              <div
-                className={`absolute -left-[35px] md:-left-[69px] top-1.5 w-4 h-4 md:w-5 md:h-5 rounded-full bg-bg-deep border-2 ${s.nodeBorder} ${s.nodeShadow} flex items-center justify-center transition-transform duration-300 group-hover:scale-125`}
-              >
-                <div className={`w-1.5 h-1.5 rounded-full ${s.nodeInner}`} />
-              </div>
+      {/* Zigzag timeline — karty na przemian L/R, doty na linii środkowej */}
+      <div className="relative max-w-5xl mx-auto md:-translate-x-12 lg:-translate-x-24">
+        {/* Pionowa linia środkowa (mobile: po lewej; desktop: w środku) */}
+        <div
+          className="absolute left-4 md:left-1/2 top-0 bottom-0 w-[2px] md:-translate-x-1/2 bg-gradient-to-b from-aura-aether-mid via-aura-vital-mid to-aura-flow-mid opacity-40 pointer-events-none"
+          aria-hidden="true"
+        />
 
-              {/* Card */}
-              <div
-                className={`bg-bg-surface/40 backdrop-blur-sm border border-border-subtle rounded-2xl p-5 md:p-6 transition-all duration-300 ${s.cardBorder}`}
-                style={{ boxShadow: s.cardShadow }}
+        <div className="flex flex-col gap-2 md:gap-2.5">
+          {timelineData.map((item, i) => {
+            const s = auraStyles[item.aura];
+            const isLeft = i % 2 === 0;
+            return (
+              <motion.div
+                key={i}
+                variants={itemVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: '-60px' }}
+                className="group relative grid grid-cols-[40px_1fr] md:grid-cols-[1fr_56px_1fr] items-center"
               >
-                <div className={`font-mono text-xs uppercase tracking-[0.2em] mb-2 ${s.yearText}`}>
-                  {item.year}
+                {/* Mobile: dot w lewej kolumnie zawsze; Desktop: schowane */}
+                <div className="md:hidden flex items-center justify-center">
+                  <div
+                    className={`relative z-10 w-4 h-4 rounded-full bg-bg-deep border-2 ${s.nodeBorder} ${s.nodeShadow} flex items-center justify-center transition-transform duration-300 group-hover:scale-125`}
+                  >
+                    <div className={`w-1.5 h-1.5 rounded-full ${s.nodeInner}`} />
+                  </div>
                 </div>
-                <h3 className="font-display text-xl md:text-2xl font-semibold text-text-primary mb-2">
-                  {t(item.titleKey)}
-                </h3>
-                <p className="text-text-secondary text-sm md:text-base leading-relaxed">
-                  {t(item.descKey)}
-                </p>
-              </div>
-            </motion.div>
-          );
-        })}
+
+                {/* Desktop: lewy slot — karta przy zewnętrznym brzegu */}
+                <div className={`hidden md:flex ${isLeft ? 'justify-start pr-12' : ''}`}>
+                  {isLeft && (
+                    <Card item={item} s={s} t={t} side="left" />
+                  )}
+                </div>
+
+                {/* Desktop: dot w środku */}
+                <div className="hidden md:flex items-center justify-center">
+                  <div
+                    className={`relative z-10 w-5 h-5 rounded-full bg-bg-deep border-2 ${s.nodeBorder} ${s.nodeShadow} flex items-center justify-center transition-transform duration-300 group-hover:scale-125`}
+                  >
+                    <div className={`w-2 h-2 rounded-full ${s.nodeInner}`} />
+                  </div>
+                </div>
+
+                {/* Desktop: prawy slot — karta przy zewnętrznym brzegu */}
+                <div className={`hidden md:flex ${!isLeft ? 'justify-end pl-12' : ''}`}>
+                  {!isLeft && (
+                    <Card item={item} s={s} t={t} side="right" />
+                  )}
+                </div>
+
+                {/* Mobile: karta zawsze po prawej od linii */}
+                <div className="md:hidden">
+                  <Card item={item} s={s} t={t} side="right" />
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
       </div>
     </section>
