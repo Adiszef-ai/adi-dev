@@ -1,5 +1,6 @@
-import { motion } from 'framer-motion';
-import { FiBarChart2, FiExternalLink, FiGithub } from 'react-icons/fi';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { FiExternalLink, FiGithub, FiX, FiMaximize2 } from 'react-icons/fi';
 import { useLang } from '../contexts/LanguageContext';
 
 type Aura = 'aether' | 'vital' | 'flow';
@@ -168,8 +169,24 @@ const cardVariants = {
   }),
 };
 
+interface ViewerState {
+  url: string;
+  title: string;
+}
+
 export default function Analyses() {
   const { t } = useLang();
+  const [viewer, setViewer] = useState<ViewerState | null>(null);
+
+  // Lock scroll when modal open + close on Escape
+  useEffect(() => {
+    if (!viewer) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setViewer(null);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [viewer]);
 
   return (
     <section
@@ -216,9 +233,6 @@ export default function Analyses() {
               </div>
 
               <div className="relative p-5 md:p-6 pt-3">
-                <div className={`inline-flex items-center justify-center w-10 h-10 rounded-xl mb-3 ${s.iconBg}`}>
-                  <FiBarChart2 className="text-lg" />
-                </div>
                 <h3 className="font-display text-xl md:text-2xl font-semibold text-text-primary mb-2">
                   {t(analysis.titleKey)}
                 </h3>
@@ -255,14 +269,13 @@ export default function Analyses() {
 
                 <div className="flex items-center gap-2 flex-wrap">
                   {analysis.notebookUrl && (
-                    <a
-                      href={analysis.notebookUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <button
+                      type="button"
+                      onClick={() => setViewer({ url: analysis.notebookUrl!, title: t(analysis.titleKey) })}
                       className={`inline-flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md ${s.text} hover:bg-bg-elevated/40 transition-colors`}
                     >
                       <FiExternalLink /> {t('anView')}
-                    </a>
+                    </button>
                   )}
                   {analysis.github && (
                     <a
@@ -286,6 +299,67 @@ export default function Analyses() {
         })}
       </div>
       </div>
+
+      {/* Notebook viewer modal — iframe w okienku, klik tła / X / Esc zamyka */}
+      <AnimatePresence>
+        {viewer && (
+          <motion.div
+            key="notebook-viewer"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[1500] flex items-center justify-center p-4 md:p-8 bg-bg-deep/85 backdrop-blur-md"
+            onClick={() => setViewer(null)}
+            role="dialog"
+            aria-modal="true"
+            aria-label={viewer.title}
+          >
+            <motion.div
+              initial={{ scale: 0.92, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.92, opacity: 0 }}
+              transition={{ duration: 0.25, ease: 'easeOut' }}
+              className="relative w-full max-w-5xl h-[88vh] bg-bg-surface border border-aura-flow-mid/40 rounded-2xl overflow-hidden shadow-[0_0_60px_-15px_rgb(244_114_182/0.5)]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Toolbar */}
+              <div className="flex items-center justify-between px-4 py-2.5 border-b border-border-subtle bg-bg-elevated/60 backdrop-blur-sm">
+                <span className="font-mono text-xs uppercase tracking-[0.2em] text-aura-flow-mid truncate pr-3">
+                  {viewer.title}
+                </span>
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <a
+                    href={viewer.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Otwórz w nowej karcie"
+                    className="inline-flex items-center justify-center w-8 h-8 rounded-md text-text-secondary hover:text-aura-flow-mid hover:bg-aura-flow-mid/10 transition-colors"
+                  >
+                    <FiMaximize2 />
+                  </a>
+                  <button
+                    type="button"
+                    onClick={() => setViewer(null)}
+                    aria-label="Zamknij"
+                    className="inline-flex items-center justify-center w-8 h-8 rounded-md text-text-secondary hover:text-text-primary hover:bg-bg-elevated transition-colors"
+                  >
+                    <FiX className="text-lg" />
+                  </button>
+                </div>
+              </div>
+
+              {/* iframe — działa zarówno dla HTML jak i PDF */}
+              <iframe
+                src={viewer.url}
+                title={viewer.title}
+                className="w-full h-[calc(100%-44px)] bg-white"
+                loading="lazy"
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
