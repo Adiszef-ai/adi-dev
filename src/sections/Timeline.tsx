@@ -62,16 +62,16 @@ interface CardProps {
 function Card({ item, s, t, side }: CardProps) {
   return (
     <div
-      className={`w-full md:max-w-[280px] bg-bg-surface/40 backdrop-blur-sm border border-border-subtle rounded-2xl p-3.5 md:p-3 transition-all duration-300 ${s.cardBorder} ${side === 'left' ? 'md:text-right' : 'md:text-left'}`}
+      className={`w-full md:max-w-[340px] bg-bg-surface/40 backdrop-blur-sm border border-border-subtle rounded-2xl p-3.5 md:p-4 transition-all duration-300 ${s.cardBorder} ${side === 'left' ? 'md:text-right' : 'md:text-left'}`}
       style={{ boxShadow: s.cardShadow }}
     >
       <div className={`font-mono text-[10px] md:text-[11px] uppercase tracking-[0.2em] mb-1.5 ${s.yearText}`}>
         {item.year}
       </div>
-      <h3 className="font-display text-base md:text-base font-semibold text-text-primary mb-1.5 leading-tight">
+      <h3 className="font-display text-base md:text-lg font-semibold text-text-primary mb-1.5 leading-tight">
         {t(item.titleKey)}
       </h3>
-      <p className="text-text-secondary text-xs md:text-xs leading-snug md:line-clamp-3">
+      <p className="text-text-secondary text-xs md:text-sm leading-snug md:line-clamp-2 lg:line-clamp-3">
         {t(item.descKey)}
       </p>
     </div>
@@ -86,7 +86,7 @@ export default function Timeline() {
       id="timeline"
       className="relative px-6 sm:px-10 md:px-20 lg:px-28 xl:px-36 pt-20 pb-32 md:py-24"
     >
-      <div className="w-full max-w-5xl mx-auto flex flex-col gap-5 md:gap-8">
+      <div className="w-full max-w-5xl mx-auto flex flex-col gap-5 md:gap-5">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -106,11 +106,11 @@ export default function Timeline() {
       <div className="relative w-full max-w-5xl mx-auto">
         {/* Pionowa linia (mobile: po lewej, dokładnie pod dotami; desktop: środek) */}
         <div
-          className="absolute left-[15px] md:left-1/2 top-0 bottom-0 w-[2px] md:-translate-x-1/2 bg-gradient-to-b from-aura-aether-mid via-aura-vital-mid to-aura-flow-mid opacity-40 pointer-events-none"
+          className="absolute left-[15px] md:left-1/2 top-0 bottom-0 md:top-3 md:bottom-3 w-[2px] md:-translate-x-1/2 bg-gradient-to-b from-aura-aether-mid via-aura-vital-mid to-aura-flow-mid opacity-40 pointer-events-none"
           aria-hidden="true"
         />
 
-        <div className="flex flex-col gap-3 md:gap-2.5">
+        <div className="flex flex-col gap-3 md:gap-2">
           {timelineData.map((item, i) => {
             const s = auraStyles[item.aura];
             const isLeft = i % 2 === 0;
@@ -131,8 +131,8 @@ export default function Timeline() {
                   </div>
                 </div>
 
-                {/* Desktop: lewy slot — karta przy zewnętrznym brzegu */}
-                <div className={`hidden md:flex ${isLeft ? 'justify-start pr-12' : ''}`}>
+                {/* Desktop: lewy slot — karta blisko środka */}
+                <div className={`hidden md:flex ${isLeft ? 'justify-end pr-4' : ''}`}>
                   {isLeft && (
                     <Card item={item} s={s} t={t} side="left" />
                   )}
@@ -147,8 +147,8 @@ export default function Timeline() {
                   </div>
                 </div>
 
-                {/* Desktop: prawy slot — karta przy zewnętrznym brzegu */}
-                <div className={`hidden md:flex ${!isLeft ? 'justify-end pl-12' : ''}`}>
+                {/* Desktop: prawy slot — karta blisko środka */}
+                <div className={`hidden md:flex ${!isLeft ? 'justify-start pl-4' : ''}`}>
                   {!isLeft && (
                     <Card item={item} s={s} t={t} side="right" />
                   )}

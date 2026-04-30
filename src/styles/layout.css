@@ -106,6 +106,10 @@
     padding-top: 3.5rem !important;
     padding-bottom: 5rem !important;
   }
+  /* Desktop: top elements bliżej top edge, counters odsunięte przez mt-auto/mt-X w Hero.tsx */
+  #hero {
+    justify-content: flex-start;
+  }
 }
 
 .main > .section-divider {

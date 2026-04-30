@@ -1,6 +1,6 @@
 import { motion, useInView } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
-import { FiChevronDown, FiCode, FiCpu, FiGlobe, FiAward } from 'react-icons/fi';
+import { FiCode, FiCpu, FiGlobe, FiAward } from 'react-icons/fi';
 import { useLang } from '../contexts/LanguageContext';
 
 const ROLE_PAIRS: ReadonlyArray<readonly [string, string]> = [
@@ -160,9 +160,9 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative px-6 sm:px-10 md:px-20 lg:px-28 xl:px-36 pt-24 pb-32 md:pt-20 md:pb-24 overflow-hidden"
+      className="relative px-6 sm:px-10 md:px-20 lg:px-28 xl:px-36 pt-24 pb-32 md:pt-12 md:pb-16 overflow-hidden"
     >
-      <div className="relative z-10 w-full max-w-5xl mx-auto flex flex-col gap-5 md:gap-8">
+      <div className="relative z-10 w-full max-w-5xl mx-auto flex flex-col gap-5 md:gap-4">
 
         {/* Greeting */}
         <motion.span
@@ -191,7 +191,7 @@ export default function Hero() {
           initial="hidden"
           animate="visible"
           custom={2}
-          className="font-display font-normal tracking-tight leading-[1.02] text-center text-[clamp(3.25rem,12vw,7rem)]"
+          className="font-display font-normal tracking-tight leading-[1.02] text-center text-[clamp(3.25rem,12vw,5.5rem)]"
         >
           <span className="text-text-primary block">Adrian</span>
           <span className="aura-text-aether block">Runiewicz</span>
@@ -203,7 +203,7 @@ export default function Hero() {
           initial="hidden"
           animate="visible"
           custom={3}
-          className="font-mono text-base sm:text-lg md:text-2xl lg:text-3xl text-text-secondary min-h-[2.5rem] flex items-center justify-center"
+          className="font-mono text-base sm:text-lg md:text-xl lg:text-2xl text-text-secondary min-h-[2rem] md:min-h-[2.25rem] flex items-center justify-center"
         >
           <TypingRoles />
         </motion.div>
@@ -214,7 +214,7 @@ export default function Hero() {
           initial="hidden"
           animate="visible"
           custom={4}
-          className="font-body text-base sm:text-lg md:text-xl text-text-secondary leading-relaxed max-w-3xl mx-auto text-center"
+          className="font-body text-base sm:text-lg md:text-base lg:text-lg text-text-secondary leading-snug md:leading-relaxed max-w-3xl mx-auto text-center md:mt-3"
         >
           {t('heroDesc')}
         </motion.p>
@@ -225,23 +225,23 @@ export default function Hero() {
           initial="hidden"
           animate="visible"
           custom={5}
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5 max-w-5xl mx-auto"
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5 max-w-5xl mx-auto md:mt-10"
         >
           {counters.map((c) => {
             const s = counterAuraStyles[c.aura];
             return (
               <div
                 key={c.labelKey}
-                className={`group relative overflow-hidden bg-bg-surface/60 backdrop-blur-sm border border-border-subtle rounded-2xl py-3 px-4 md:py-3.5 md:px-5 transition-all duration-500 ${s.border}`}
+                className={`group relative overflow-hidden bg-bg-surface/60 backdrop-blur-sm border border-border-subtle rounded-2xl py-3 px-4 md:py-2.5 md:px-4 transition-all duration-500 ${s.border}`}
                 style={{ boxShadow: s.shadow }}
               >
                 <div
                   className={`absolute -right-6 -top-6 w-24 h-24 blur-3xl rounded-full transition-colors duration-500 ${s.blob}`}
                 />
                 <div className="relative flex items-center justify-between gap-3">
-                  <span className={`text-3xl md:text-4xl shrink-0 ${s.iconColor}`}>{c.icon}</span>
+                  <span className={`text-3xl md:text-3xl shrink-0 ${s.iconColor}`}>{c.icon}</span>
                   <div className="flex flex-col items-end gap-1 min-w-0">
-                    <span className="font-display text-3xl md:text-4xl font-semibold text-text-primary leading-none">
+                    <span className="font-display text-3xl md:text-[2rem] font-semibold text-text-primary leading-none">
                       <AnimatedCounter target={c.target} suffix={c.suffix} />
                     </span>
                     <span className={`font-mono text-[10px] md:text-xs uppercase tracking-wider leading-snug text-right ${s.iconColor}`}>
@@ -252,22 +252,6 @@ export default function Hero() {
               </div>
             );
           })}
-        </motion.div>
-
-        {/* Scroll hint — nie zasłania FAB-ów */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.45 }}
-          transition={{ delay: 1.6, duration: 0.8 }}
-          className="hidden md:flex absolute left-1/2 -translate-x-1/2 bottom-6 flex-col items-center gap-1 text-text-muted pointer-events-none"
-        >
-          <span className="font-mono text-[10px] uppercase tracking-[0.3em]">scroll</span>
-          <motion.span
-            animate={{ y: [0, 6, 0] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-          >
-            <FiChevronDown className="text-lg" />
-          </motion.span>
         </motion.div>
 
       </div>
