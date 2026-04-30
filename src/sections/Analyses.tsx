@@ -199,7 +199,7 @@ export default function Analyses() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-80px' }}
         transition={{ duration: 0.5 }}
-        className="text-center md:pr-32 lg:pr-48"
+        className="text-center"
       >
         <span className="block font-mono text-[11px] sm:text-xs uppercase tracking-[0.32em] text-text-muted mb-5 md:mb-6">
           {t('analysesLabel')}

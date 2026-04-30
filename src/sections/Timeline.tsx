@@ -51,14 +51,6 @@ const auraStyles: Record<Aura, {
   },
 };
 
-const itemVariants = {
-  hidden: { opacity: 0, x: -40 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.6, ease: 'easeOut' as const },
-  },
-};
 
 interface CardProps {
   item: TimelineItem;
@@ -70,16 +62,16 @@ interface CardProps {
 function Card({ item, s, t, side }: CardProps) {
   return (
     <div
-      className={`w-full max-w-[280px] bg-bg-surface/40 backdrop-blur-sm border border-border-subtle rounded-2xl p-3 transition-all duration-300 ${s.cardBorder} ${side === 'left' ? 'md:text-right' : 'md:text-left'}`}
+      className={`w-full md:max-w-[280px] bg-bg-surface/40 backdrop-blur-sm border border-border-subtle rounded-2xl p-3.5 md:p-3 transition-all duration-300 ${s.cardBorder} ${side === 'left' ? 'md:text-right' : 'md:text-left'}`}
       style={{ boxShadow: s.cardShadow }}
     >
-      <div className={`font-mono text-[10px] md:text-[11px] uppercase tracking-[0.2em] mb-1 ${s.yearText}`}>
+      <div className={`font-mono text-[10px] md:text-[11px] uppercase tracking-[0.2em] mb-1.5 ${s.yearText}`}>
         {item.year}
       </div>
-      <h3 className="font-display text-sm md:text-base font-semibold text-text-primary mb-1 leading-tight">
+      <h3 className="font-display text-base md:text-base font-semibold text-text-primary mb-1.5 leading-tight">
         {t(item.titleKey)}
       </h3>
-      <p className="text-text-secondary text-[11px] md:text-xs leading-snug line-clamp-3">
+      <p className="text-text-secondary text-xs md:text-xs leading-snug md:line-clamp-3">
         {t(item.descKey)}
       </p>
     </div>
@@ -100,7 +92,7 @@ export default function Timeline() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-80px' }}
         transition={{ duration: 0.5 }}
-        className="text-center md:pr-32 lg:pr-48"
+        className="text-center"
       >
         <span className="block font-mono text-[11px] sm:text-xs uppercase tracking-[0.32em] text-text-muted mb-5 md:mb-6">
           {t('timelineLabel')}
@@ -111,28 +103,27 @@ export default function Timeline() {
       </motion.div>
 
       {/* Zigzag timeline — karty na przemian L/R, doty na linii środkowej */}
-      <div className="relative max-w-5xl mx-auto md:-translate-x-12 lg:-translate-x-24">
-        {/* Pionowa linia środkowa (mobile: po lewej; desktop: w środku) */}
+      <div className="relative w-full max-w-5xl mx-auto">
+        {/* Pionowa linia (mobile: po lewej, dokładnie pod dotami; desktop: środek) */}
         <div
-          className="absolute left-4 md:left-1/2 top-0 bottom-0 w-[2px] md:-translate-x-1/2 bg-gradient-to-b from-aura-aether-mid via-aura-vital-mid to-aura-flow-mid opacity-40 pointer-events-none"
+          className="absolute left-[15px] md:left-1/2 top-0 bottom-0 w-[2px] md:-translate-x-1/2 bg-gradient-to-b from-aura-aether-mid via-aura-vital-mid to-aura-flow-mid opacity-40 pointer-events-none"
           aria-hidden="true"
         />
 
-        <div className="flex flex-col gap-2 md:gap-2.5">
+        <div className="flex flex-col gap-3 md:gap-2.5">
           {timelineData.map((item, i) => {
             const s = auraStyles[item.aura];
             const isLeft = i % 2 === 0;
             return (
               <motion.div
                 key={i}
-                variants={itemVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: '-60px' }}
-                className="group relative grid grid-cols-[40px_1fr] md:grid-cols-[1fr_56px_1fr] items-center"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.45, delay: 0.08 + i * 0.08, ease: 'easeOut' as const }}
+                className="group relative grid grid-cols-[32px_1fr] gap-3 md:gap-0 md:grid-cols-[1fr_56px_1fr] items-start md:items-center"
               >
-                {/* Mobile: dot w lewej kolumnie zawsze; Desktop: schowane */}
-                <div className="md:hidden flex items-center justify-center">
+                {/* Mobile: dot wycentrowany na linii (16px col → środek = 16px = pozycja linii) */}
+                <div className="md:hidden flex items-start justify-center pt-3">
                   <div
                     className={`relative z-10 w-4 h-4 rounded-full bg-bg-deep border-2 ${s.nodeBorder} ${s.nodeShadow} flex items-center justify-center transition-transform duration-300 group-hover:scale-125`}
                   >
@@ -163,8 +154,8 @@ export default function Timeline() {
                   )}
                 </div>
 
-                {/* Mobile: karta zawsze po prawej od linii */}
-                <div className="md:hidden">
+                {/* Mobile: karta full-width po prawej od linii */}
+                <div className="md:hidden min-w-0">
                   <Card item={item} s={s} t={t} side="right" />
                 </div>
               </motion.div>

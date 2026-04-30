@@ -17,7 +17,7 @@ export default function About() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.5 }}
-          className="text-center md:pr-32 lg:pr-48"
+          className="text-center"
         >
           <span className="block font-mono text-[11px] sm:text-xs uppercase tracking-[0.32em] text-text-muted mb-5 md:mb-6">
             {t('aboutLabel')}
@@ -33,7 +33,7 @@ export default function About() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.55, delay: 0.1 }}
-          className="flex flex-col gap-7 md:gap-6 max-w-3xl mx-auto text-center md:pr-32 lg:pr-48"
+          className="flex flex-col gap-7 md:gap-6 max-w-3xl mx-auto text-center"
         >
           <p className="text-base sm:text-lg md:text-lg text-text-secondary leading-relaxed">
             {t('aboutP1')}

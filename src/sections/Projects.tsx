@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import {
   FiArrowRight,
   FiGithub,
@@ -313,14 +313,14 @@ function BackFace({ project, s, t, onFlip }: FaceProps) {
   );
 }
 
-function FlipCard({ project, t, isActive }: { project: ProjectData; t: (key: string) => string; isActive: boolean }) {
+function FlipCard({ project, t, isActive = true }: { project: ProjectData; t: (key: string) => string; isActive?: boolean }) {
   const [flipped, setFlipped] = useState(false);
   const s = auraStyles[project.aura];
 
   // Reset flip when card leaves the carousel slot (navigation between projects).
-  if (!isActive && flipped) {
-    queueMicrotask(() => setFlipped(false));
-  }
+  useEffect(() => {
+    if (!isActive && flipped) setFlipped(false);
+  }, [isActive, flipped]);
 
   return (
     <div className="w-full max-w-[380px] mx-auto" style={{ perspective: '1400px' }}>
@@ -362,7 +362,7 @@ export default function Projects() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.6 }}
-          className="text-center md:pr-32 lg:pr-48"
+          className="text-center"
         >
           <span className="block font-mono text-[11px] sm:text-xs uppercase tracking-[0.32em] text-text-muted mb-3 md:mb-4">
             {t('projectsLabel')}
@@ -372,9 +372,16 @@ export default function Projects() {
           </h2>
         </motion.div>
 
-        {/* Carousel — coverflow stack: aktywna karta z przodu, sąsiednie z boku częściowo schowane */}
+        {/* Mobile: pionowy stack — wszystkie projekty pełna karta, naturalna szerokość */}
+        <div className="md:hidden flex flex-col gap-6 w-full max-w-[380px] mx-auto pt-2">
+          {projects.map((project) => (
+            <FlipCard key={project.id} project={project} t={t} />
+          ))}
+        </div>
+
+        {/* Desktop (md+): Coverflow karuzela — aktywna karta z przodu, sąsiednie z boku częściowo schowane */}
         <div
-          className="relative w-full mx-auto md:-translate-x-12 lg:-translate-x-24"
+          className="hidden md:block relative w-full mx-auto"
           style={{ maxWidth: `${CARD_W + 4 * SHIFT}px` }}
         >
           <div

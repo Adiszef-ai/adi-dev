@@ -170,7 +170,7 @@ export default function Hero() {
           initial="hidden"
           animate="visible"
           custom={1}
-          className="block text-center md:pr-32 lg:pr-48 font-mono text-sm sm:text-base uppercase tracking-[0.32em] text-text-secondary"
+          className="block text-center font-mono text-sm sm:text-base uppercase tracking-[0.32em] text-text-secondary"
         >
           {(() => {
             const greeting = t('greeting');
@@ -191,7 +191,7 @@ export default function Hero() {
           initial="hidden"
           animate="visible"
           custom={2}
-          className="font-display font-normal tracking-tight leading-[1.02] text-center md:pr-32 lg:pr-48 text-[clamp(3.25rem,12vw,7rem)]"
+          className="font-display font-normal tracking-tight leading-[1.02] text-center text-[clamp(3.25rem,12vw,7rem)]"
         >
           <span className="text-text-primary block">Adrian</span>
           <span className="aura-text-aether block">Runiewicz</span>
@@ -203,7 +203,7 @@ export default function Hero() {
           initial="hidden"
           animate="visible"
           custom={3}
-          className="font-mono text-base sm:text-lg md:text-2xl lg:text-3xl text-text-secondary min-h-[2.5rem] flex items-center justify-center md:pr-32 lg:pr-48"
+          className="font-mono text-base sm:text-lg md:text-2xl lg:text-3xl text-text-secondary min-h-[2.5rem] flex items-center justify-center"
         >
           <TypingRoles />
         </motion.div>
@@ -214,19 +214,18 @@ export default function Hero() {
           initial="hidden"
           animate="visible"
           custom={4}
-          className="font-body text-base sm:text-lg md:text-xl text-text-secondary leading-relaxed max-w-3xl mx-auto text-center md:pr-32 lg:pr-48"
+          className="font-body text-base sm:text-lg md:text-xl text-text-secondary leading-relaxed max-w-3xl mx-auto text-center"
         >
           {t('heroDesc')}
         </motion.p>
 
-        {/* Counters — 2x2 mobile, 4x1 desktop, ikona po lewej / cyfry po prawej.
-            Przesunięcie translate-x dopasowuje grid do osi centrowania reszty Hero. */}
+        {/* Counters — 2x2 mobile, 4x1 desktop, ikona po lewej / cyfry po prawej. */}
         <motion.div
           variants={fadeUp}
           initial="hidden"
           animate="visible"
           custom={5}
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5 max-w-5xl mx-auto md:-translate-x-12 lg:-translate-x-24"
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5 max-w-5xl mx-auto"
         >
           {counters.map((c) => {
             const s = counterAuraStyles[c.aura];

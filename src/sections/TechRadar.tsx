@@ -124,7 +124,7 @@ export default function TechRadar() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.5 }}
-          className="text-center md:pr-32 lg:pr-48"
+          className="text-center"
         >
           <span className="block font-mono text-[11px] sm:text-xs uppercase tracking-[0.32em] text-text-muted mb-5 md:mb-6">
             {t('radarLabel')}
@@ -192,7 +192,7 @@ export default function TechRadar() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.55 }}
-          className="hidden md:block relative bg-bg-surface/30 backdrop-blur-sm border border-border-subtle rounded-3xl p-4 md:p-5 overflow-x-auto max-w-3xl mx-auto md:-translate-x-12 lg:-translate-x-24"
+          className="hidden md:block relative bg-bg-surface/30 backdrop-blur-sm border border-border-subtle rounded-3xl p-4 md:p-5 overflow-x-auto max-w-3xl mx-auto"
           style={{ boxShadow: '0 0 60px -25px rgb(99 102 241 / 0.25)' }}
         >
           {/* Matrix */}

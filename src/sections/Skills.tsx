@@ -150,7 +150,7 @@ export default function Skills() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-80px' }}
         transition={{ duration: 0.5 }}
-        className="text-center md:pr-32 lg:pr-48"
+        className="text-center"
       >
         <span className="block font-mono text-[11px] sm:text-xs uppercase tracking-[0.32em] text-text-muted mb-3 md:mb-4">
           {t('skillsLabel')}
@@ -165,7 +165,7 @@ export default function Skills() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: '-50px' }}
-        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 auto-rows-fr gap-4 md:gap-6 max-w-3xl mx-auto md:-translate-x-12 lg:-translate-x-24"
+        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 auto-rows-fr gap-4 md:gap-6 max-w-3xl mx-auto"
       >
         {skillGroups.map((group) => {
           const s = auraStyles[group.aura];
