@@ -116,7 +116,7 @@ export default function TechRadar() {
 
   return (
     <section id="radar" className="relative px-6 sm:px-10 md:px-20 lg:px-28 xl:px-36 pt-20 pb-32 md:py-24">
-      <div className="w-full max-w-7xl mx-auto flex flex-col gap-3 md:gap-5">
+      <div className="w-full max-w-7xl mx-auto flex flex-col gap-5 md:gap-8">
 
         {/* Header */}
         <motion.div
@@ -126,7 +126,7 @@ export default function TechRadar() {
           transition={{ duration: 0.5 }}
           className="text-center"
         >
-          <span className="block font-mono text-[11px] sm:text-xs uppercase tracking-[0.32em] text-text-muted mb-5 md:mb-6">
+          <span className="block font-mono text-sm sm:text-base uppercase tracking-[0.3em] font-semibold text-text-secondary mb-4 md:mb-5">
             {t('radarLabel')}
           </span>
           <h2 className="font-display text-[clamp(2.75rem,10vw,4.75rem)] md:text-7xl font-semibold tracking-tight leading-[1.05]">
@@ -159,13 +159,13 @@ export default function TechRadar() {
                       }}
                     />
                     <span
-                      className="font-mono text-[11px] uppercase tracking-[0.2em] font-semibold"
+                      className="font-mono text-[10px] uppercase tracking-[0.18em] font-semibold"
                       style={{ color: ring.color }}
                     >
                       {t(ring.labelKey)}
                     </span>
                   </div>
-                  <span className="font-mono text-[10px] text-text-muted tracking-wider">
+                  <span className="font-mono text-[9px] text-text-muted tracking-wider">
                     {items.length} · {Math.round(ring.intensity * 100)}%
                   </span>
                 </div>

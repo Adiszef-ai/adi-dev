@@ -21,7 +21,8 @@ interface EdgeDef {
   branch?: 'runes' | 'myth' | 'advice' | 'chat';
 }
 
-const nodes: NodeDef[] = [
+// Desktop layout — oryginalna wersja (USER góra-środek, VOICE dół-środek)
+const nodesDesktop: NodeDef[] = [
   { id: 'user',     labelKey: 'agentNodeUser',     icon: <FiMessageSquare />, color: '#06b6d4', x: 50, y: 8 },
   { id: 'classify', labelKey: 'agentNodeClassify', icon: <FiCompass />,       color: '#8b5cf6', x: 50, y: 26 },
   { id: 'runes',    labelKey: 'agentNodeRunes',    icon: <FiHash />,          color: '#10b981', x: 14, y: 46 },
@@ -30,6 +31,18 @@ const nodes: NodeDef[] = [
   { id: 'chat',     labelKey: 'agentNodeChat',     icon: <FiZap />,           color: '#f59e0b', x: 86, y: 46 },
   { id: 'kb',       labelKey: 'agentNodeKB',       icon: <FiDatabase />,      color: '#22d3ee', x: 50, y: 68 },
   { id: 'voice',    labelKey: 'agentNodeVoice',    icon: <FiVolume2 />,       color: '#d946ef', x: 50, y: 88 },
+];
+
+// Mobile layout — USER lewo-góra, VOICE prawo-dół (lepsze rozłożenie na wąskim ekranie)
+const nodesMobile: NodeDef[] = [
+  { id: 'user',     labelKey: 'agentNodeUser',     icon: <FiMessageSquare />, color: '#06b6d4', x: 14, y: 8 },
+  { id: 'classify', labelKey: 'agentNodeClassify', icon: <FiCompass />,       color: '#8b5cf6', x: 50, y: 26 },
+  { id: 'runes',    labelKey: 'agentNodeRunes',    icon: <FiHash />,          color: '#10b981', x: 14, y: 46 },
+  { id: 'myth',     labelKey: 'agentNodeMyth',     icon: <FiBookOpen />,      color: '#e879f9', x: 38, y: 46 },
+  { id: 'advice',   labelKey: 'agentNodeAdvice',   icon: <FiHeart />,         color: '#fb7185', x: 62, y: 46 },
+  { id: 'chat',     labelKey: 'agentNodeChat',     icon: <FiZap />,           color: '#f59e0b', x: 86, y: 46 },
+  { id: 'kb',       labelKey: 'agentNodeKB',       icon: <FiDatabase />,      color: '#22d3ee', x: 50, y: 68 },
+  { id: 'voice',    labelKey: 'agentNodeVoice',    icon: <FiVolume2 />,       color: '#d946ef', x: 86, y: 88 },
 ];
 
 const edges: EdgeDef[] = [
@@ -45,8 +58,8 @@ const edges: EdgeDef[] = [
   { id: 'kb-voice',        from: 'kb',       to: 'voice' },
 ];
 
-function nodeById(id: NodeId): NodeDef {
-  return nodes.find((n) => n.id === id)!;
+function nodeById(nodesList: NodeDef[], id: NodeId): NodeDef {
+  return nodesList.find((n) => n.id === id)!;
 }
 
 function bezierPath(from: NodeDef, to: NodeDef): string {
@@ -86,8 +99,22 @@ interface DemoMessage {
   isFinal: boolean;
 }
 
+function useIsDesktop(): boolean {
+  const [isDesktop, setIsDesktop] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 768px)');
+    const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+    setIsDesktop(mq.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
+  return isDesktop;
+}
+
 export default function Agents() {
   const { t } = useLang();
+  const isDesktop = useIsDesktop();
+  const visibleNodes = isDesktop ? nodesDesktop : nodesMobile;
   const [stepIdx, setStepIdx] = useState(-1);
   const [messages, setMessages] = useState<DemoMessage[]>([]);
   const [sparkEdge, setSparkEdge] = useState<string | null>(null);
@@ -183,7 +210,7 @@ export default function Agents() {
       id="agents"
       className="relative px-6 sm:px-10 md:px-20 lg:px-28 xl:px-36 pt-20 pb-32 md:py-24"
     >
-      <div className="w-full max-w-7xl mx-auto flex flex-col gap-4 md:gap-8">
+      <div className="w-full max-w-7xl mx-auto flex flex-col gap-5 md:gap-8">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -191,7 +218,7 @@ export default function Agents() {
         transition={{ duration: 0.5 }}
         className="text-center"
       >
-        <span className="block font-mono text-[11px] sm:text-xs uppercase tracking-[0.32em] text-text-muted mb-5 md:mb-6">
+        <span className="block font-mono text-sm sm:text-base uppercase tracking-[0.3em] font-semibold text-text-secondary mb-4 md:mb-5">
           {t('agentsLabel')}
         </span>
         <h2 className="font-display text-[clamp(2.75rem,10vw,4.75rem)] md:text-7xl font-semibold tracking-tight leading-[1.05]">
@@ -206,11 +233,11 @@ export default function Agents() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="relative bg-bg-surface/40 backdrop-blur-sm border border-border-subtle rounded-3xl p-6 md:p-8"
+          className="relative bg-bg-surface/40 backdrop-blur-sm border border-border-subtle rounded-3xl p-3 md:p-8"
           style={{ boxShadow: '0 0 40px -15px rgb(232 121 249 / 0.2)' }}
         >
-          <div className="flex items-center justify-between mb-5">
-            <h3 className="font-mono text-xs uppercase tracking-[0.2em] text-text-muted">
+          <div className="flex items-center justify-between mb-3 md:mb-5 px-2 md:px-0">
+            <h3 className="font-mono text-[10px] md:text-xs uppercase tracking-[0.2em] text-text-muted">
               {t('agentArchitecture')}
             </h3>
             <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-text-muted">
@@ -218,12 +245,12 @@ export default function Agents() {
             </span>
           </div>
 
-          <div className="relative aspect-[4/4.2] w-full">
+          <div className="relative aspect-[1/1.45] md:aspect-[4/4.2] w-full">
             <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none">
               <defs>
                 {edges.map((edge) => {
-                  const f = nodeById(edge.from);
-                  const tnode = nodeById(edge.to);
+                  const f = nodeById(visibleNodes, edge.from);
+                  const tnode = nodeById(visibleNodes, edge.to);
                   return (
                     <path
                       key={edge.id}
@@ -280,7 +307,7 @@ export default function Agents() {
               </defs>
             </svg>
 
-            {nodes.map((node) => {
+            {visibleNodes.map((node) => {
               const isActive = activeNode === node.id;
               const isDimmed = node.id !== 'user' && node.id !== 'classify' && node.id !== 'kb' && node.id !== 'voice'
                 && node.id !== ACTIVE_BRANCH;
@@ -296,7 +323,7 @@ export default function Agents() {
                   transition={{ type: 'spring', stiffness: 300, damping: 22 }}
                 >
                   <motion.div
-                    className="w-10 h-10 md:w-12 md:h-12 rounded-2xl flex items-center justify-center border-2"
+                    className="w-[52px] h-[52px] md:w-12 md:h-12 rounded-2xl flex items-center justify-center border-2"
                     style={{
                       background: 'rgba(20, 18, 32, 0.92)',
                       borderColor: isActive ? node.color : 'rgba(46, 42, 61, 0.85)',
@@ -313,10 +340,10 @@ export default function Agents() {
                     }}
                     transition={{ duration: 1.4, repeat: isActive ? Infinity : 0 }}
                   >
-                    <span className="text-base md:text-lg">{node.icon}</span>
+                    <span className="text-lg md:text-lg">{node.icon}</span>
                   </motion.div>
                   <span
-                    className="font-mono text-[8px] md:text-[9px] uppercase tracking-[0.15em] whitespace-nowrap"
+                    className="font-mono text-[9px] uppercase tracking-[0.12em] md:tracking-[0.15em] whitespace-nowrap"
                     style={{ color: isActive ? node.color : 'rgba(168, 165, 184, 0.7)' }}
                   >
                     {t(node.labelKey)}
@@ -325,6 +352,17 @@ export default function Agents() {
               );
             })}
           </div>
+
+          {/* URUCHOM — TYLKO mobile, dolny lewy róg kontenera diagramu */}
+          <button
+            onClick={runDemo}
+            disabled={isRunning}
+            className="md:hidden mt-1 inline-flex items-center gap-1.5 aura-bg-vital text-bg-deep font-mono text-[10px] font-semibold uppercase tracking-wider px-3 py-1.5 rounded-full shadow-[0_0_20px_-5px_rgb(232_121_249/0.5)] hover:shadow-[0_0_30px_-5px_rgb(232_121_249/0.8)] transition-shadow disabled:opacity-50 disabled:cursor-not-allowed"
+            style={{ backgroundSize: '200% auto' }}
+          >
+            {isRunning ? `${stepIdx + 1}/${tracePlan.length}` : t('agentRun')}
+            {!isRunning && <FiArrowRight />}
+          </button>
         </motion.div>
 
         {/* Demo */}
@@ -341,10 +379,14 @@ export default function Agents() {
               <FiTerminal className="text-aura-aether-mid" />
               {t('agentDemoTitle')}
             </h3>
+            {/* Mobile: pokazuje status; Desktop: URUCHOM button (oryginalna pozycja) */}
+            <span className="md:hidden font-mono text-[9px] uppercase tracking-[0.18em] text-text-muted">
+              {isRunning ? `STEP ${stepIdx + 1}/${tracePlan.length}` : 'IDLE'}
+            </span>
             <button
               onClick={runDemo}
               disabled={isRunning}
-              className="inline-flex items-center gap-2 aura-bg-vital text-bg-deep font-mono text-xs font-semibold uppercase tracking-wider px-4 py-2 rounded-full shadow-[0_0_20px_-5px_rgb(232_121_249/0.5)] hover:shadow-[0_0_30px_-5px_rgb(232_121_249/0.8)] transition-shadow disabled:opacity-50 disabled:cursor-not-allowed"
+              className="hidden md:inline-flex items-center gap-2 aura-bg-vital text-bg-deep font-mono text-xs font-semibold uppercase tracking-wider px-4 py-2 rounded-full shadow-[0_0_20px_-5px_rgb(232_121_249/0.5)] hover:shadow-[0_0_30px_-5px_rgb(232_121_249/0.8)] transition-shadow disabled:opacity-50 disabled:cursor-not-allowed"
               style={{ backgroundSize: '200% auto' }}
             >
               {isRunning ? `${stepIdx + 1}/${tracePlan.length}` : t('agentRun')}

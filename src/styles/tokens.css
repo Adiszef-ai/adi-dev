@@ -53,9 +53,10 @@
      Display font alternatives (zamień w jednej linii poniżej):
      - "DM Serif Display" — decisive editorial display, mocny statement (DEFAULT)
      - "Marcellus"        — rzymski cap-style, runic/mystical vibe (bliżej Rune Witch DNA)
-     - "Cormorant Garamond" — elegancki sophisticated serif, classy
+     - "DM Serif Display" — legacy editorial serif, ciężki ale character
+     Fraunces: variable axes opsz (9-144), wght (300-900), SOFT (0-100)
   */
-  --font-display: "DM Serif Display", "Georgia", serif;
+  --font-display: "Fraunces", "Georgia", serif;
   --font-body:    "Inter", system-ui, -apple-system, sans-serif;
   --font-mono:    "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
 

@@ -193,7 +193,7 @@ export default function Analyses() {
       id="analyses"
       className="relative px-6 sm:px-10 md:px-20 lg:px-28 xl:px-36 pt-20 pb-32 md:py-24"
     >
-      <div className="w-full max-w-7xl mx-auto flex flex-col gap-4 md:gap-8">
+      <div className="w-full max-w-7xl mx-auto flex flex-col gap-5 md:gap-8">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -201,7 +201,7 @@ export default function Analyses() {
         transition={{ duration: 0.5 }}
         className="text-center"
       >
-        <span className="block font-mono text-[11px] sm:text-xs uppercase tracking-[0.32em] text-text-muted mb-5 md:mb-6">
+        <span className="block font-mono text-sm sm:text-base uppercase tracking-[0.3em] font-semibold text-text-secondary mb-4 md:mb-5">
           {t('analysesLabel')}
         </span>
         <h2 className="font-display text-[clamp(2.75rem,10vw,4.75rem)] md:text-7xl font-semibold tracking-tight leading-[1.05]">
@@ -240,11 +240,11 @@ export default function Analyses() {
                   {t(analysis.descKey)}
                 </p>
 
-                <div className="grid grid-cols-3 gap-2 mb-4">
-                  {analysis.metrics.map((m) => (
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-4">
+                  {analysis.metrics.map((m, i) => (
                     <div
                       key={m.label}
-                      className="bg-bg-elevated/40 border border-border-subtle rounded-lg p-2 text-center"
+                      className={`bg-bg-elevated/40 border border-border-subtle rounded-lg p-2 text-center ${i === 2 ? 'col-span-2 md:col-span-1' : ''}`}
                     >
                       <div className={`font-display text-base font-semibold ${s.metricText}`}>
                         {m.value}
@@ -267,7 +267,7 @@ export default function Analyses() {
                   ))}
                 </div>
 
-                <div className="flex items-center gap-2 flex-wrap">
+                <div className="flex items-center justify-between gap-2">
                   {analysis.notebookUrl && (
                     <button
                       type="button"

@@ -10,8 +10,8 @@ const translations: Translations = {
   // Hero
   greeting: { pl: 'CZEŚĆ, JESTEM', en: 'HI, I\'M' },
   heroDesc: {
-    pl: 'AI Product Engineer od 2024. Buduję produkty AI od architektury po deploy — sam, w trzyosobowych zespołach, w korpo. Trzy live, każdy inny. Co-creator Career Guide (ProfileVector, engine matchowania, Avi 3D), solo founder RuneWitch, frontend i product owner Rybaika.',
-    en: 'AI Product Engineer since 2024. I build AI products from architecture to deploy — solo, in three-person teams, at scale. Three live, each different. Co-creator of Career Guide (ProfileVector, matching engine, Avi 3D), solo founder of RuneWitch, frontend & product owner at Rybaika.',
+    pl: 'AI Product Engineer od 2024. Buduję produkty AI od architektury po deploy — sam, w trzyosobowych zespołach, w korpo. Trzy live, każdy inny. Co-creator Career Guide (ProfileVector, engine matchowania, Avi 3D), solo founder RuneWitch, frontend i product owner Rybai.',
+    en: 'AI Product Engineer since 2024. I build AI products from architecture to deploy — solo, in three-person teams, at scale. Three live, each different. Co-creator of Career Guide (ProfileVector, matching engine, Avi 3D), solo founder of RuneWitch, frontend & product owner at Rybai.',
   },
   viewProjects: { pl: 'Zobacz projekty', en: 'See the projects' },
   contact: { pl: 'Kontakt', en: 'Contact' },
@@ -38,7 +38,7 @@ const translations: Translations = {
 
   // Projects
   projectsLabel: { pl: 'PROJEKTY', en: 'PROJECTS' },
-  projectsTitle: { pl: 'Produkty AI zbudowane end-to-end', en: 'AI products built end-to-end' },
+  projectsTitle: { pl: 'Produkty AI', en: 'AI products' },
 
   // Career Guide
   cgRole: { pl: 'co-creator @ Crait P.S.A.', en: 'co-creator @ Crait P.S.A.' },
@@ -62,7 +62,7 @@ const translations: Translations = {
     en: 'Multi-provider AI (Groq → Gemini → OpenAI) with auto-fallback',
   },
 
-  // Rybaika
+  // Rybai
   ryRole: { pl: 'frontend + product owner · 3-os. zespół', en: 'frontend + product owner · 3-person team' },
   ryDesc: {
     pl: 'Inteligentna platforma dla wędkarzy. RAG z polskim modelem embeddings (sdadas/mmlw-roberta, 768-dim) + FAISS, 53 gatunki ryb z autorskimi grafikami, 1599 łowisk PZW na mapie, fishing index liczony z pogody. Strict TypeScript, semantic design tokens, 28 z 28 testów Vitest na zielono, CI/CD GitHub Actions. Moje: UI, roadmap, priorytety produktowe.',
@@ -107,8 +107,8 @@ const translations: Translations = {
     en: 'Today I work as an AI Product Engineer at Crait P.S.A. At Career Guide I own my turf: ProfileVector (profile vectorization engine, v1.0 → v1.3), the 5-matcher scoring engine with weights tuned over fifty iterations, ~200 React components for the Profile Matcher, and Avi — a 3D avatar with lip-sync. Architecture, backend, Blender model, frontend — all mine, from whiteboard to production. Roadmap: 6th matcher (Cultural Fit), 7th (Salary), ProfileVector v1.4 with explainable embeddings.',
   },
   aboutP3: {
-    pl: 'RuneWitch to mój solo projekt — 1.5 roku roboty od pomysłu po deploy. 47 bogów nordyckich z autorskimi promptami, System Patrona z długoterminową pamięcią, 6 języków UI, blue-green deployment. Równolegle frontend i product owner w Rybaika (3-osobowy zespół) i własny AI dashboard, którego używam codziennie. Szukam miejsca, gdzie mogę dalej budować. Solo, w zespole, gdziekolwiek — byle produkty, których ktoś naprawdę używa. Nie POC do prezentacji.',
-    en: 'RuneWitch is my solo project — 1.5 years of work from idea to deploy. 47 Norse gods with custom prompts, Patron System with long-term memory, 6 UI languages, blue-green deployment. In parallel I lead frontend and product on Rybaika (3-person team) and run my own AI dashboard daily. I\'m looking for a place where I can keep building. Solo, in a team, anywhere — as long as it\'s products people actually use. Not proof-of-concept slideware.',
+    pl: 'RuneWitch to mój solo projekt — 1.5 roku roboty od pomysłu po deploy. 47 bogów nordyckich z autorskimi promptami, System Patrona z długoterminową pamięcią, 6 języków UI, blue-green deployment. Równolegle frontend i product owner w Rybai (3-osobowy zespół) i własny AI dashboard, którego używam codziennie. Szukam miejsca, gdzie mogę dalej budować. Solo, w zespole, gdziekolwiek — byle produkty, których ktoś naprawdę używa. Nie POC do prezentacji.',
+    en: 'RuneWitch is my solo project — 1.5 years of work from idea to deploy. 47 Norse gods with custom prompts, Patron System with long-term memory, 6 UI languages, blue-green deployment. In parallel I lead frontend and product on Rybai (3-person team) and run my own AI dashboard daily. I\'m looking for a place where I can keep building. Solo, in a team, anywhere — as long as it\'s products people actually use. Not proof-of-concept slideware.',
   },
   aboutLines: { pl: 'linii kodu w produkcji', en: 'lines of code in production' },
   aboutApps: { pl: 'projekty live', en: 'live projects' },
@@ -143,12 +143,12 @@ const translations: Translations = {
     en: 'Co-creator at Crait P.S.A. Ownership of ProfileVector, the 5-matcher engine, ~200 frontend components, and Avi (3D avatar with lip-sync). #2 contributor — 201 commits, 167k lines of code, 252 files 100% authored.',
   },
   tlTitle4: {
-    pl: 'Rybaika — Frontend & Product Owner',
-    en: 'Rybaika — Frontend & Product Owner',
+    pl: 'Rybai — Frontend & Product Owner',
+    en: 'Rybai — Frontend & Product Owner',
   },
   tlDesc4: {
     pl: 'Dołączenie do 3-osobowego zespołu Rybaiki jako frontend i product owner. UI w strict TypeScript, semantic design tokens, roadmap, priorytety produktowe. Polski RAG (sdadas/mmlw) + FAISS.',
-    en: 'Joined the 3-person Rybaika team as frontend and product owner. Strict TypeScript UI, semantic design tokens, roadmap, product priorities. Polish RAG (sdadas/mmlw) + FAISS.',
+    en: 'Joined the 3-person Rybai team as frontend and product owner. Strict TypeScript UI, semantic design tokens, roadmap, product priorities. Polish RAG (sdadas/mmlw) + FAISS.',
   },
 
   // Certifications
@@ -161,8 +161,8 @@ const translations: Translations = {
   certIssuer2: { pl: 'Kurs online', en: 'Online Course' },
   certTitle3: { pl: 'Python dla Data Science', en: 'Python for Data Science' },
   certIssuer3: { pl: 'Kurs online', en: 'Online Course' },
-  certTitle4: { pl: 'FastAPI — budowa REST API', en: 'FastAPI — Building REST APIs' },
-  certIssuer4: { pl: 'Kurs online', en: 'Online Course' },
+  certTitle4: { pl: 'DWthon · Software 3.0 (Agentic AI)', en: 'DWthon · Software 3.0 (Agentic AI)' },
+  certIssuer4: { pl: 'DataWorkshop · Honor Code Certificate', en: 'DataWorkshop · Honor Code Certificate' },
   certTitle5: { pl: 'Docker & DevOps', en: 'Docker & DevOps' },
   certIssuer5: { pl: 'Kurs online', en: 'Online Course' },
   certTitle6: { pl: 'AI Agents & LLM Applications', en: 'AI Agents & LLM Applications' },

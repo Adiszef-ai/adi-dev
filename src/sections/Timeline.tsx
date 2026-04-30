@@ -86,7 +86,7 @@ export default function Timeline() {
       id="timeline"
       className="relative px-6 sm:px-10 md:px-20 lg:px-28 xl:px-36 pt-20 pb-32 md:py-24"
     >
-      <div className="w-full max-w-5xl mx-auto flex flex-col gap-3 md:gap-5">
+      <div className="w-full max-w-5xl mx-auto flex flex-col gap-5 md:gap-8">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -94,7 +94,7 @@ export default function Timeline() {
         transition={{ duration: 0.5 }}
         className="text-center"
       >
-        <span className="block font-mono text-[11px] sm:text-xs uppercase tracking-[0.32em] text-text-muted mb-5 md:mb-6">
+        <span className="block font-mono text-sm sm:text-base uppercase tracking-[0.3em] font-semibold text-text-secondary mb-4 md:mb-5">
           {t('timelineLabel')}
         </span>
         <h2 className="font-display text-[clamp(2.75rem,10vw,4.75rem)] md:text-7xl font-semibold tracking-tight leading-[1.05]">

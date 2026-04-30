@@ -152,7 +152,7 @@ export default function Skills() {
         transition={{ duration: 0.5 }}
         className="text-center"
       >
-        <span className="block font-mono text-[11px] sm:text-xs uppercase tracking-[0.32em] text-text-muted mb-3 md:mb-4">
+        <span className="block font-mono text-sm sm:text-base uppercase tracking-[0.3em] font-semibold text-text-secondary mb-4 md:mb-5">
           {t('skillsLabel')}
         </span>
         <h2 className="font-display text-[clamp(2.75rem,10vw,4.75rem)] md:text-7xl font-semibold tracking-tight leading-[1.05]">

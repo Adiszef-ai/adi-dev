@@ -54,7 +54,7 @@ const projects: ProjectData[] = [
   },
   {
     id: 'rybaika',
-    title: 'Rybaika',
+    title: 'Rybai',
     category: 'FISHING AI · RAG · GEO',
     roleKey: 'ryRole',
     descKey: 'ryDesc',
@@ -209,7 +209,7 @@ function FrontFace({ project, s, t, onFlip }: FaceProps) {
         </h3>
 
         <span
-          className={`inline-block self-start font-mono text-[10px] uppercase tracking-widest px-2 py-0.5 rounded-md border mb-2.5 ${s.role}`}
+          className="inline-block self-start font-mono text-[10px] uppercase tracking-widest px-2 py-0.5 rounded-md border border-border-subtle bg-bg-elevated/30 text-text-secondary mb-2.5"
         >
           {t(project.roleKey)}
         </span>
@@ -241,73 +241,88 @@ function BackFace({ project, s, t, onFlip }: FaceProps) {
       <div
         className={`absolute -left-12 -top-12 w-40 h-40 blur-3xl rounded-full pointer-events-none ${s.blob}`}
       />
-      <div className="relative flex flex-col h-full gap-3">
-        <div className="flex items-center justify-between">
-          <h3 className="font-display text-lg md:text-xl font-semibold text-text-primary leading-tight">
-            {project.title}
-          </h3>
-          <button
-            type="button"
-            onClick={onFlip}
-            className={`inline-flex items-center justify-center w-8 h-8 rounded-md border transition-all duration-200 ${s.flipBtn}`}
-            aria-label="Wróć"
-          >
-            <FiRotateCw className="rotate-180" />
-          </button>
-        </div>
-
-        {project.highlightKey && (
-          <div
-            className={`px-3 py-2 rounded-lg border font-mono text-[11px] leading-relaxed ${s.highlight}`}
-          >
-            {t(project.highlightKey)}
-          </div>
-        )}
-
-        <div>
-          <span className="block font-mono text-[10px] uppercase tracking-[0.2em] text-text-muted mb-1.5">
-            STACK
-          </span>
-          <div className="flex flex-wrap gap-1.5">
-            {project.tech.map((tech) => (
-              <span
-                key={tech}
-                className={`px-2 py-0.5 rounded-md border border-border-subtle bg-bg-elevated/40 font-mono text-[10px] text-text-secondary transition-colors duration-200 ${s.techHover}`}
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-2 mt-auto">
+      <div className="relative flex flex-col h-full">
+        {/* Image (sama pozycja co na FrontFace) z OPEN APP overlay */}
+        <div className="relative">
+          <ProjectImage project={project} />
           {project.url && (
             <a
               href={project.url}
               target="_blank"
               rel="noopener noreferrer"
-              className={`group/link inline-flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-wider px-3 py-1.5 rounded-md transition-all duration-200 ${s.link}`}
+              className="absolute inset-0 z-10 flex items-center justify-center group/openapp"
             >
-              OPEN APP
-              <FiArrowRight className="transition-transform group-hover/link:translate-x-0.5" />
+              <span
+                className={`inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-[0.18em] px-5 py-3 rounded-full text-text-primary backdrop-blur-md transition-all duration-300 group-hover/openapp:scale-105`}
+                style={{
+                  background: auraGradients[project.aura],
+                  boxShadow: `0 0 0 1px rgb(255 255 255 / 0.3), 0 8px 32px -8px ${project.aura === 'aether' ? 'rgb(99 102 241 / 0.7)' : project.aura === 'vital' ? 'rgb(232 121 249 / 0.7)' : 'rgb(244 114 182 / 0.7)'}, 0 0 60px -10px rgb(0 0 0 / 0.6)`,
+                }}
+              >
+                OPEN APP
+                <FiArrowRight className="text-base transition-transform duration-300 group-hover/openapp:translate-x-1" />
+              </span>
             </a>
-          )}
-          {project.github && (
-            <a
-              href={project.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`inline-flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-wider px-3 py-1.5 rounded-md transition-all duration-200 ${s.link}`}
-            >
-              <FiGithub /> CODE
-            </a>
-          )}
-          {project.privateLabelKey && (
-            <span className="inline-flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-wider px-3 py-1.5 rounded-md border border-dashed border-border-subtle text-text-muted">
-              <FiLock /> {t(project.privateLabelKey)}
-            </span>
           )}
         </div>
+
+        {/* Content */}
+        <div className="flex flex-col gap-2.5 mt-2 flex-1 min-h-0">
+          {project.highlightKey && (
+            <div
+              className={`px-3 py-2 rounded-lg border font-mono text-[11px] leading-relaxed ${s.highlight}`}
+            >
+              {t(project.highlightKey)}
+            </div>
+          )}
+
+          <div>
+            <span className="block font-mono text-[10px] uppercase tracking-[0.2em] text-text-muted mb-1.5">
+              STACK
+            </span>
+            <div className="flex flex-wrap gap-1.5">
+              {project.tech.map((tech) => (
+                <span
+                  key={tech}
+                  className={`px-2 py-0.5 rounded-md border border-border-subtle bg-bg-elevated/40 font-mono text-[10px] text-text-secondary transition-colors duration-200 ${s.techHover}`}
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {(project.github || project.privateLabelKey) && (
+            <div className="flex flex-wrap items-center gap-2">
+              {project.github && (
+                <a
+                  href={project.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`inline-flex items-center gap-1.5 font-mono text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md transition-all duration-200 ${s.link}`}
+                >
+                  <FiGithub /> CODE
+                </a>
+              )}
+              {project.privateLabelKey && (
+                <span className="inline-flex items-center gap-1.5 font-mono text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md border border-dashed border-border-subtle text-text-muted">
+                  <FiLock /> {t(project.privateLabelKey)}
+                </span>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Return button — prawy dolny róg */}
+        <button
+          type="button"
+          onClick={onFlip}
+          className={`mt-auto self-end inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider font-semibold px-3 py-1.5 rounded-md border transition-all duration-200 ${s.flipBtn}`}
+          aria-label="Wróć"
+        >
+          <FiRotateCw className="rotate-180" />
+          Wróć
+        </button>
       </div>
     </div>
   );
@@ -356,7 +371,7 @@ export default function Projects() {
       id="projects"
       className="relative px-6 sm:px-10 md:px-20 lg:px-28 xl:px-36 pt-20 pb-32 md:py-24"
     >
-      <div className="w-full max-w-7xl mx-auto flex flex-col gap-2 md:gap-3">
+      <div className="w-full max-w-7xl mx-auto flex flex-col gap-5 md:gap-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -364,7 +379,7 @@ export default function Projects() {
           transition={{ duration: 0.6 }}
           className="text-center"
         >
-          <span className="block font-mono text-[11px] sm:text-xs uppercase tracking-[0.32em] text-text-muted mb-3 md:mb-4">
+          <span className="block font-mono text-sm sm:text-base uppercase tracking-[0.3em] font-semibold text-text-secondary mb-4 md:mb-5">
             {t('projectsLabel')}
           </span>
           <h2 className="font-display text-[clamp(2.75rem,10vw,4.75rem)] md:text-7xl font-semibold tracking-tight leading-[1.05]">

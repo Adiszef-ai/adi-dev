@@ -93,7 +93,7 @@
    Tailwindowe pt-X / py-X w plikach sekcji. Hero ma własny "splash" layout. */
 .main > section:not(#hero) {
   justify-content: flex-start !important;
-  padding-top: 5rem !important;
+  padding-top: 3rem !important;
   padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)) !important;
 }
 
@@ -103,7 +103,7 @@
 
 @media (min-width: 768px) {
   .main > section:not(#hero) {
-    padding-top: 4.5rem !important;
+    padding-top: 3.5rem !important;
     padding-bottom: 5rem !important;
   }
 }
@@ -193,6 +193,25 @@
   border: none;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
+}
+
+/* Gradient fade nad navem — content płynnie znika pod navem zamiast obcięcia.
+   Pseudoelement rozciąga się 56px nad nav i ma gradient od bg-deep do transparent. */
+.slide-nav::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -56px;
+  bottom: 0;
+  background: linear-gradient(
+    to top,
+    var(--color-bg-deep, #08070d) 30%,
+    color-mix(in srgb, var(--color-bg-deep, #08070d) 60%, transparent) 70%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: -1;
 }
 
 /* Mobile: each button stretches to fill 1/3 of the bar */
@@ -297,7 +316,8 @@
 /* ========== RESPONSIVE — MOBILE SIDEBAR ========== */
 @media (max-width: 767px) {
   .sidebar {
-    width: min(85vw, 360px);
+    width: 100vw;
+    max-width: 100vw;
     transform: translateX(-100%) !important;
     transition: transform 0.3s ease;
     will-change: transform;
