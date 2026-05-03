@@ -89,7 +89,7 @@ function Hex({
           clipPath: HEX_CLIP,
           background: hovered
             ? `linear-gradient(140deg, ${ring.color}cc, ${ring.color}66)`
-            : 'rgb(20, 18, 32)',
+            : 'var(--color-bg-elevated)',
           transition: 'background 200ms ease',
         }}
       />

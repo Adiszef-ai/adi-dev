@@ -323,11 +323,10 @@ export default function Agents() {
                   transition={{ type: 'spring', stiffness: 300, damping: 22 }}
                 >
                   <motion.div
-                    className="w-[52px] h-[52px] md:w-12 md:h-12 rounded-2xl flex items-center justify-center border-2"
+                    className={`w-[52px] h-[52px] md:w-12 md:h-12 rounded-2xl flex items-center justify-center border-2 bg-bg-elevated ${isActive ? '' : 'border-border-strong'}`}
                     style={{
-                      background: 'rgba(20, 18, 32, 0.92)',
-                      borderColor: isActive ? node.color : 'rgba(46, 42, 61, 0.85)',
                       color: node.color,
+                      ...(isActive ? { borderColor: node.color } : {}),
                     }}
                     animate={{
                       boxShadow: isActive
