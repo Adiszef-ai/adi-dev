@@ -1,12 +1,16 @@
 import { motion, AnimatePresence, animate } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
-import { FiArrowRight, FiMessageSquare, FiDatabase, FiZap, FiUser, FiTerminal, FiBookOpen, FiHeart, FiCompass, FiHash, FiVolume2 } from 'react-icons/fi';
+import {
+  FiArrowRight, FiMessageSquare, FiDatabase, FiZap, FiUser, FiTerminal,
+  FiBookOpen, FiHeart, FiCompass, FiHash, FiVolume2,
+  FiShield, FiPlus, FiCheck, FiCalendar, FiMic, FiSend, FiList,
+} from 'react-icons/fi';
 import { useLang } from '../contexts/LanguageContext';
 
-type NodeId = 'user' | 'classify' | 'runes' | 'myth' | 'advice' | 'chat' | 'kb' | 'voice';
+type WorkflowId = 'thor' | 'n8n';
 
 interface NodeDef {
-  id: NodeId;
+  id: string;
   labelKey: string;
   icon: React.ReactNode;
   color: string;
@@ -16,13 +20,36 @@ interface NodeDef {
 
 interface EdgeDef {
   id: string;
-  from: NodeId;
-  to: NodeId;
-  branch?: 'runes' | 'myth' | 'advice' | 'chat';
+  from: string;
+  to: string;
+  branch?: string;
 }
 
-// Desktop layout — oryginalna wersja (USER góra-środek, VOICE dół-środek)
-const nodesDesktop: NodeDef[] = [
+interface TraceStep {
+  activeNode: string;
+  edgeOut?: string;
+  messageKey?: string;
+  badge?: string;
+  hold: number;
+  isFinal?: boolean;
+}
+
+interface Workflow {
+  id: WorkflowId;
+  labelKey: string;
+  archKey: string;
+  nodesDesktop: NodeDef[];
+  nodesMobile: NodeDef[];
+  edges: EdgeDef[];
+  tracePlan: TraceStep[];
+  activeBranch: string;
+}
+
+// ─────────────────────────────────────────────────────────────
+// Workflow 1: Thor (RuneWitch) — voice-first conversational agent
+// ─────────────────────────────────────────────────────────────
+
+const thorNodesDesktop: NodeDef[] = [
   { id: 'user',     labelKey: 'agentNodeUser',     icon: <FiMessageSquare />, color: '#06b6d4', x: 50, y: 8 },
   { id: 'classify', labelKey: 'agentNodeClassify', icon: <FiCompass />,       color: '#8b5cf6', x: 50, y: 26 },
   { id: 'runes',    labelKey: 'agentNodeRunes',    icon: <FiHash />,          color: '#10b981', x: 14, y: 46 },
@@ -33,8 +60,7 @@ const nodesDesktop: NodeDef[] = [
   { id: 'voice',    labelKey: 'agentNodeVoice',    icon: <FiVolume2 />,       color: '#d946ef', x: 50, y: 88 },
 ];
 
-// Mobile layout — USER lewo-góra, VOICE prawo-dół (lepsze rozłożenie na wąskim ekranie)
-const nodesMobile: NodeDef[] = [
+const thorNodesMobile: NodeDef[] = [
   { id: 'user',     labelKey: 'agentNodeUser',     icon: <FiMessageSquare />, color: '#06b6d4', x: 14, y: 8 },
   { id: 'classify', labelKey: 'agentNodeClassify', icon: <FiCompass />,       color: '#8b5cf6', x: 50, y: 26 },
   { id: 'runes',    labelKey: 'agentNodeRunes',    icon: <FiHash />,          color: '#10b981', x: 14, y: 46 },
@@ -45,7 +71,7 @@ const nodesMobile: NodeDef[] = [
   { id: 'voice',    labelKey: 'agentNodeVoice',    icon: <FiVolume2 />,       color: '#d946ef', x: 86, y: 88 },
 ];
 
-const edges: EdgeDef[] = [
+const thorEdges: EdgeDef[] = [
   { id: 'user-classify',   from: 'user',     to: 'classify' },
   { id: 'classify-runes',  from: 'classify', to: 'runes',  branch: 'runes' },
   { id: 'classify-myth',   from: 'classify', to: 'myth',   branch: 'myth' },
@@ -58,7 +84,97 @@ const edges: EdgeDef[] = [
   { id: 'kb-voice',        from: 'kb',       to: 'voice' },
 ];
 
-function nodeById(nodesList: NodeDef[], id: NodeId): NodeDef {
+const thorTracePlan: TraceStep[] = [
+  { activeNode: 'user',     edgeOut: 'user-classify',  messageKey: 'agentDemo1', badge: 'USER',         hold: 1100 },
+  { activeNode: 'classify', edgeOut: 'classify-myth',  messageKey: 'agentDemo2', badge: 'CLASSIFIER',   hold: 1100 },
+  { activeNode: 'myth',                                badge: 'BRANCH · MYTH',   hold: 700 },
+  { activeNode: 'myth',     edgeOut: 'myth-kb',                                  hold: 700 },
+  { activeNode: 'kb',       edgeOut: 'kb-voice',       messageKey: 'agentDemo3', badge: 'RAG',          hold: 1100 },
+  { activeNode: 'voice',                               messageKey: 'agentDemo4', badge: 'TTS',          hold: 1100 },
+  { activeNode: 'voice',                               messageKey: 'agentDemo5', badge: 'LOKI · PL',    hold: 4000, isFinal: true },
+];
+
+// ─────────────────────────────────────────────────────────────
+// Workflow 2: Telegram Ops (n8n) — event-driven multi-trigger
+// ─────────────────────────────────────────────────────────────
+
+const n8nNodesDesktop: NodeDef[] = [
+  { id: 'tg-in',    labelKey: 'n8nNodeTgIn',    icon: <FiMessageSquare />, color: '#06b6d4', x: 50, y: 6 },
+  { id: 'auth',     labelKey: 'n8nNodeAuth',    icon: <FiShield />,        color: '#8b5cf6', x: 50, y: 22 },
+  { id: 'route',    labelKey: 'n8nNodeRoute',   icon: <FiCompass />,       color: '#f59e0b', x: 50, y: 38 },
+  { id: 'add',      labelKey: 'n8nNodeAdd',     icon: <FiPlus />,          color: '#10b981', x: 14, y: 56 },
+  { id: 'list',     labelKey: 'n8nNodeList',    icon: <FiList />,          color: '#22d3ee', x: 36, y: 56 },
+  { id: 'done',     labelKey: 'n8nNodeDone',    icon: <FiCheck />,         color: '#84cc16', x: 58, y: 56 },
+  { id: 'cal',      labelKey: 'n8nNodeCal',     icon: <FiCalendar />,      color: '#fb7185', x: 80, y: 56 },
+  { id: 'voice',    labelKey: 'n8nNodeVoice',   icon: <FiMic />,           color: '#e879f9', x: 86, y: 72 },
+  { id: 'whisper',  labelKey: 'n8nNodeWhisper', icon: <FiZap />,           color: '#a855f7', x: 64, y: 80 },
+  { id: 'sheets',   labelKey: 'n8nNodeSheets',  icon: <FiDatabase />,      color: '#34d399', x: 30, y: 86 },
+  { id: 'tg-out',   labelKey: 'n8nNodeTgOut',   icon: <FiSend />,          color: '#06b6d4', x: 50, y: 94 },
+];
+
+const n8nNodesMobile: NodeDef[] = [
+  { id: 'tg-in',    labelKey: 'n8nNodeTgIn',    icon: <FiMessageSquare />, color: '#06b6d4', x: 50, y: 6 },
+  { id: 'auth',     labelKey: 'n8nNodeAuth',    icon: <FiShield />,        color: '#8b5cf6', x: 50, y: 20 },
+  { id: 'route',    labelKey: 'n8nNodeRoute',   icon: <FiCompass />,       color: '#f59e0b', x: 50, y: 36 },
+  { id: 'add',      labelKey: 'n8nNodeAdd',     icon: <FiPlus />,          color: '#10b981', x: 12, y: 52 },
+  { id: 'list',     labelKey: 'n8nNodeList',    icon: <FiList />,          color: '#22d3ee', x: 36, y: 52 },
+  { id: 'done',     labelKey: 'n8nNodeDone',    icon: <FiCheck />,         color: '#84cc16', x: 60, y: 52 },
+  { id: 'cal',      labelKey: 'n8nNodeCal',     icon: <FiCalendar />,      color: '#fb7185', x: 84, y: 52 },
+  { id: 'voice',    labelKey: 'n8nNodeVoice',   icon: <FiMic />,           color: '#e879f9', x: 84, y: 70 },
+  { id: 'whisper',  labelKey: 'n8nNodeWhisper', icon: <FiZap />,           color: '#a855f7', x: 60, y: 80 },
+  { id: 'sheets',   labelKey: 'n8nNodeSheets',  icon: <FiDatabase />,      color: '#34d399', x: 28, y: 86 },
+  { id: 'tg-out',   labelKey: 'n8nNodeTgOut',   icon: <FiSend />,          color: '#06b6d4', x: 50, y: 94 },
+];
+
+const n8nEdges: EdgeDef[] = [
+  { id: 'tgin-auth',     from: 'tg-in',   to: 'auth' },
+  { id: 'auth-route',    from: 'auth',    to: 'route' },
+  { id: 'route-add',     from: 'route',   to: 'add',     branch: 'add' },
+  { id: 'route-list',    from: 'route',   to: 'list',    branch: 'list' },
+  { id: 'route-done',    from: 'route',   to: 'done',    branch: 'done' },
+  { id: 'route-cal',     from: 'route',   to: 'cal',     branch: 'cal' },
+  { id: 'route-voice',   from: 'route',   to: 'voice',   branch: 'voice' },
+  { id: 'voice-whisper', from: 'voice',   to: 'whisper', branch: 'voice' },
+  { id: 'add-sheets',    from: 'add',     to: 'sheets',  branch: 'add' },
+  { id: 'done-sheets',   from: 'done',    to: 'sheets',  branch: 'done' },
+  { id: 'whisper-sheets',from: 'whisper', to: 'sheets',  branch: 'voice' },
+  { id: 'sheets-tgout',  from: 'sheets',  to: 'tg-out' },
+];
+
+const n8nTracePlan: TraceStep[] = [
+  { activeNode: 'tg-in',   edgeOut: 'tgin-auth',     messageKey: 'n8nDemo1', badge: 'TELEGRAM',          hold: 1100 },
+  { activeNode: 'auth',    edgeOut: 'auth-route',                            badge: 'AUTH ✓',            hold: 700 },
+  { activeNode: 'route',   edgeOut: 'route-voice',   messageKey: 'n8nDemo2', badge: 'ROUTE',             hold: 1100 },
+  { activeNode: 'voice',   edgeOut: 'voice-whisper',                         badge: 'BRANCH · VOICE',    hold: 700 },
+  { activeNode: 'whisper', edgeOut: 'whisper-sheets',messageKey: 'n8nDemo3', badge: 'WHISPER STT',       hold: 1300 },
+  { activeNode: 'sheets',  edgeOut: 'sheets-tgout',  messageKey: 'n8nDemo4', badge: 'SHEETS · APPEND',   hold: 1100 },
+  { activeNode: 'tg-out',                            messageKey: 'n8nDemo5', badge: 'CONFIRM ✅',         hold: 4000, isFinal: true },
+];
+
+const workflows: Record<WorkflowId, Workflow> = {
+  thor: {
+    id: 'thor',
+    labelKey: 'agentTabThor',
+    archKey: 'agentArchitecture',
+    nodesDesktop: thorNodesDesktop,
+    nodesMobile: thorNodesMobile,
+    edges: thorEdges,
+    tracePlan: thorTracePlan,
+    activeBranch: 'myth',
+  },
+  n8n: {
+    id: 'n8n',
+    labelKey: 'agentTabN8n',
+    archKey: 'agentN8nArchitecture',
+    nodesDesktop: n8nNodesDesktop,
+    nodesMobile: n8nNodesMobile,
+    edges: n8nEdges,
+    tracePlan: n8nTracePlan,
+    activeBranch: 'voice',
+  },
+};
+
+function nodeById(nodesList: NodeDef[], id: string): NodeDef {
   return nodesList.find((n) => n.id === id)!;
 }
 
@@ -71,26 +187,6 @@ function bezierPath(from: NodeDef, to: NodeDef): string {
   const cy2 = from.y + dy * 0.4;
   return `M ${from.x} ${from.y + 4} C ${cx1} ${cy1}, ${cx2} ${cy2}, ${to.x} ${to.y - 4}`;
 }
-
-interface TraceStep {
-  activeNode: NodeId;
-  edgeOut?: string;
-  messageKey?: string;
-  badge?: string;
-  hold: number;
-}
-
-const tracePlan: TraceStep[] = [
-  { activeNode: 'user',     edgeOut: 'user-classify',  messageKey: 'agentDemo1', badge: 'USER',         hold: 1100 },
-  { activeNode: 'classify', edgeOut: 'classify-myth',  messageKey: 'agentDemo2', badge: 'CLASSIFIER',   hold: 1100 },
-  { activeNode: 'myth',                                badge: 'BRANCH · MYTH',   hold: 700 },
-  { activeNode: 'myth',     edgeOut: 'myth-kb',                                  hold: 700 },
-  { activeNode: 'kb',       edgeOut: 'kb-voice',       messageKey: 'agentDemo3', badge: 'RAG',          hold: 1100 },
-  { activeNode: 'voice',                               messageKey: 'agentDemo4', badge: 'TTS',          hold: 1100 },
-  { activeNode: 'voice',                               messageKey: 'agentDemo5', badge: 'LOKI · PL',    hold: 4000 },
-];
-
-const ACTIVE_BRANCH: NonNullable<EdgeDef['branch']> = 'myth';
 
 interface DemoMessage {
   key: string;
@@ -114,7 +210,9 @@ function useIsDesktop(): boolean {
 export default function Agents() {
   const { t } = useLang();
   const isDesktop = useIsDesktop();
-  const visibleNodes = isDesktop ? nodesDesktop : nodesMobile;
+  const [activeWorkflowId, setActiveWorkflowId] = useState<WorkflowId>('thor');
+  const wf = workflows[activeWorkflowId];
+  const visibleNodes = isDesktop ? wf.nodesDesktop : wf.nodesMobile;
   const [stepIdx, setStepIdx] = useState(-1);
   const [messages, setMessages] = useState<DemoMessage[]>([]);
   const [sparkEdge, setSparkEdge] = useState<string | null>(null);
@@ -131,6 +229,20 @@ export default function Agents() {
     });
   };
 
+  const resetDemo = () => {
+    if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
+    setStepIdx(-1);
+    setMessages([]);
+    setSparkEdge(null);
+    setSparkPos(0, 0, 0);
+  };
+
+  const selectWorkflow = (id: WorkflowId) => {
+    if (id === activeWorkflowId) return;
+    resetDemo();
+    setActiveWorkflowId(id);
+  };
+
   useEffect(() => {
     return () => {
       if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
@@ -138,19 +250,18 @@ export default function Agents() {
   }, []);
 
   useEffect(() => {
-    if (stepIdx < 0 || stepIdx >= tracePlan.length) return;
-    const step = tracePlan[stepIdx];
+    if (stepIdx < 0 || stepIdx >= wf.tracePlan.length) return;
+    const step = wf.tracePlan[stepIdx];
 
     if (step.messageKey) {
       const messageKey = step.messageKey;
-      const isFinal = messageKey === 'agentDemo5';
       setMessages((prev) => [
         ...prev,
         {
-          key: `${stepIdx}-${messageKey}`,
+          key: `${activeWorkflowId}-${stepIdx}-${messageKey}`,
           text: t(messageKey),
           badge: step.badge ?? '',
-          isFinal,
+          isFinal: step.isFinal ?? false,
         },
       ]);
     }
@@ -163,13 +274,13 @@ export default function Agents() {
     }
 
     timeoutRef.current = window.setTimeout(() => {
-      setStepIdx((i) => (i < tracePlan.length - 1 ? i + 1 : -1));
+      setStepIdx((i) => (i < wf.tracePlan.length - 1 ? i + 1 : -1));
     }, step.hold);
 
     return () => {
       if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
     };
-  }, [stepIdx, t]);
+  }, [stepIdx, t, wf.tracePlan, activeWorkflowId]);
 
   useEffect(() => {
     if (!sparkEdge) return;
@@ -194,15 +305,12 @@ export default function Agents() {
   }, [sparkEdge]);
 
   const runDemo = () => {
-    if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
-    setMessages([]);
-    setSparkEdge(null);
-    setSparkPos(0, 0, 0);
+    resetDemo();
     setStepIdx(0);
   };
 
-  const isRunning = stepIdx >= 0 && stepIdx < tracePlan.length;
-  const currentStep = isRunning ? tracePlan[stepIdx] : null;
+  const isRunning = stepIdx >= 0 && stepIdx < wf.tracePlan.length;
+  const currentStep = isRunning ? wf.tracePlan[stepIdx] : null;
   const activeNode = currentStep?.activeNode ?? null;
 
   return (
@@ -226,34 +334,58 @@ export default function Agents() {
         </h2>
       </motion.div>
 
+      {/* Tab switcher — wybór workflow */}
+      <div className="flex justify-center">
+        <div className="inline-flex items-center gap-1 p-1 rounded-full border border-border-subtle bg-bg-surface/40 backdrop-blur-sm">
+          {(Object.keys(workflows) as WorkflowId[]).map((id) => {
+            const isActive = id === activeWorkflowId;
+            return (
+              <button
+                key={id}
+                type="button"
+                onClick={() => selectWorkflow(id)}
+                className={`relative font-mono text-[10px] md:text-xs font-bold uppercase tracking-wider px-4 py-2 md:px-5 md:py-2.5 rounded-full transition-all duration-300 ${
+                  isActive
+                    ? 'aura-bg-vital text-bg-deep shadow-[0_0_20px_-5px_rgb(232_121_249/0.5)]'
+                    : 'text-text-secondary hover:text-text-primary'
+                }`}
+                style={isActive ? { backgroundSize: '200% auto' } : undefined}
+              >
+                {t(workflows[id].labelKey)}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-6 md:gap-8">
         {/* Diagram */}
         <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          key={`diagram-${activeWorkflowId}`}
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.4 }}
           className="relative bg-bg-surface/40 backdrop-blur-sm border border-border-subtle rounded-3xl p-3 md:p-6"
           style={{ boxShadow: '0 0 40px -15px rgb(232 121 249 / 0.2)' }}
         >
           <div className="flex items-center justify-between mb-3 md:mb-4 px-2 md:px-0">
             <h3 className="font-mono text-[10px] md:text-xs uppercase tracking-[0.2em] text-text-muted">
-              {t('agentArchitecture')}
+              {t(wf.archKey)}
             </h3>
             <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-text-muted">
-              {isRunning ? `STEP ${stepIdx + 1}/${tracePlan.length}` : 'IDLE'}
+              {isRunning ? `STEP ${stepIdx + 1}/${wf.tracePlan.length}` : 'IDLE'}
             </span>
           </div>
 
           <div className="relative aspect-[1/1.45] md:aspect-auto md:h-[440px] w-full">
             <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none">
               <defs>
-                {edges.map((edge) => {
+                {wf.edges.map((edge) => {
                   const f = nodeById(visibleNodes, edge.from);
                   const tnode = nodeById(visibleNodes, edge.to);
                   return (
                     <path
-                      key={edge.id}
+                      key={`${activeWorkflowId}-${edge.id}`}
                       id={`path-${edge.id}`}
                       d={bezierPath(f, tnode)}
                     />
@@ -261,12 +393,12 @@ export default function Agents() {
                 })}
               </defs>
 
-              {edges.map((edge) => {
-                const isDimmed = edge.branch && edge.branch !== ACTIVE_BRANCH;
+              {wf.edges.map((edge) => {
+                const isDimmed = edge.branch && edge.branch !== wf.activeBranch;
                 const isLive = sparkEdge === edge.id;
                 return (
                   <use
-                    key={`stroke-${edge.id}`}
+                    key={`stroke-${activeWorkflowId}-${edge.id}`}
                     href={`#path-${edge.id}`}
                     fill="none"
                     stroke={isLive ? '#e879f9' : 'rgba(168, 165, 184, 0.25)'}
@@ -309,11 +441,15 @@ export default function Agents() {
 
             {visibleNodes.map((node) => {
               const isActive = activeNode === node.id;
-              const isDimmed = node.id !== 'user' && node.id !== 'classify' && node.id !== 'kb' && node.id !== 'voice'
-                && node.id !== ACTIVE_BRANCH;
+              // Dim only branch nodes (not in active branch path) — generic across workflows
+              const branchNodeIds = wf.edges
+                .filter((e) => e.branch && e.branch !== wf.activeBranch)
+                .flatMap((e) => [e.from, e.to])
+                .filter((id) => !wf.edges.some((e) => !e.branch && (e.from === id || e.to === id)));
+              const isDimmed = branchNodeIds.includes(node.id) && !isActive;
               return (
                 <motion.div
-                  key={node.id}
+                  key={`${activeWorkflowId}-${node.id}`}
                   className="absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-1.5 pointer-events-none"
                   style={{ left: `${node.x}%`, top: `${node.y}%` }}
                   animate={{
@@ -380,7 +516,7 @@ export default function Agents() {
               className="inline-flex items-center gap-2 aura-bg-vital text-bg-deep font-mono text-xs md:text-sm font-bold uppercase tracking-wider px-5 py-2.5 md:px-7 md:py-3.5 rounded-full shadow-[0_0_30px_-5px_rgb(232_121_249/0.55)] hover:shadow-[0_0_45px_-5px_rgb(232_121_249/0.9)] transition-shadow disabled:opacity-50 disabled:cursor-not-allowed"
               style={{ backgroundSize: '200% auto' }}
             >
-              {isRunning ? `${stepIdx + 1}/${tracePlan.length}` : t('agentRun')}
+              {isRunning ? `${stepIdx + 1}/${wf.tracePlan.length}` : t('agentRun')}
               {!isRunning && <FiArrowRight className="text-base md:text-lg" />}
             </motion.button>
           </div>
@@ -388,10 +524,10 @@ export default function Agents() {
 
         {/* Demo */}
         <motion.div
-          initial={{ opacity: 0, x: 30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          key={`demo-${activeWorkflowId}`}
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
           className="relative bg-bg-surface/40 backdrop-blur-sm border border-border-subtle rounded-3xl p-6 md:p-6 flex flex-col"
           style={{ boxShadow: '0 0 40px -15px rgb(99 102 241 / 0.2)' }}
         >
@@ -400,16 +536,15 @@ export default function Agents() {
               <FiTerminal className="text-aura-aether-mid" />
               {t('agentDemoTitle')}
             </h3>
-            {/* Mobile-only status — desktop ma to w headerze diagramu razem z buttonem URUCHOM */}
             <span className="md:hidden font-mono text-[9px] uppercase tracking-[0.18em] text-text-muted">
-              {isRunning ? `STEP ${stepIdx + 1}/${tracePlan.length}` : 'IDLE'}
+              {isRunning ? `STEP ${stepIdx + 1}/${wf.tracePlan.length}` : 'IDLE'}
             </span>
           </div>
 
           <div className="flex-1 flex flex-col gap-2.5 min-h-[320px]">
-            <AnimatePresence initial={false}>
+            <AnimatePresence initial={false} key={activeWorkflowId}>
               {messages.map((msg) => {
-                const isUser = msg.badge === 'USER';
+                const isUser = msg.badge === 'USER' || msg.badge === 'TELEGRAM';
                 const accent = msg.isFinal
                   ? '#d946ef'
                   : isUser

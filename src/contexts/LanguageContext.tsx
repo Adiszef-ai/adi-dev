@@ -256,6 +256,42 @@ const translations: Translations = {
   agentNodeKB: { pl: 'Knowledge Base', en: 'Knowledge Base' },
   agentNodeVoice: { pl: 'Voice TTS', en: 'Voice TTS' },
 
+  // Agents — workflow tabs + n8n Telegram Ops
+  agentTabThor: { pl: 'Thor · RuneWitch', en: 'Thor · RuneWitch' },
+  agentTabN8n: { pl: 'Telegram Ops · n8n', en: 'Telegram Ops · n8n' },
+  agentN8nArchitecture: { pl: 'Workflow agenta · TG Bot · n8n', en: 'Agent workflow · TG Bot · n8n' },
+  n8nNodeTgIn:    { pl: 'TG Trigger', en: 'TG Trigger' },
+  n8nNodeAuth:    { pl: 'Auth Check', en: 'Auth Check' },
+  n8nNodeRoute:   { pl: 'Route Cmd',  en: 'Route Cmd' },
+  n8nNodeAdd:     { pl: '/add',       en: '/add' },
+  n8nNodeList:    { pl: '/lista',     en: '/list' },
+  n8nNodeDone:    { pl: '/done',      en: '/done' },
+  n8nNodeCal:     { pl: '/cal',       en: '/cal' },
+  n8nNodeVoice:   { pl: 'Voice Msg',  en: 'Voice Msg' },
+  n8nNodeWhisper: { pl: 'Whisper STT', en: 'Whisper STT' },
+  n8nNodeSheets:  { pl: 'Sheets',     en: 'Sheets' },
+  n8nNodeTgOut:   { pl: 'TG Reply',   en: 'TG Reply' },
+  n8nDemo1: {
+    pl: '🎙 [voice msg .ogg · 4s] od @adi',
+    en: '🎙 [voice msg .ogg · 4s] from @adi',
+  },
+  n8nDemo2: {
+    pl: 'Voice file wykryty → routing do Whisper branch',
+    en: 'Voice file detected → routing to Whisper branch',
+  },
+  n8nDemo3: {
+    pl: 'Transkrypcja: "kupić mleko jutro o 10"',
+    en: 'Transcription: "buy milk tomorrow at 10"',
+  },
+  n8nDemo4: {
+    pl: 'Parse: { task: "kupić mleko", time: "10:00", priority: normal } → row appended',
+    en: 'Parsed: { task: "buy milk", time: "10:00", priority: normal } → row appended',
+  },
+  n8nDemo5: {
+    pl: '✅ Zadanie #14 zapisane. Przypomnienie ustawione na jutro 10:00.',
+    en: '✅ Task #14 saved. Reminder scheduled for tomorrow 10:00.',
+  },
+
   // Contact Form
   formName: { pl: 'Imię', en: 'Name' },
   formNamePh: { pl: 'Twoje imię', en: 'Your name' },
