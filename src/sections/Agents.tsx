@@ -208,9 +208,9 @@ export default function Agents() {
   return (
     <section
       id="agents"
-      className="relative px-6 sm:px-10 md:px-20 lg:px-28 xl:px-36 pt-20 pb-32 md:py-24"
+      className="relative px-6 sm:px-10 md:px-20 lg:px-28 xl:px-36 pt-20 pb-32 md:py-16"
     >
-      <div className="w-full max-w-7xl mx-auto flex flex-col gap-5 md:gap-8">
+      <div className="w-full max-w-7xl mx-auto flex flex-col gap-5 md:gap-6">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -233,10 +233,10 @@ export default function Agents() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="relative bg-bg-surface/40 backdrop-blur-sm border border-border-subtle rounded-3xl p-3 md:p-8"
+          className="relative bg-bg-surface/40 backdrop-blur-sm border border-border-subtle rounded-3xl p-3 md:p-6"
           style={{ boxShadow: '0 0 40px -15px rgb(232 121 249 / 0.2)' }}
         >
-          <div className="flex items-center justify-between mb-3 md:mb-5 px-2 md:px-0">
+          <div className="flex items-center justify-between mb-3 md:mb-4 px-2 md:px-0">
             <h3 className="font-mono text-[10px] md:text-xs uppercase tracking-[0.2em] text-text-muted">
               {t('agentArchitecture')}
             </h3>
@@ -245,7 +245,7 @@ export default function Agents() {
             </span>
           </div>
 
-          <div className="relative aspect-[1/1.45] md:aspect-[4/4.2] w-full">
+          <div className="relative aspect-[1/1.45] md:aspect-auto md:h-[440px] w-full">
             <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none">
               <defs>
                 {edges.map((edge) => {
@@ -353,16 +353,38 @@ export default function Agents() {
             })}
           </div>
 
-          {/* URUCHOM — TYLKO mobile, dolny lewy róg kontenera diagramu */}
-          <button
-            onClick={runDemo}
-            disabled={isRunning}
-            className="md:hidden mt-1 inline-flex items-center gap-1.5 aura-bg-vital text-bg-deep font-mono text-[10px] font-semibold uppercase tracking-wider px-3 py-1.5 rounded-full shadow-[0_0_20px_-5px_rgb(232_121_249/0.5)] hover:shadow-[0_0_30px_-5px_rgb(232_121_249/0.8)] transition-shadow disabled:opacity-50 disabled:cursor-not-allowed"
-            style={{ backgroundSize: '200% auto' }}
-          >
-            {isRunning ? `${stepIdx + 1}/${tracePlan.length}` : t('agentRun')}
-            {!isRunning && <FiArrowRight />}
-          </button>
+          {/* URUCHOM — pod diagramem, wycentrowany, pulsujący gdy idle */}
+          <div className="flex justify-center mt-3 md:mt-5">
+            <motion.button
+              type="button"
+              onClick={runDemo}
+              disabled={isRunning}
+              animate={
+                isRunning
+                  ? { scale: 1, boxShadow: '0 0 0 0 rgba(232,121,249,0)' }
+                  : {
+                      scale: [1, 1.06, 1],
+                      boxShadow: [
+                        '0 0 0 0 rgba(232,121,249,0)',
+                        '0 0 0 14px rgba(232,121,249,0.18)',
+                        '0 0 0 0 rgba(232,121,249,0)',
+                      ],
+                    }
+              }
+              transition={
+                isRunning
+                  ? { duration: 0.2 }
+                  : { duration: 1.8, repeat: Infinity, ease: 'easeInOut' }
+              }
+              whileHover={isRunning ? undefined : { scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              className="inline-flex items-center gap-2 aura-bg-vital text-bg-deep font-mono text-xs md:text-sm font-bold uppercase tracking-wider px-5 py-2.5 md:px-7 md:py-3.5 rounded-full shadow-[0_0_30px_-5px_rgb(232_121_249/0.55)] hover:shadow-[0_0_45px_-5px_rgb(232_121_249/0.9)] transition-shadow disabled:opacity-50 disabled:cursor-not-allowed"
+              style={{ backgroundSize: '200% auto' }}
+            >
+              {isRunning ? `${stepIdx + 1}/${tracePlan.length}` : t('agentRun')}
+              {!isRunning && <FiArrowRight className="text-base md:text-lg" />}
+            </motion.button>
+          </div>
         </motion.div>
 
         {/* Demo */}
@@ -371,27 +393,18 @@ export default function Agents() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="relative bg-bg-surface/40 backdrop-blur-sm border border-border-subtle rounded-3xl p-6 md:p-8 flex flex-col"
+          className="relative bg-bg-surface/40 backdrop-blur-sm border border-border-subtle rounded-3xl p-6 md:p-6 flex flex-col"
           style={{ boxShadow: '0 0 40px -15px rgb(99 102 241 / 0.2)' }}
         >
-          <div className="flex items-center justify-between mb-5">
+          <div className="flex items-center justify-between mb-4 md:mb-4">
             <h3 className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-text-muted">
               <FiTerminal className="text-aura-aether-mid" />
               {t('agentDemoTitle')}
             </h3>
-            {/* Mobile: pokazuje status; Desktop: URUCHOM button (oryginalna pozycja) */}
+            {/* Mobile-only status — desktop ma to w headerze diagramu razem z buttonem URUCHOM */}
             <span className="md:hidden font-mono text-[9px] uppercase tracking-[0.18em] text-text-muted">
               {isRunning ? `STEP ${stepIdx + 1}/${tracePlan.length}` : 'IDLE'}
             </span>
-            <button
-              onClick={runDemo}
-              disabled={isRunning}
-              className="hidden md:inline-flex items-center gap-2 aura-bg-vital text-bg-deep font-mono text-xs font-semibold uppercase tracking-wider px-4 py-2 rounded-full shadow-[0_0_20px_-5px_rgb(232_121_249/0.5)] hover:shadow-[0_0_30px_-5px_rgb(232_121_249/0.8)] transition-shadow disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{ backgroundSize: '200% auto' }}
-            >
-              {isRunning ? `${stepIdx + 1}/${tracePlan.length}` : t('agentRun')}
-              {!isRunning && <FiArrowRight />}
-            </button>
           </div>
 
           <div className="flex-1 flex flex-col gap-2.5 min-h-[320px]">
