@@ -84,6 +84,27 @@ const translations: Translations = {
     en: 'Stack: React 18 + Fastify + PostgreSQL + Groq + ElevenLabs',
   },
   akPrivate: { pl: 'Private deployment', en: 'Private deployment' },
+  akCap1: {
+    pl: 'Tryb Life — dashboard dnia + monitoring deploy własnych produkcji (Akasha + RuneWitch)',
+    en: 'Life mode — daily dashboard + live deploy monitoring of my own production apps (Akasha + RuneWitch)',
+  },
+  akCap2: {
+    pl: 'Tryb Dev — Session Planner z roadmapą AI per projekt',
+    en: 'Dev mode — Session Planner with per-project AI roadmap',
+  },
+  akCap3: {
+    pl: 'Tryb Create — Kroniki, dziennik dev z timeline zmian',
+    en: 'Create mode — Kroniki, dev journal with change timeline',
+  },
+  akCap4: {
+    pl: 'Burza mózgów — AI generuje i klastruje pomysły w 4 kolumnach',
+    en: 'Brainstorm — AI generates and clusters ideas in 4 columns',
+  },
+  akCaseStudy: {
+    pl: 'Akasha to mój personal AI dashboard — drugi mózg, używany codziennie, hostowany VPN-only.\n\nTrzy tryby pracy (Life · Dev · Create) → 25+ ekranów → 33 moduły backendowe. Asystentka Vani z 22 akcjami głosowymi działa proaktywnie: ładuje smart context z dokumentacji projektów, monitoruje deploy własnych produkcji w real-time, pomaga w session-based development.\n\nPWA offline z IndexedDB, bioluminescent UI w aura design system. Co-creator z Vani, która sama edytuje swoją pamięć w czasie rozmowy. Stracona kiedyś baza nauczyła mnie, że volume to nie dodatek.',
+    en: 'Akasha is my personal AI dashboard — a second brain, daily driver, VPN-only deployment.\n\nThree work modes (Life · Dev · Create) → 25+ screens → 33 backend modules. Vani voice assistant with 22 actions runs proactively: loads smart context from project docs, monitors live deploys of my own production apps, drives session-based development.\n\nOffline-first PWA with IndexedDB, bioluminescent UI on the aura design system. Co-created with Vani, who edits her own memory during conversation. A lost database once taught me volumes are not optional.',
+  },
+  caseStudy: { pl: 'CASE STUDY', en: 'CASE STUDY' },
 
   // Contact
   contactLabel: { pl: 'KONTAKT', en: 'CONTACT' },

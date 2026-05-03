@@ -7,8 +7,10 @@ import {
   FiChevronLeft,
   FiChevronRight,
   FiRotateCw,
+  FiLayers,
 } from 'react-icons/fi';
 import { useLang } from '../contexts/LanguageContext';
+import ProjectModal, { type CaseStudy } from '../components/ProjectModal';
 
 type Aura = 'aether' | 'vital' | 'flow';
 
@@ -25,6 +27,7 @@ interface ProjectData {
   privateLabelKey?: string;
   aura: Aura;
   image?: string;
+  caseStudy?: CaseStudy;
 }
 
 const projects: ProjectData[] = [
@@ -74,6 +77,16 @@ const projects: ProjectData[] = [
     privateLabelKey: 'akPrivate',
     aura: 'aether',
     image: '/projects/akasha.png',
+    caseStudy: {
+      images: [
+        '/projects/akasha/akasha_main.png',
+        '/projects/akasha/akasha_planer.png',
+        '/projects/akasha/akasha_kroniki.png',
+        '/projects/akasha/akasha_brain_storm.png',
+      ],
+      captionKeys: ['akCap1', 'akCap2', 'akCap3', 'akCap4'],
+      descKey: 'akCaseStudy',
+    },
   },
 ];
 
@@ -183,6 +196,7 @@ interface FaceProps {
   s: typeof auraStyles[Aura];
   t: (key: string) => string;
   onFlip: () => void;
+  onOpenCaseStudy?: () => void;
 }
 
 function FrontFace({ project, s, t, onFlip }: FaceProps) {
@@ -232,7 +246,7 @@ function FrontFace({ project, s, t, onFlip }: FaceProps) {
   );
 }
 
-function BackFace({ project, s, t, onFlip }: FaceProps) {
+function BackFace({ project, s, t, onFlip, onOpenCaseStudy }: FaceProps) {
   return (
     <div
       className={`absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-bg-surface/60 backdrop-blur-sm border border-border-subtle rounded-2xl p-5 overflow-hidden flex flex-col`}
@@ -292,7 +306,7 @@ function BackFace({ project, s, t, onFlip }: FaceProps) {
             </div>
           </div>
 
-          {(project.github || project.privateLabelKey) && (
+          {(project.github || project.privateLabelKey || (project.caseStudy && onOpenCaseStudy)) && (
             <div className="flex flex-wrap items-center gap-2">
               {project.github && (
                 <a
@@ -303,6 +317,15 @@ function BackFace({ project, s, t, onFlip }: FaceProps) {
                 >
                   <FiGithub /> CODE
                 </a>
+              )}
+              {project.caseStudy && onOpenCaseStudy && (
+                <button
+                  type="button"
+                  onClick={onOpenCaseStudy}
+                  className={`inline-flex items-center gap-1.5 font-mono text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md transition-all duration-200 ${s.link}`}
+                >
+                  <FiLayers /> {t('caseStudy')}
+                </button>
               )}
               {project.privateLabelKey && (
                 <span className="inline-flex items-center gap-1.5 font-mono text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md border border-dashed border-border-subtle text-text-muted">
@@ -328,7 +351,17 @@ function BackFace({ project, s, t, onFlip }: FaceProps) {
   );
 }
 
-function FlipCard({ project, t, isActive = true }: { project: ProjectData; t: (key: string) => string; isActive?: boolean }) {
+function FlipCard({
+  project,
+  t,
+  isActive = true,
+  onOpenCaseStudy,
+}: {
+  project: ProjectData;
+  t: (key: string) => string;
+  isActive?: boolean;
+  onOpenCaseStudy?: () => void;
+}) {
   const [flipped, setFlipped] = useState(false);
   const s = auraStyles[project.aura];
 
@@ -348,7 +381,13 @@ function FlipCard({ project, t, isActive = true }: { project: ProjectData; t: (k
         }}
       >
         <FrontFace project={project} s={s} t={t} onFlip={() => setFlipped(true)} />
-        <BackFace project={project} s={s} t={t} onFlip={() => setFlipped(false)} />
+        <BackFace
+          project={project}
+          s={s}
+          t={t}
+          onFlip={() => setFlipped(false)}
+          onOpenCaseStudy={onOpenCaseStudy}
+        />
       </div>
     </div>
   );
@@ -357,6 +396,7 @@ function FlipCard({ project, t, isActive = true }: { project: ProjectData; t: (k
 export default function Projects() {
   const { t } = useLang();
   const [currentIdx, setCurrentIdx] = useState(0);
+  const [modalProject, setModalProject] = useState<ProjectData | null>(null);
 
   const goPrev = useCallback(() => {
     setCurrentIdx((i) => (i - 1 + projects.length) % projects.length);
@@ -390,7 +430,12 @@ export default function Projects() {
         {/* Mobile: pionowy stack — wszystkie projekty pełna karta, naturalna szerokość */}
         <div className="md:hidden flex flex-col gap-6 w-full max-w-[380px] mx-auto pt-2">
           {projects.map((project) => (
-            <FlipCard key={project.id} project={project} t={t} />
+            <FlipCard
+              key={project.id}
+              project={project}
+              t={t}
+              onOpenCaseStudy={project.caseStudy ? () => setModalProject(project) : undefined}
+            />
           ))}
         </div>
 
@@ -431,7 +476,12 @@ export default function Projects() {
                   }}
                   aria-hidden={!isActive}
                 >
-                  <FlipCard project={project} t={t} isActive={isActive} />
+                  <FlipCard
+                    project={project}
+                    t={t}
+                    isActive={isActive}
+                    onOpenCaseStudy={project.caseStudy ? () => setModalProject(project) : undefined}
+                  />
                 </div>
               );
             })}
@@ -467,6 +517,23 @@ export default function Projects() {
           </motion.button>
         </div>
       </div>
+
+      {/* Case study modal — galeria + opis dla projektów z .caseStudy */}
+      <ProjectModal
+        project={
+          modalProject && modalProject.caseStudy
+            ? {
+                title: modalProject.title,
+                category: modalProject.category,
+                tech: modalProject.tech,
+                privateLabelKey: modalProject.privateLabelKey,
+                aura: modalProject.aura,
+                caseStudy: modalProject.caseStudy,
+              }
+            : null
+        }
+        onClose={() => setModalProject(null)}
+      />
     </section>
   );
 }
