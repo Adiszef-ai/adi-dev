@@ -188,6 +188,8 @@ const translations: Translations = {
   certIssuer5: { pl: 'Kurs online', en: 'Online Course' },
   certTitle6: { pl: 'AI Agents & LLM Applications', en: 'AI Agents & LLM Applications' },
   certIssuer6: { pl: 'W trakcie', en: 'In progress' },
+  certTitle7: { pl: 'Tworzenie i projektowanie produktów AI', en: 'Building & Designing AI Products' },
+  certIssuer7: { pl: 'imprv · Maciej Sobczak', en: 'imprv · Maciej Sobczak' },
 
   // Tech Radar
   radarLabel: { pl: 'TECH RADAR', en: 'TECH RADAR' },

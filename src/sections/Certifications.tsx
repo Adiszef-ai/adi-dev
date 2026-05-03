@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { FiAward, FiCalendar, FiExternalLink } from 'react-icons/fi';
 import { SiPython, SiReact, SiDocker } from 'react-icons/si';
-import { TbBrain, TbRobot } from 'react-icons/tb';
+import { TbBrain, TbRobot, TbRocket } from 'react-icons/tb';
 import type { ReactNode } from 'react';
 import { useLang } from '../contexts/LanguageContext';
 
@@ -93,6 +93,16 @@ const certifications: Certification[] = [
     icon: <TbRobot />,
     url: '/certificates/dwthon-agentic.pdf',
     tags: ['Agentic AI', 'OpenClaw', 'Memory', 'Custom Skills'],
+  },
+  {
+    id: 'imprv-product-ai',
+    titleKey: 'certTitle7',
+    issuerKey: 'certIssuer7',
+    date: 'May 2026',
+    aura: 'vital',
+    icon: <TbRocket />,
+    url: '/certificates/tworzenie-i-projektowani-prod-ai.pdf',
+    tags: ['AI Products', 'Product Design', 'Strategy', 'MVP'],
   },
   {
     id: 'docker',
