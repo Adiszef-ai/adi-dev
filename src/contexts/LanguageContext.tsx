@@ -226,7 +226,7 @@ const translations: Translations = {
   agentDemoTitle: { pl: 'Live trace', en: 'Live trace' },
   agentRun: { pl: 'Uruchom', en: 'Run' },
   agentClickRun: { pl: 'Kliknij "Uruchom" żeby przejść trace przez wszystkie nody', en: 'Click "Run" to trace through all nodes' },
-  agentStatus: { pl: 'RuneWitch · 17 bogów · 7 języków · ElevenLabs Conversational AI', en: 'RuneWitch · 17 gods · 7 languages · ElevenLabs Conversational AI' },
+  agentStatus: { pl: 'RuneWitch · 17 bogów · 6 języków · ElevenLabs Conversational AI', en: 'RuneWitch · 17 gods · 6 languages · ElevenLabs Conversational AI' },
   agentDemo1: {
     pl: 'Loki, opowiedz mi jak ukradłeś włosy Sif',
     en: "Loki, tell me how you stole Sif's hair",
@@ -290,6 +290,10 @@ const translations: Translations = {
   n8nDemo5: {
     pl: '✅ Zadanie #14 zapisane. Przypomnienie ustawione na jutro 10:00.',
     en: '✅ Task #14 saved. Reminder scheduled for tomorrow 10:00.',
+  },
+  n8nStatus: {
+    pl: 'n8n self-hosted · Telegram Bot · Google Sheets/Calendar · OpenAI Whisper',
+    en: 'n8n self-hosted · Telegram Bot · Google Sheets/Calendar · OpenAI Whisper',
   },
 
   // Contact Form

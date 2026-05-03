@@ -38,6 +38,7 @@ interface Workflow {
   id: WorkflowId;
   labelKey: string;
   archKey: string;
+  statusKey: string;
   nodesDesktop: NodeDef[];
   nodesMobile: NodeDef[];
   edges: EdgeDef[];
@@ -156,6 +157,7 @@ const workflows: Record<WorkflowId, Workflow> = {
     id: 'thor',
     labelKey: 'agentTabThor',
     archKey: 'agentArchitecture',
+    statusKey: 'agentStatus',
     nodesDesktop: thorNodesDesktop,
     nodesMobile: thorNodesMobile,
     edges: thorEdges,
@@ -166,6 +168,7 @@ const workflows: Record<WorkflowId, Workflow> = {
     id: 'n8n',
     labelKey: 'agentTabN8n',
     archKey: 'agentN8nArchitecture',
+    statusKey: 'n8nStatus',
     nodesDesktop: n8nNodesDesktop,
     nodesMobile: n8nNodesMobile,
     edges: n8nEdges,
@@ -599,7 +602,7 @@ export default function Agents() {
               <span className={`relative inline-flex h-2 w-2 rounded-full ${isRunning ? 'bg-aura-vital-mid' : 'bg-success'}`} />
             </span>
             <span className="font-mono text-[10px] uppercase tracking-widest text-text-muted">
-              {t('agentStatus')}
+              {t(wf.statusKey)}
             </span>
           </div>
         </motion.div>
