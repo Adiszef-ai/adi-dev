@@ -319,13 +319,26 @@ function BackFace({ project, s, t, onFlip, onOpenCaseStudy }: FaceProps) {
                 </a>
               )}
               {project.caseStudy && onOpenCaseStudy && (
-                <button
+                <motion.button
                   type="button"
                   onClick={onOpenCaseStudy}
-                  className={`inline-flex items-center gap-1.5 font-mono text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md transition-all duration-200 ${s.link}`}
+                  animate={{
+                    scale: [1, 1.04, 1],
+                    boxShadow: [
+                      '0 0 0 0 rgba(99,102,241,0)',
+                      '0 0 0 10px rgba(99,102,241,0.18)',
+                      '0 0 0 0 rgba(99,102,241,0)',
+                    ],
+                  }}
+                  transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                  whileHover={{ scale: 1.08 }}
+                  whileTap={{ scale: 0.96 }}
+                  className={`inline-flex items-center gap-2 aura-bg-${project.aura} text-bg-deep font-mono text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-full shadow-[0_0_25px_-5px_rgb(99_102_241/0.55)] hover:shadow-[0_0_40px_-5px_rgb(99_102_241/0.85)] transition-shadow`}
+                  style={{ backgroundSize: '200% auto' }}
                 >
-                  <FiLayers /> {t('caseStudy')}
-                </button>
+                  <FiLayers className="text-sm" /> {t('caseStudy')}
+                  <FiArrowRight className="text-sm" />
+                </motion.button>
               )}
               {project.privateLabelKey && (
                 <span className="inline-flex items-center gap-1.5 font-mono text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md border border-dashed border-border-subtle text-text-muted">

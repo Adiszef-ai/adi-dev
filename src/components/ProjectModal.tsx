@@ -140,8 +140,8 @@ export default function ProjectModal({
           <div className="flex flex-col lg:flex-row min-h-0 flex-1 overflow-y-auto lg:overflow-hidden">
             {/* Gallery (left ~65%) */}
             <div className="relative lg:w-[64%] shrink-0 bg-bg-deep flex flex-col">
-              {/* Main image */}
-              <div className="relative w-full aspect-[7/4] bg-bg-deep overflow-hidden">
+              {/* Main image — group/img dla hover-fade strzałek */}
+              <div className="group/img relative w-full aspect-[7/4] bg-bg-deep overflow-hidden">
                 <AnimatePresence mode="wait">
                   <motion.img
                     key={project.caseStudy.images[currentImg]}
@@ -149,19 +149,18 @@ export default function ProjectModal({
                     alt={t(project.caseStudy.captionKeys[currentImg])}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
                     transition={{ duration: 0.25 }}
                     className="absolute inset-0 w-full h-full object-cover"
                   />
                 </AnimatePresence>
-                {/* Prev/Next arrows — desktop overlay */}
+                {/* Prev/Next arrows — invisible default, fade-in on image hover (desktop). Mobile: thumbs są primary nav. */}
                 {totalImages > 1 && (
                   <>
                     <button
                       type="button"
                       onClick={goPrev}
                       aria-label="Poprzedni obraz"
-                      className="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-bg-deep/70 backdrop-blur-sm border border-border-subtle text-text-primary hover:bg-bg-elevated transition-colors flex items-center justify-center"
+                      className="absolute left-2 top-1/2 -translate-y-1/2 w-[34px] h-[34px] rounded-full bg-bg-deep/60 backdrop-blur-sm border border-border-subtle/60 text-text-primary opacity-0 group-hover/img:opacity-100 hover:bg-bg-deep/85 hover:border-border-strong transition-all duration-200 flex items-center justify-center text-sm"
                     >
                       <FiChevronLeft />
                     </button>
@@ -169,14 +168,14 @@ export default function ProjectModal({
                       type="button"
                       onClick={goNext}
                       aria-label="Następny obraz"
-                      className="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-bg-deep/70 backdrop-blur-sm border border-border-subtle text-text-primary hover:bg-bg-elevated transition-colors flex items-center justify-center"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 w-[34px] h-[34px] rounded-full bg-bg-deep/60 backdrop-blur-sm border border-border-subtle/60 text-text-primary opacity-0 group-hover/img:opacity-100 hover:bg-bg-deep/85 hover:border-border-strong transition-all duration-200 flex items-center justify-center text-sm"
                     >
                       <FiChevronRight />
                     </button>
                   </>
                 )}
-                {/* Counter */}
-                <div className="absolute bottom-3 right-3 px-2.5 py-1 rounded-md bg-bg-deep/70 backdrop-blur-sm border border-border-subtle font-mono text-[10px] uppercase tracking-wider text-text-secondary">
+                {/* Counter — mniejszy, w rogu */}
+                <div className="absolute bottom-2 right-2 px-2 py-0.5 rounded-md bg-bg-deep/60 backdrop-blur-sm border border-border-subtle/50 font-mono text-[9px] uppercase tracking-wider text-text-secondary/85">
                   {currentImg + 1} / {totalImages}
                 </div>
               </div>
