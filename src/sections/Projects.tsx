@@ -53,7 +53,7 @@ const projects: ProjectData[] = [
     image: '/projects/runewitch.png',
   },
   {
-    id: 'rybaika',
+    id: 'rybai',
     title: 'Rybai',
     category: 'FISHING AI · RAG · GEO',
     roleKey: 'ryRole',
@@ -61,7 +61,7 @@ const projects: ProjectData[] = [
     highlightKey: 'ryHighlight',
     tech: ['React', 'TypeScript (strict)', 'Vite', 'FastAPI', 'PostgreSQL', 'Redis', 'FAISS', 'GPT-4o-mini', 'Vitest'],
     aura: 'flow',
-    image: '/projects/rybaika.png',
+    image: '/projects/rybai.png',
   },
   {
     id: 'akasha',

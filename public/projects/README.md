@@ -4,7 +4,7 @@ Wrzuć tutaj screenshoty/preview obrazki projektów. Nazwy muszą się zgadzać 
 
 - `career-guide.png` — preview Career Guide
 - `runewitch.png` — preview RuneWitch
-- `rybaika.png` — preview Rybaika
+- `rybai.png` — preview Rybai
 - `akasha.png` — preview Akasha (lub usuń pole `image` z definicji projektu jeśli nie chcesz pokazywać)
 
 **Format zalecany:**
