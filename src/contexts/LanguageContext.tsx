@@ -176,12 +176,15 @@ const translations: Translations = {
   certsLabel: { pl: 'CERTYFIKATY', en: 'CERTIFICATIONS' },
   certsTitle: { pl: 'Edukacja i rozwój', en: 'Education & growth' },
   certVerify: { pl: 'Weryfikuj', en: 'Verify' },
+  certViewCourse: { pl: 'Zobacz kurs', en: 'View course' },
   certTitle1: { pl: 'Data Science & AI Masterclass', en: 'Data Science & AI Masterclass' },
   certIssuer1: { pl: 'Grupa Masterclass — elitarny program', en: 'Masterclass Group — elite program' },
   certTitle4: { pl: 'DWthon · Software 3.0 (Agentic AI)', en: 'DWthon · Software 3.0 (Agentic AI)' },
   certIssuer4: { pl: 'DataWorkshop · Honor Code Certificate', en: 'DataWorkshop · Honor Code Certificate' },
   certTitle7: { pl: 'Tworzenie i projektowanie produktów AI', en: 'Building & Designing AI Products' },
   certIssuer7: { pl: 'imprv · Maciej Sobczak', en: 'imprv · Maciej Sobczak' },
+  certTitle8: { pl: 'SQL w Praktyce', en: 'SQL in Practice' },
+  certIssuer8: { pl: 'dbadmin.net.pl · Łukasz', en: 'dbadmin.net.pl · Łukasz' },
 
   // Tech Radar
   radarLabel: { pl: 'TECH RADAR', en: 'TECH RADAR' },

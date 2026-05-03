@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { FiAward, FiCalendar, FiExternalLink } from 'react-icons/fi';
-import { TbBrain, TbRobot, TbRocket } from 'react-icons/tb';
+import { TbBrain, TbRobot, TbRocket, TbDatabase } from 'react-icons/tb';
 import type { ReactNode } from 'react';
 import { useLang } from '../contexts/LanguageContext';
 
@@ -84,6 +84,16 @@ const certifications: Certification[] = [
     icon: <TbRocket />,
     url: '/certificates/tworzenie-i-projektowani-prod-ai.pdf',
     tags: ['AI Products', 'Product Design', 'Strategy', 'MVP'],
+  },
+  {
+    id: 'sql-praktyce',
+    titleKey: 'certTitle8',
+    issuerKey: 'certIssuer8',
+    date: 'Jan 2025',
+    aura: 'aether',
+    icon: <TbDatabase />,
+    url: 'https://dbadmin.net.pl/courses/sql-w-praktyce/',
+    tags: ['SQL', 'JOIN', 'NULL', 'Aggregations'],
   },
 ];
 
@@ -176,7 +186,7 @@ export default function Certifications() {
                     rel="noopener noreferrer"
                     className={`inline-flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md transition-colors ${s.link}`}
                   >
-                    <FiExternalLink /> {t('certVerify')}
+                    <FiExternalLink /> {cert.url.endsWith('.pdf') ? t('certVerify') : t('certViewCourse')}
                   </a>
                 )}
               </div>
