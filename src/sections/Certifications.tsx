@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import { FiAward, FiCalendar, FiExternalLink } from 'react-icons/fi';
-import { SiPython, SiReact, SiDocker } from 'react-icons/si';
 import { TbBrain, TbRobot, TbRocket } from 'react-icons/tb';
 import type { ReactNode } from 'react';
 import { useLang } from '../contexts/LanguageContext';
@@ -67,24 +66,6 @@ const certifications: Certification[] = [
     tags: ['Data Science', 'AI', 'ML', 'Python'],
   },
   {
-    id: 'react',
-    titleKey: 'certTitle2',
-    issuerKey: 'certIssuer2',
-    date: '2024',
-    aura: 'aether',
-    icon: <SiReact />,
-    tags: ['React', 'TypeScript', 'Hooks', 'State Management'],
-  },
-  {
-    id: 'python-ds',
-    titleKey: 'certTitle3',
-    issuerKey: 'certIssuer3',
-    date: '2024',
-    aura: 'flow',
-    icon: <SiPython />,
-    tags: ['Python', 'Pandas', 'NumPy', 'Matplotlib'],
-  },
-  {
     id: 'dwthon-agentic',
     titleKey: 'certTitle4',
     issuerKey: 'certIssuer4',
@@ -103,24 +84,6 @@ const certifications: Certification[] = [
     icon: <TbRocket />,
     url: '/certificates/tworzenie-i-projektowani-prod-ai.pdf',
     tags: ['AI Products', 'Product Design', 'Strategy', 'MVP'],
-  },
-  {
-    id: 'docker',
-    titleKey: 'certTitle5',
-    issuerKey: 'certIssuer5',
-    date: '2025',
-    aura: 'aether',
-    icon: <SiDocker />,
-    tags: ['Docker', 'Compose', 'CI/CD', 'Deploy'],
-  },
-  {
-    id: 'ai-agents',
-    titleKey: 'certTitle6',
-    issuerKey: 'certIssuer6',
-    date: '2025',
-    aura: 'vital',
-    icon: <TbRobot />,
-    tags: ['LLM', 'Agents', 'RAG', 'Embeddings'],
   },
 ];
 
