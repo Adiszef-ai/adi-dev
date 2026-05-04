@@ -86,12 +86,12 @@ const translations: Translations = {
     en: 'Elder Futhark — pick from 24 runes of the ancient alphabet',
   },
   rwCap3: {
-    pl: 'Panel Patrona — postępy, ranking relacji, ścieżka treningowa',
-    en: 'Patron panel — progress, relationship ranking, training path',
+    pl: 'Osiągnięcia — postępy, statystyki, odznaki za interakcje z bogami',
+    en: 'Achievements — progress, stats, badges earned via interactions with gods',
   },
   rwCap4: {
-    pl: 'Tradycje runiczne — wiedza pogrupowana po szkołach i kulturach',
-    en: 'Rune traditions — knowledge grouped by schools and cultures',
+    pl: 'Wyniki układu run — interpretacja per bóg z mitologicznym kontekstem',
+    en: 'Rune layout results — per-god interpretation with mythological context',
   },
   rwCaseStudy: {
     pl: 'RuneWitch to mój solo founder project — mitologia nordycka × generative AI. 1.5 roku dev end-to-end: backend, frontend, design, deploy, marketing, copy. Wszystko sam.\n\n47 bogów nordyckich (17 aktywnych) z autorskimi promptami i głosami ElevenLabs. 24 układy runiczne Elder Futhark, każdy z własną interpretacją per bóg. System Patrona z długoterminową pamięcią — 5 nordyckich poziomów relacji (Framandi → Kunningi → Vinr → Náinn → Fylgja) z mechanizmem decay; bóg pamięta co mówiłeś poprzednim razem.\n\n6 języków UI (PL/EN/DE/SV/NO/IS) z native voice per język. Multi-provider AI z auto-fallback (Groq → Gemini → OpenAI) — gdy jedno API pada, system jedzie dalej. Blue-green deployment na Hetznerze, monitoring 24/7 w Akashy. Kiedyś straciłem prod-database przez brakujący Docker volume — od tamtej pory volumes to first-class citizen.',
