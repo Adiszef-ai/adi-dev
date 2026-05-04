@@ -43,8 +43,11 @@ const projects: ProjectData[] = [
     aura: 'vital',
     image: '/projects/career-guide.png',
     caseStudy: {
-      images: ['/projects/career-guide.png'],
-      captionKeys: ['cgCap1'],
+      images: [
+        '/projects/career-guide/career_1.png',
+        '/projects/career-guide/career_2.png',
+      ],
+      captionKeys: ['cgCap1', 'cgCap2'],
       descKey: 'cgCaseStudy',
     },
   },
@@ -60,8 +63,13 @@ const projects: ProjectData[] = [
     aura: 'aether',
     image: '/projects/runewitch.png',
     caseStudy: {
-      images: ['/projects/runewitch.png'],
-      captionKeys: ['rwCap1'],
+      images: [
+        '/projects/rune-witch/rw-1.png',
+        '/projects/rune-witch/rw-2.png',
+        '/projects/rune-witch/rw-3.png',
+        '/projects/rune-witch/rw-4.png',
+      ],
+      captionKeys: ['rwCap1', 'rwCap2', 'rwCap3', 'rwCap4'],
       descKey: 'rwCaseStudy',
     },
   },

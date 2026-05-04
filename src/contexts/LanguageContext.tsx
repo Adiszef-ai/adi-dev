@@ -54,6 +54,10 @@ const translations: Translations = {
     pl: 'Career Guide — landing produkcyjny z Avi i Profile Matcherem',
     en: 'Career Guide — production landing with Avi and Profile Matcher',
   },
+  cgCap2: {
+    pl: 'Profile Matcher — engine 5 matcherów (Tech / Exp / Soft / Loc / Lang) na żywo',
+    en: 'Profile Matcher — 5-matcher engine (Tech / Exp / Soft / Loc / Lang) live',
+  },
   cgCaseStudy: {
     pl: 'Career Guide to platforma matchująca kandydatów IT z ofertami pracy. Co-creator w Crait P.S.A. (3-osobowy core team), moje rejony to silnik matchowania, Profile Matcher i avatar Avi.\n\nProfileVector (v1.0 → v1.3) — autorski silnik wektoryzacji profili kandydatów. Engine 5 matcherów z wagami dobranymi po pięćdziesięciu iteracjach: Tech 30% / Exp 25% / Soft 18% / Loc 15% / Lang 12%. ThreadPoolExecutor pod scoringiem żeby trzymać latencję poniżej sekundy przy 397 ofertach w produkcji.\n\nProfile Matcher: ~200 komponentów React, strict TS, semantic design tokens. Avi — avatar 3D (Blender + lip-sync) jako conversational guide. Landing page od zera w trzy dni przed launchem.',
     en: 'Career Guide is a platform matching IT candidates with job offers. Co-creator at Crait P.S.A. (3-person core team), my turf is the matching engine, Profile Matcher and the Avi avatar.\n\nProfileVector (v1.0 → v1.3) — custom profile vectorization engine. 5-matcher scoring engine with weights tuned over fifty iterations: Tech 30% / Exp 25% / Soft 18% / Loc 15% / Lang 12%. ThreadPoolExecutor under scoring to keep latency under one second at 397 production offers.\n\nProfile Matcher: ~200 React components, strict TS, semantic design tokens. Avi — 3D avatar (Blender + lip-sync) as a conversational guide. Landing page from scratch in three days before launch.',
@@ -72,6 +76,18 @@ const translations: Translations = {
   rwCap1: {
     pl: 'RuneWitch — wybór boga, układ runiczny, odczyt głosem ElevenLabs',
     en: 'RuneWitch — pick a god, rune layout, ElevenLabs voice reading',
+  },
+  rwCap2: {
+    pl: 'Galeria 47 bogów nordyckich (17 aktywnych) z autorskimi promptami',
+    en: 'Gallery of 47 Norse gods (17 active) with custom prompts',
+  },
+  rwCap3: {
+    pl: '24 układy runiczne Elder Futhark z interpretacją per bóg',
+    en: '24 Elder Futhark rune layouts with per-god interpretation',
+  },
+  rwCap4: {
+    pl: 'System Patrona — 5 poziomów relacji (Framandi → Fylgja) z mechanizmem decay',
+    en: 'Patron System — 5 relationship tiers (Framandi → Fylgja) with decay',
   },
   rwCaseStudy: {
     pl: 'RuneWitch to mój solo founder project — mitologia nordycka × generative AI. 1.5 roku dev end-to-end: backend, frontend, design, deploy, marketing, copy. Wszystko sam.\n\n47 bogów nordyckich (17 aktywnych) z autorskimi promptami i głosami ElevenLabs. 24 układy runiczne Elder Futhark, każdy z własną interpretacją per bóg. System Patrona z długoterminową pamięcią — 5 nordyckich poziomów relacji (Framandi → Kunningi → Vinr → Náinn → Fylgja) z mechanizmem decay; bóg pamięta co mówiłeś poprzednim razem.\n\n6 języków UI (PL/EN/DE/SV/NO/IS) z native voice per język. Multi-provider AI z auto-fallback (Groq → Gemini → OpenAI) — gdy jedno API pada, system jedzie dalej. Blue-green deployment na Hetznerze, monitoring 24/7 w Akashy. Kiedyś straciłem prod-database przez brakujący Docker volume — od tamtej pory volumes to first-class citizen.',
