@@ -319,7 +319,7 @@ export default function Agents() {
   return (
     <section
       id="agents"
-      className="relative px-6 sm:px-10 md:px-20 lg:px-28 xl:px-36 pt-20 pb-32 md:py-16"
+      className="relative px-6 sm:px-10 md:px-16 lg:px-20 xl:px-24 pt-20 pb-32 md:py-16"
     >
       <div className="w-full max-w-6xl mx-auto flex flex-col gap-5 md:gap-6">
       <motion.div

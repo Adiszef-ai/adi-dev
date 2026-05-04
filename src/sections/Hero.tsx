@@ -127,10 +127,10 @@ interface CounterDef {
 }
 
 const counters: CounterDef[] = [
-  { icon: <FiCode />, target: 167000, suffix: '+', labelKey: 'aboutLines', aura: 'vital' },
+  { icon: <FiCode />, target: 115000, suffix: '+', labelKey: 'aboutLines', aura: 'vital' },
   { icon: <FiCpu />, target: 4, suffix: '', labelKey: 'aboutApps', aura: 'aether' },
   { icon: <FiGlobe />, target: 6, suffix: '', labelKey: 'aboutLangs', aura: 'flow' },
-  { icon: <FiAward />, target: 200, suffix: '+', labelKey: 'aboutCommits', aura: 'aether' },
+  { icon: <FiAward />, target: 3000, suffix: '+', labelKey: 'aboutCommits', aura: 'aether' },
 ];
 
 const counterAuraStyles: Record<Aura, { iconColor: string; blob: string; border: string; shadow: string }> = {
@@ -160,7 +160,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative px-6 sm:px-10 md:px-20 lg:px-28 xl:px-36 pt-24 pb-32 md:pt-12 md:pb-16 overflow-hidden"
+      className="relative px-6 sm:px-10 md:px-16 lg:px-20 xl:px-24 pt-24 pb-32 md:pt-12 md:pb-16 overflow-hidden"
     >
       <div className="relative z-10 w-full max-w-5xl mx-auto flex flex-col gap-5 md:gap-4">
 

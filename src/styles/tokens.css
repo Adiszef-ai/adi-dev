@@ -16,8 +16,12 @@
    Tailwind v4 @theme directive
    ============================================================ */
 
-@theme {
-  /* ===== AURA SYSTEM (3 gradients × 3 stops) ===== */
+/* ============================================================
+   COLOR TOKENS jako CSS variables — runtime, theme-switchable.
+   Default values = dark mode. Light mode override w :root[data-theme="light"].
+   ============================================================ */
+:root {
+  /* AURA */
   --color-aura-aether-start: #22d3ee;
   --color-aura-aether-mid:   #6366f1;
   --color-aura-aether-end:   #d946ef;
@@ -30,25 +34,53 @@
   --color-aura-flow-mid:     #f472b6;
   --color-aura-flow-end:     #fbbf24;
 
-  /* ===== BAZOWA CIEMNOŚĆ ===== */
+  /* BAZOWA CIEMNOŚĆ */
   --color-bg-deep:           #08070d;
   --color-bg-surface:        #13111c;
   --color-bg-elevated:       #1c1a2a;
   --color-bg-glass:          rgb(28 26 42 / 0.6);
 
-  /* ===== NEUTRALS ===== */
+  /* NEUTRALS */
   --color-text-primary:      #f8f7fa;
   --color-text-secondary:    #a8a5b8;
   --color-text-muted:        #6b6678;
   --color-border-subtle:     #2e2a3d;
   --color-border-strong:     #4a4458;
 
-  /* ===== SEMANTIC ===== */
+  /* SEMANTIC */
   --color-success:           #34d399;
   --color-warning:           #fbbf24;
   --color-danger:            #fb7185;
   --color-info:              #22d3ee;
+}
 
+/* @theme inline → utility classes use var() at runtime, react to theme switch */
+@theme inline {
+  --color-aura-aether-start: var(--color-aura-aether-start);
+  --color-aura-aether-mid:   var(--color-aura-aether-mid);
+  --color-aura-aether-end:   var(--color-aura-aether-end);
+  --color-aura-vital-start:  var(--color-aura-vital-start);
+  --color-aura-vital-mid:    var(--color-aura-vital-mid);
+  --color-aura-vital-end:    var(--color-aura-vital-end);
+  --color-aura-flow-start:   var(--color-aura-flow-start);
+  --color-aura-flow-mid:     var(--color-aura-flow-mid);
+  --color-aura-flow-end:     var(--color-aura-flow-end);
+  --color-bg-deep:           var(--color-bg-deep);
+  --color-bg-surface:        var(--color-bg-surface);
+  --color-bg-elevated:       var(--color-bg-elevated);
+  --color-bg-glass:          var(--color-bg-glass);
+  --color-text-primary:      var(--color-text-primary);
+  --color-text-secondary:    var(--color-text-secondary);
+  --color-text-muted:        var(--color-text-muted);
+  --color-border-subtle:     var(--color-border-subtle);
+  --color-border-strong:     var(--color-border-strong);
+  --color-success:           var(--color-success);
+  --color-warning:           var(--color-warning);
+  --color-danger:            var(--color-danger);
+  --color-info:              var(--color-info);
+}
+
+@theme {
   /* ===== TYPOGRAPHY =====
      Display font alternatives (zamień w jednej linii poniżej):
      - "DM Serif Display" — decisive editorial display, mocny statement (DEFAULT)
@@ -284,12 +316,13 @@ body {
 }
 
 /* Smooth theme transition na podstawowych właściwościach.
-   NIE na transformach/opacity, żeby nie psuć hover/scroll animacji. */
+   NIE na background-color / color — Chrome bug: transition na property
+   z `var(--token)` (gdy --token się zmienia przy theme switch) nie aktualizuje
+   target value, element zostaje na starej barwie. Bez transition theme switch
+   jest natychmiastowy ale poprawny. Dotyczy tylko bg/color; border i shadow OK. */
 html, body, section, article, header, footer, nav, aside, main, div, span, h1, h2, h3, h4, p, a, button, input, textarea {
   transition:
-    background-color 0.35s ease,
     border-color 0.35s ease,
-    color 0.35s ease,
     box-shadow 0.35s ease;
 }
 
