@@ -10,8 +10,8 @@ const translations: Translations = {
   // Hero
   greeting: { pl: 'CZEŚĆ, JESTEM', en: 'HI, I\'M' },
   heroDesc: {
-    pl: 'AI Product Engineer od 2024. Buduję produkty AI od architektury po deploy — sam, w trzyosobowych zespołach, w korpo. Trzy live, każdy inny. Co-creator Career Guide (ProfileVector, engine matchowania, Avi 3D), solo founder RuneWitch, frontend i product owner Rybai.',
-    en: 'AI Product Engineer since 2024. I build AI products from architecture to deploy — solo, in three-person teams, at scale. Three live, each different. Co-creator of Career Guide (ProfileVector, matching engine, Avi 3D), solo founder of RuneWitch, frontend & product owner at Rybai.',
+    pl: 'Buduję produkty AI od białej tablicy po produkcję — solo, w 3-osobowych zespołach i w 16-osobowym teamie Crait. Trzy live, każdy inny: co-creator Career Guide (Crait P.S.A.), solo founder RuneWitch, frontend i product owner Rybai. Konkretne produkty z użytkownikami, nie POC do slajdów.',
+    en: 'I build AI products from whiteboard to production — solo, in 3-person teams, and in a 16-person team at Crait. Three live, each different: co-creator of Career Guide (Crait P.S.A.), solo founder of RuneWitch, frontend & product owner at Rybai. Real products with users, not slideware POCs.',
   },
   viewProjects: { pl: 'Zobacz projekty', en: 'See the projects' },
   contact: { pl: 'Kontakt', en: 'Contact' },
@@ -157,23 +157,22 @@ const translations: Translations = {
     pl: 'Masz coś do zrobienia? Pomysł, problem, projekt? Daj znać. Odpowiadam zawsze.',
     en: 'Got something to build? Idea, problem, project? Reach out. I always reply.',
   },
-  contactEmail: { pl: 'Napisz do mnie', en: 'Write to me' },
 
   // About
   aboutLabel: { pl: 'O MNIE', en: 'ABOUT ME' },
   aboutTitle: { pl: 'Kim jestem', en: 'Who I am' },
   aboutAvailable: { pl: 'Dostępny do współpracy', en: 'Available for work' },
   aboutP1: {
-    pl: 'Samouk z 35-letnią dawką życiowej determinacji. Przez lata pracowałem fizycznie — montowałem rusztowania — ale komputer zawsze ciągnął mocniej. Produkcja muzyczna, Blender, montaż wideo, Photoshop — cyfrowe tworzenie to mój żywioł od dawna. W 2024 wsiadłem do pociągu, na który czekałem: programowanie i AI. Od pierwszego dnia wiedziałem, że to moja droga.',
-    en: 'Self-taught, with thirty-five years of life experience pushing me forward. For years I worked construction — scaffolding — but computers always pulled harder. Music production, Blender, video editing, Photoshop — digital creation has been my element for a long time. In 2024 I caught the train I\'d been waiting for: programming and AI. From day one I knew this was the path.',
+    pl: 'Łapałem się przez lata różnych prac — od rusztowań po dorywcze zlecenia. Komputer ciągnął mnie zawsze do tworzenia — produkcja muzyczna, Blender, montaż wideo, Photoshop. Warsztat estetyczny budowałem od dawna, kod dołożyłem na końcu. We wrześniu 2024 wszedłem w programowanie i AI na poważnie. Uczę się przez budowanie, nie przez podręczniki — pierwszy produkcyjny commit poszedł osiem miesięcy później.',
+    en: 'I worked all kinds of jobs over the years — from scaffolding to odd gigs. Computers always pulled me toward creating — music production, Blender, video editing, Photoshop. The aesthetic toolkit was there long before the code. In September 2024 I went all-in on programming and AI. I learn by building, not by reading manuals — my first production commit shipped eight months later.',
   },
   aboutP2: {
-    pl: 'Dziś jestem AI Product Engineer w Crait P.S.A. W Career Guide mam swoje rejony: ProfileVector (silnik wektoryzacji profili, v1.0 → v1.3), engine 5 matcherów z wagami dobranymi po pięćdziesięciu iteracjach, około 200 komponentów React do Profile Matchera, Avi — avatar 3D z lip-sync. Architektura, backend, model w Blenderze, frontend — wszystko moje, od białej tablicy po produkcję. W roadmapie: 6. matcher (Cultural Fit), 7. (Salary), ProfileVector v1.4 z explainable embeddings.',
-    en: 'Today I work as an AI Product Engineer at Crait P.S.A. At Career Guide I own my turf: ProfileVector (profile vectorization engine, v1.0 → v1.3), the 5-matcher scoring engine with weights tuned over fifty iterations, ~200 React components for the Profile Matcher, and Avi — a 3D avatar with lip-sync. Architecture, backend, Blender model, frontend — all mine, from whiteboard to production. Roadmap: 6th matcher (Cultural Fit), 7th (Salary), ProfileVector v1.4 with explainable embeddings.',
+    pl: 'Dziś AI Product Engineer w Crait P.S.A. (Career Guide), współzałożyciel. Mam tam swoje terytorium — ProfileVector (silnik wektoryzacji profili), engine 5 matcherów z wagami dobranymi po pięćdziesięciu iteracjach, ~200 komponentów Profile Matchera, Avi (avatar 3D, model w Blenderze, lip-sync). Architektura, backend, frontend — od białej tablicy po deploy. 167k linii w produkcji, 252 pliki w 100% moje, #2 contributor z 60+ osób. Peer leader w swoim obszarze, nie CTO — to świadomy wybór.',
+    en: 'Today I\'m an AI Product Engineer at Crait P.S.A. (Career Guide), co-founder. My turf there — ProfileVector (profile vectorization engine), the 5-matcher engine with weights tuned over fifty iterations, ~200 Profile Matcher components, Avi (3D avatar, Blender model, lip-sync). Architecture, backend, frontend — from whiteboard to deploy. 167k lines in production, 252 files 100% mine, #2 contributor out of 60+. Peer leader in my domain, not CTO — a deliberate choice.',
   },
   aboutP3: {
-    pl: 'RuneWitch to mój solo projekt — 1.5 roku roboty od pomysłu po deploy. 47 bogów nordyckich z autorskimi promptami, System Patrona z długoterminową pamięcią, 6 języków UI, blue-green deployment. Równolegle frontend i product owner w Rybai (3-osobowy zespół) i własny AI dashboard, którego używam codziennie. Szukam miejsca, gdzie mogę dalej budować. Solo, w zespole, gdziekolwiek — byle produkty, których ktoś naprawdę używa. Nie POC do prezentacji.',
-    en: 'RuneWitch is my solo project — 1.5 years of work from idea to deploy. 47 Norse gods with custom prompts, Patron System with long-term memory, 6 UI languages, blue-green deployment. In parallel I lead frontend and product on Rybai (3-person team) and run my own AI dashboard daily. I\'m looking for a place where I can keep building. Solo, in a team, anywhere — as long as it\'s products people actually use. Not proof-of-concept slideware.',
+    pl: 'RuneWitch to mój solo projekt — 1.5 roku roboty, 47 bogów nordyckich z AI persona, 6 języków, blue-green deploy na Hetznerze. Mitologia i AI w jednym — bo forma ma znaczenie, estetyka to język, nie dodatek. Równolegle frontend i product owner w Rybai (3-osobowy zespół, polski RAG na FAISS) i własny AI dashboard, którego używam codziennie. Szukam miejsca, gdzie mogę dalej budować rzeczy, których ktoś naprawdę używa. Solo, w zespole, gdziekolwiek — byle nie POC do prezentacji.',
+    en: 'RuneWitch is my solo project — 1.5 years of work, 47 Norse gods with AI personas, 6 languages, blue-green deploy on Hetzner. Mythology and AI in one piece — because form matters, aesthetics is a language, not an add-on. In parallel I lead frontend and product on Rybai (3-person team, Polish RAG on FAISS) and run my own AI dashboard daily. I\'m looking for a place where I can keep building things people actually use. Solo, on a team, anywhere — as long as it\'s not slideware POCs.',
   },
   aboutLines: { pl: 'linii kodu w produkcji', en: 'lines of code in production' },
   aboutApps: { pl: 'projekty live', en: 'live projects' },

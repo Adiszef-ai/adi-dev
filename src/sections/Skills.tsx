@@ -2,10 +2,10 @@ import { motion } from 'framer-motion';
 import { useLang } from '../contexts/LanguageContext';
 import {
   SiPython, SiTypescript, SiJavascript,
-  SiReact, SiNextdotjs, SiFastapi, SiStreamlit,
-  SiOpenai, SiDocker, SiNginx, SiGithubactions,
+  SiReact, SiNextdotjs, SiFastapi, SiStreamlit, SiTailwindcss, SiThreedotjs,
+  SiOpenai, SiDocker, SiNginx, SiGithubactions, SiScikitlearn,
   SiPostgresql, SiSqlite, SiSupabase,
-  SiGit, SiVite, SiFramer, SiPandas, SiHetzner,
+  SiGit, SiVite, SiFramer, SiPandas, SiHetzner, SiBlender,
 } from 'react-icons/si';
 import { FiDatabase, FiCpu, FiCloud, FiTool, FiCode } from 'react-icons/fi';
 import type { ReactNode } from 'react';
@@ -44,6 +44,8 @@ const skillGroups: SkillGroup[] = [
       { name: 'React', icon: <SiReact /> },
       { name: 'Next.js', icon: <SiNextdotjs /> },
       { name: 'FastAPI', icon: <SiFastapi /> },
+      { name: 'Tailwind', icon: <SiTailwindcss /> },
+      { name: 'Three.js', icon: <SiThreedotjs /> },
       { name: 'Streamlit', icon: <SiStreamlit /> },
     ],
   },
@@ -56,6 +58,8 @@ const skillGroups: SkillGroup[] = [
       { name: 'Groq', icon: <FiCpu /> },
       { name: 'Gemini', icon: <FiCpu /> },
       { name: 'ElevenLabs', icon: <FiCpu /> },
+      { name: 'scikit-learn', icon: <SiScikitlearn /> },
+      { name: 'FAISS', icon: <FiCpu /> },
       { name: 'Langfuse', icon: <FiCpu /> },
       { name: 'Embeddings', icon: <FiCpu /> },
     ],
@@ -91,6 +95,7 @@ const skillGroups: SkillGroup[] = [
       { name: 'Vite', icon: <SiVite /> },
       { name: 'Framer Motion', icon: <SiFramer /> },
       { name: 'Pandas', icon: <SiPandas /> },
+      { name: 'Blender', icon: <SiBlender /> },
       { name: 'Alembic', icon: <FiTool /> },
     ],
   },

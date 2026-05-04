@@ -19,10 +19,10 @@ const socialCards = [
     aura: 'vital' as const,
   },
   {
-    href: 'mailto:kontakt@adrianruniewicz.pl',
+    href: 'mailto:adiszefai@gmail.com',
     icon: <FiMail />,
     label: 'Email',
-    valueKey: 'contactEmail',
+    value: 'adiszefai@gmail.com',
     aura: 'flow' as const,
   },
 ];
