@@ -263,15 +263,16 @@ body {
   /* Bazowa jasność — kremowa biel z fioletowym micro-podtonem */
   --color-bg-deep:           #faf8fd;
   --color-bg-surface:        #ffffff;
-  --color-bg-elevated:       #f4f1f9;
+  --color-bg-elevated:       #ece5f5;  /* więcej separacji od bg-deep niż #f4f1f9 */
   --color-bg-glass:          rgb(255 255 255 / 0.7);
 
-  /* Neutrals — odwrócone, ale zachowują fioletowy charakter */
+  /* Neutrals — odwrócone, ale zachowują fioletowy charakter.
+     border-* mocniejsze niż wcześniej żeby krawędzie były widoczne na białym tle. */
   --color-text-primary:      #1a1825;
   --color-text-secondary:    #5b556b;
   --color-text-muted:        #8b8499;
-  --color-border-subtle:     #e6e2ee;
-  --color-border-strong:     #c4bdd2;
+  --color-border-subtle:     #d4cae1;  /* up from #e6e2ee — wyraźna definicja krawędzi */
+  --color-border-strong:     #a89bc4;  /* up from #c4bdd2 — większy kontrast */
 
   /* Aury — przyciemnione/desaturowane na białym żeby nie kłuły w oczy.
      Zachowują charakter (cool/warm/transformative) ale są bardziej "w skórze". */
@@ -313,6 +314,80 @@ body {
 }
 :root[data-theme="light"] .aura-bg-flow {
   background-image: linear-gradient(135deg, #059669 0%, #db2777 50%, #d97706 100%);
+}
+
+/* ============================================================
+   LIGHT MODE — visibility boost dla low-opacity utility classes
+   Komponenty używają wzorca bg-bg-surface/40 + border-border-subtle
+   który pod dark mode (40% białego na ciemnym) daje widoczny lift,
+   ale w light mode (40% białego na białym) jest niewidoczny.
+   Override'ujemy konkretne utility na opaque/mocniejsze wartości.
+   ============================================================ */
+
+/* Card surfaces — opaque w light mode, blur+shadow nadal działają */
+[data-theme="light"] .bg-bg-surface\/30,
+[data-theme="light"] .bg-bg-surface\/40,
+[data-theme="light"] .bg-bg-surface\/60 {
+  background-color: var(--color-bg-surface);
+}
+
+/* Tag pills i metric badges (bg-bg-elevated/40) — opaque elevated */
+[data-theme="light"] .bg-bg-elevated\/40 {
+  background-color: var(--color-bg-elevated);
+}
+
+/* Force border-border-subtle / border-border-strong na dynamic var() —
+   Tailwind v4 generuje te utility ze static dark color, theme switch ich
+   nie aktualizuje. Override z var() rozwiązuje. */
+[data-theme="light"] .border-border-subtle {
+  border-color: var(--color-border-subtle);
+}
+[data-theme="light"] .border-border-strong {
+  border-color: var(--color-border-strong);
+}
+[data-theme="light"] .hover\:border-border-strong:hover {
+  border-color: var(--color-border-strong);
+}
+[data-theme="light"] .border-t.border-border-subtle,
+[data-theme="light"] .border-b.border-border-subtle,
+[data-theme="light"] .border-l.border-border-subtle,
+[data-theme="light"] .border-r.border-border-subtle {
+  border-color: var(--color-border-subtle);
+}
+
+/* Sidebar Settings buttons (PL/LIGHT) — aura-vital w niskich opacity.
+   Bumpujemy do czytelnej fuksji-600 z >0.5 alpha na borderze. */
+[data-theme="light"] .bg-aura-vital-mid\/\[0\.06\] {
+  background-color: rgb(192 38 211 / 0.10);
+}
+[data-theme="light"] .border-aura-vital-mid\/30 {
+  border-color: rgb(192 38 211 / 0.50);
+}
+[data-theme="light"] .hover\:bg-aura-vital-mid\/\[0\.14\]:hover {
+  background-color: rgb(192 38 211 / 0.18);
+}
+[data-theme="light"] .hover\:border-aura-vital-mid\/55:hover {
+  border-color: rgb(192 38 211 / 0.75);
+}
+
+/* Sidebar Nav items — aura-aether w niskich opacity. */
+[data-theme="light"] .bg-aura-aether-mid\/\[0\.04\] {
+  background-color: rgb(79 70 229 / 0.07);
+}
+[data-theme="light"] .border-aura-aether-mid\/20 {
+  border-color: rgb(79 70 229 / 0.40);
+}
+[data-theme="light"] .bg-aura-aether-mid\/10 {
+  background-color: rgb(79 70 229 / 0.14);
+}
+[data-theme="light"] .border-aura-aether-mid\/30 {
+  border-color: rgb(79 70 229 / 0.55);
+}
+[data-theme="light"] .hover\:bg-aura-aether-mid\/10:hover {
+  background-color: rgb(79 70 229 / 0.14);
+}
+[data-theme="light"] .hover\:border-aura-aether-mid\/40:hover {
+  border-color: rgb(79 70 229 / 0.60);
 }
 
 /* Smooth theme transition na podstawowych właściwościach.

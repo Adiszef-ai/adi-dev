@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { useLang } from '../contexts/LanguageContext';
+import { useTheme } from '../contexts/ThemeContext';
 
 type Ring = 'mastered' | 'using' | 'learning' | 'exploring';
 type Quadrant = 0 | 1 | 2 | 3;
@@ -64,7 +65,14 @@ function Hex({
   onHover: (v: boolean) => void;
   size?: 'sm' | 'md';
 }) {
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
   const dims = size === 'sm' ? { w: 56, h: 64, font: 8.5 } : { w: 64, h: 72, font: 9 };
+  // W light mode bumpujemy alpha rim'u (22 → 66) i inner fill na biały zamiast
+  // bladego bg-elevated, żeby hex'y były wyraźnie definiowane na jasnym tle.
+  const idleRimAlpha = isLight ? '66' : '22';
+  const idleInnerBg = isLight ? '#ffffff' : 'var(--color-bg-elevated)';
+  const idleGlow = isLight ? `0 1px 4px ${ring.color}33` : 'none';
   return (
     <motion.div
       onMouseEnter={() => onHover(true)}
@@ -78,8 +86,8 @@ function Hex({
         className="absolute inset-0"
         style={{
           clipPath: HEX_CLIP,
-          background: hovered ? ring.color : `${ring.color}22`,
-          boxShadow: hovered ? `0 0 24px ${ring.glow}` : 'none',
+          background: hovered ? ring.color : `${ring.color}${idleRimAlpha}`,
+          boxShadow: hovered ? `0 0 24px ${ring.glow}` : idleGlow,
           transition: 'background 200ms ease, box-shadow 200ms ease',
         }}
       />
@@ -89,7 +97,7 @@ function Hex({
           clipPath: HEX_CLIP,
           background: hovered
             ? `linear-gradient(140deg, ${ring.color}cc, ${ring.color}66)`
-            : 'var(--color-bg-elevated)',
+            : idleInnerBg,
           transition: 'background 200ms ease',
         }}
       />
@@ -99,7 +107,7 @@ function Hex({
           style={{
             fontSize: `${dims.font}px`,
             color: hovered ? '#0b0918' : ring.color,
-            opacity: hovered ? 1 : ring.intensity,
+            opacity: hovered ? 1 : (isLight ? Math.min(1, ring.intensity + 0.15) : ring.intensity),
             transition: 'color 200ms ease, opacity 200ms ease',
           }}
         >

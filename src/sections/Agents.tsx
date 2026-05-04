@@ -6,6 +6,7 @@ import {
   FiShield, FiPlus, FiCheck, FiCalendar, FiMic, FiSend, FiList,
 } from 'react-icons/fi';
 import { useLang } from '../contexts/LanguageContext';
+import { useTheme } from '../contexts/ThemeContext';
 
 type WorkflowId = 'thor' | 'n8n';
 
@@ -212,6 +213,8 @@ function useIsDesktop(): boolean {
 
 export default function Agents() {
   const { t } = useLang();
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
   const isDesktop = useIsDesktop();
   const [activeWorkflowId, setActiveWorkflowId] = useState<WorkflowId>('thor');
   const wf = workflows[activeWorkflowId];
@@ -404,7 +407,7 @@ export default function Agents() {
                     key={`stroke-${activeWorkflowId}-${edge.id}`}
                     href={`#path-${edge.id}`}
                     fill="none"
-                    stroke={isLive ? '#e879f9' : 'rgba(168, 165, 184, 0.25)'}
+                    stroke={isLive ? '#e879f9' : (isLight ? 'rgba(91, 85, 107, 0.45)' : 'rgba(168, 165, 184, 0.25)')}
                     strokeWidth={isLive ? '0.5' : '0.35'}
                     strokeDasharray={isLive ? 'none' : '1.4,1.2'}
                     opacity={isDimmed ? 0.25 : 1}
@@ -462,9 +465,10 @@ export default function Agents() {
                   transition={{ type: 'spring', stiffness: 300, damping: 22 }}
                 >
                   <motion.div
-                    className={`w-[52px] h-[52px] md:w-12 md:h-12 rounded-2xl flex items-center justify-center border-2 bg-bg-elevated ${isActive ? '' : 'border-border-strong'}`}
+                    className={`w-[52px] h-[52px] md:w-12 md:h-12 rounded-2xl flex items-center justify-center border-2 ${isActive ? '' : 'border-border-strong'}`}
                     style={{
                       color: node.color,
+                      backgroundColor: isLight ? '#ffffff' : 'var(--color-bg-elevated)',
                       ...(isActive ? { borderColor: node.color } : {}),
                     }}
                     animate={{
@@ -474,7 +478,9 @@ export default function Agents() {
                             `0 0 28px -2px ${node.color}aa, 0 0 50px -10px ${node.color}55`,
                             `0 0 14px -3px ${node.color}80`,
                           ]
-                        : `0 0 10px -4px ${node.color}40`,
+                        : (isLight
+                            ? `0 2px 8px -2px ${node.color}55, 0 0 0 1px ${node.color}22`
+                            : `0 0 10px -4px ${node.color}40`),
                     }}
                     transition={{ duration: 1.4, repeat: isActive ? Infinity : 0 }}
                   >
@@ -482,7 +488,7 @@ export default function Agents() {
                   </motion.div>
                   <span
                     className="font-mono text-[9px] uppercase tracking-[0.12em] md:tracking-[0.15em] whitespace-nowrap"
-                    style={{ color: isActive ? node.color : 'rgba(168, 165, 184, 0.7)' }}
+                    style={{ color: isActive ? node.color : (isLight ? 'rgba(91, 85, 107, 0.85)' : 'rgba(168, 165, 184, 0.7)') }}
                   >
                     {t(node.labelKey)}
                   </span>

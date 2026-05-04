@@ -212,12 +212,16 @@ a {
   color: white;
 }
 
-/* Sidebar profile photo — w light mode ciemne tło zdjęcia kontrastuje
-   z jasnym motywem. Radialna maska wycieniowuje krawędzie do warstwy
-   bg-bg-deep pod img (która w light mode jest jasna), plus subtelny
-   lift jasności żeby twarz nie wyglądała na "wyciętą" z ciemności. */
-[data-theme='light'] .profile-photo {
-  -webkit-mask-image: radial-gradient(ellipse at 50% 42%, black 55%, transparent 92%);
-  mask-image: radial-gradient(ellipse at 50% 42%, black 55%, transparent 92%);
-  filter: brightness(1.04) contrast(0.97);
+/* Sidebar profile photo — w light mode nakładka koloru tła na krawędziach.
+   Twarz w środku (transparent w masce) zostaje naturalna, krawędzie
+   maskują ciemne tło zdjęcia kolorem light theme'u. */
+.profile-photo-edges {
+  display: none;
+}
+
+[data-theme='light'] .profile-photo-edges {
+  display: block;
+  background-color: var(--color-bg-deep);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 42%, transparent 50%, black 80%);
+  mask-image: radial-gradient(ellipse at 50% 42%, transparent 50%, black 80%);
 }
