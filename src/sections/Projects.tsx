@@ -64,12 +64,13 @@ const projects: ProjectData[] = [
     image: '/projects/runewitch.png',
     caseStudy: {
       images: [
+        '/projects/rune-witch/rw-0.png',
         '/projects/rune-witch/rw-1.png',
         '/projects/rune-witch/rw-2.png',
         '/projects/rune-witch/rw-3.png',
         '/projects/rune-witch/rw-4.png',
       ],
-      captionKeys: ['rwCap1', 'rwCap2', 'rwCap3', 'rwCap4'],
+      captionKeys: ['rwCap0', 'rwCap1', 'rwCap2', 'rwCap3', 'rwCap4'],
       descKey: 'rwCaseStudy',
     },
   },

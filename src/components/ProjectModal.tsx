@@ -190,7 +190,12 @@ export default function ProjectModal({
                   {t(project.caseStudy.captionKeys[currentImg])}
                 </p>
                 {totalImages > 1 && (
-                  <div className="grid grid-cols-4 gap-2">
+                  <div
+                    className="grid gap-2"
+                    style={{
+                      gridTemplateColumns: `repeat(${Math.min(totalImages, 5)}, minmax(0, 1fr))`,
+                    }}
+                  >
                     {project.caseStudy.images.map((img, i) => (
                       <button
                         key={img}
