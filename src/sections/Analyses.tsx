@@ -228,7 +228,7 @@ export default function Analyses() {
                 className={`absolute -right-10 -top-10 w-32 h-32 blur-3xl rounded-full pointer-events-none transition-colors duration-500 ${s.blob}`}
               />
 
-              <div className="relative h-32 md:h-36 px-5 pt-5 flex items-end">
+              <div className="relative h-20 md:h-24 px-5 pt-4 flex items-end">
                 <MiniChart type={analysis.chartType} color={color} />
               </div>
 
@@ -240,11 +240,11 @@ export default function Analyses() {
                   {t(analysis.descKey)}
                 </p>
 
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mb-4">
-                  {analysis.metrics.map((m, i) => (
+                <div className="grid grid-cols-3 gap-2 mb-4">
+                  {analysis.metrics.map((m) => (
                     <div
                       key={m.label}
-                      className={`bg-bg-elevated/40 border border-border-subtle rounded-lg p-2 text-center ${i === 2 ? 'col-span-2 md:col-span-1' : ''}`}
+                      className="bg-bg-elevated/40 border border-border-subtle rounded-lg p-2 text-center"
                     >
                       <div className={`font-display text-base font-semibold ${s.metricText}`}>
                         {m.value}

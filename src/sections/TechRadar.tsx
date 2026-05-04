@@ -192,12 +192,12 @@ export default function TechRadar() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.55 }}
-          className="hidden md:block relative bg-bg-surface/30 backdrop-blur-sm border border-border-subtle rounded-3xl p-4 md:p-5 overflow-x-auto max-w-3xl mx-auto"
+          className="hidden md:block relative bg-bg-surface/30 backdrop-blur-sm border border-border-subtle rounded-3xl p-4 md:p-5 max-w-5xl mx-auto"
           style={{ boxShadow: '0 0 60px -25px rgb(99 102 241 / 0.25)' }}
         >
           {/* Matrix */}
           <div
-            className="grid gap-x-3 gap-y-1.5 min-w-[600px]"
+            className="grid gap-x-3 gap-y-1.5"
             style={{ gridTemplateColumns: '100px repeat(4, minmax(0, 1fr))' }}
           >
             <div />
