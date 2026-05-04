@@ -109,7 +109,7 @@ export default function Contact() {
                     {card.label}
                   </span>
                   <span className="text-text-primary font-medium">
-                    {card.valueKey ? t(card.valueKey) : card.value}
+                    {card.value}
                   </span>
                 </div>
               </motion.a>
