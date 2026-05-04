@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://adi-dev.vercel.app/sitemap.xml
+Sitemap: https://adi-runiewicz.vercel.app/sitemap.xml
