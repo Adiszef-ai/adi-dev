@@ -50,6 +50,14 @@ const translations: Translations = {
     pl: 'ProfileVector + Matcher Engine + Avi — od białej tablicy po produkcję',
     en: 'ProfileVector + Matcher Engine + Avi — from whiteboard to production',
   },
+  cgCap1: {
+    pl: 'Career Guide — landing produkcyjny z Avi i Profile Matcherem',
+    en: 'Career Guide — production landing with Avi and Profile Matcher',
+  },
+  cgCaseStudy: {
+    pl: 'Career Guide to platforma matchująca kandydatów IT z ofertami pracy. Co-creator w Crait P.S.A. (3-osobowy core team), moje rejony to silnik matchowania, Profile Matcher i avatar Avi.\n\nProfileVector (v1.0 → v1.3) — autorski silnik wektoryzacji profili kandydatów. Engine 5 matcherów z wagami dobranymi po pięćdziesięciu iteracjach: Tech 30% / Exp 25% / Soft 18% / Loc 15% / Lang 12%. ThreadPoolExecutor pod scoringiem żeby trzymać latencję poniżej sekundy przy 397 ofertach w produkcji.\n\nProfile Matcher: ~200 komponentów React, strict TS, semantic design tokens. Avi — avatar 3D (Blender + lip-sync) jako conversational guide. Landing page od zera w trzy dni przed launchem.',
+    en: 'Career Guide is a platform matching IT candidates with job offers. Co-creator at Crait P.S.A. (3-person core team), my turf is the matching engine, Profile Matcher and the Avi avatar.\n\nProfileVector (v1.0 → v1.3) — custom profile vectorization engine. 5-matcher scoring engine with weights tuned over fifty iterations: Tech 30% / Exp 25% / Soft 18% / Loc 15% / Lang 12%. ThreadPoolExecutor under scoring to keep latency under one second at 397 production offers.\n\nProfile Matcher: ~200 React components, strict TS, semantic design tokens. Avi — 3D avatar (Blender + lip-sync) as a conversational guide. Landing page from scratch in three days before launch.',
+  },
 
   // RuneWitch
   rwRole: { pl: 'solo founder · 1.5 roku dev', en: 'solo founder · 1.5 yr dev' },
@@ -61,6 +69,14 @@ const translations: Translations = {
     pl: 'Multi-provider AI (Groq → Gemini → OpenAI) z auto-fallback',
     en: 'Multi-provider AI (Groq → Gemini → OpenAI) with auto-fallback',
   },
+  rwCap1: {
+    pl: 'RuneWitch — wybór boga, układ runiczny, odczyt głosem ElevenLabs',
+    en: 'RuneWitch — pick a god, rune layout, ElevenLabs voice reading',
+  },
+  rwCaseStudy: {
+    pl: 'RuneWitch to mój solo founder project — mitologia nordycka × generative AI. 1.5 roku dev end-to-end: backend, frontend, design, deploy, marketing, copy. Wszystko sam.\n\n47 bogów nordyckich (17 aktywnych) z autorskimi promptami i głosami ElevenLabs. 24 układy runiczne Elder Futhark, każdy z własną interpretacją per bóg. System Patrona z długoterminową pamięcią — 5 nordyckich poziomów relacji (Framandi → Kunningi → Vinr → Náinn → Fylgja) z mechanizmem decay; bóg pamięta co mówiłeś poprzednim razem.\n\n6 języków UI (PL/EN/DE/SV/NO/IS) z native voice per język. Multi-provider AI z auto-fallback (Groq → Gemini → OpenAI) — gdy jedno API pada, system jedzie dalej. Blue-green deployment na Hetznerze, monitoring 24/7 w Akashy. Kiedyś straciłem prod-database przez brakujący Docker volume — od tamtej pory volumes to first-class citizen.',
+    en: 'RuneWitch is my solo-founder project — Norse mythology × generative AI. 1.5 years of end-to-end dev: backend, frontend, design, deploy, marketing, copy. All me.\n\n47 Norse gods (17 active) with custom prompts and ElevenLabs voices. 24 Elder Futhark rune layouts, each with its own interpretation per god. Patron System with long-term memory — 5 Norse relationship tiers (Framandi → Kunningi → Vinr → Náinn → Fylgja) with decay; the god remembers what you said last time.\n\n6 UI languages (PL/EN/DE/SV/NO/IS) with native voice per language. Multi-provider AI with auto-fallback (Groq → Gemini → OpenAI) — when one API dies, the system keeps going. Blue-green deployment on Hetzner, 24/7 monitoring in Akasha. Once lost a prod database to a missing Docker volume — since then volumes are a first-class citizen.',
+  },
 
   // Rybai
   ryRole: { pl: 'frontend + product owner · 3-os. zespół', en: 'frontend + product owner · 3-person team' },
@@ -71,6 +87,14 @@ const translations: Translations = {
   ryHighlight: {
     pl: 'Polski RAG (sdadas/mmlw) + FAISS — wiedza wędkarska na wyciągnięcie ręki',
     en: 'Polish RAG (sdadas/mmlw) + FAISS — angling knowledge at your fingertips',
+  },
+  ryCap1: {
+    pl: 'Rybai — mapa łowisk PZW, RAG po polskim modelu embeddings',
+    en: 'Rybai — PZW fishing spots map, RAG over a Polish embeddings model',
+  },
+  ryCaseStudy: {
+    pl: 'Rybai to inteligentna platforma dla wędkarzy. 3-osobowy zespół (backend AI / frontend / ja jako frontend + product owner). Pracuję z gotowym backendem RAG i biorę odpowiedzialność za UI, roadmapę i priorytety produktowe.\n\nRAG zbudowany na polskim modelu embeddings sdadas/mmlw-roberta (768-dim) + FAISS — działa na polskim slangu wędkarskim, którego anglojęzyczne modele nie rozumieją. 53 gatunki ryb z autorskimi grafikami, 1599 łowisk PZW na interaktywnej mapie, fishing index liczony w czasie rzeczywistym z pogody (temperatura, ciśnienie, faza księżyca).\n\nFrontend: strict TypeScript, semantic design tokens (jeden źródłowy plik kolorów), Vite. 28 z 28 testów Vitest na zielono, GitHub Actions CI/CD blokuje merge przy czerwonym buildzie. Cache w Redis dla queries RAG → druga identyczna jest darmowa.',
+    en: 'Rybai is a smart platform for anglers. 3-person team (AI backend / frontend / me as frontend + product owner). I work with a ready RAG backend and own UI, roadmap and product priorities.\n\nRAG built on the Polish embeddings model sdadas/mmlw-roberta (768-dim) + FAISS — works on Polish angling slang that English-language models do not understand. 53 fish species with custom artwork, 1599 PZW fishing spots on an interactive map, fishing index computed in real time from weather (temperature, pressure, moon phase).\n\nFrontend: strict TypeScript, semantic design tokens (one source-of-truth color file), Vite. 28 of 28 Vitest tests green, GitHub Actions CI/CD blocks merges on a red build. Redis cache on RAG queries → the second identical query is free.',
   },
 
   // Akasha
