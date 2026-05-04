@@ -33,10 +33,10 @@ export default function About() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.55, delay: 0.1 }}
-          className="flex flex-col gap-5 md:gap-7 max-w-3xl mx-auto text-left md:text-center"
+          className="flex flex-col gap-4 md:gap-5 max-w-3xl mx-auto text-left md:text-center"
         >
-          {/* Lead paragraph — większy, jaśniejszy, z aura accent na bordzie */}
-          <p className="font-display text-xl sm:text-2xl md:text-3xl text-text-primary leading-snug font-normal border-l-2 md:border-l-0 md:border-t-2 border-aura-flow-mid/40 pl-4 md:pl-0 md:pt-5 md:pb-2">
+          {/* Lead — subtelnie wyróżniony: jaśniejszy + lekko większy, ale nie konkuruje z h2 */}
+          <p className="text-lg sm:text-xl md:text-xl text-text-primary leading-relaxed">
             {t('aboutP1')}
           </p>
           <p className="text-base sm:text-lg md:text-lg text-text-secondary leading-relaxed">
