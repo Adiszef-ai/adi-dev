@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { FiX, FiChevronLeft, FiChevronRight, FiLock } from 'react-icons/fi';
+import { FiX, FiChevronLeft, FiChevronRight, FiLock, FiExternalLink, FiGithub } from 'react-icons/fi';
 import { useLang } from '../contexts/LanguageContext';
 
 type Aura = 'aether' | 'vital' | 'flow';
@@ -15,6 +15,8 @@ interface ModalProject {
   title: string;
   category: string;
   tech: string[];
+  url?: string;
+  github?: string;
   privateLabelKey?: string;
   aura: Aura;
   caseStudy: CaseStudy;
@@ -174,40 +176,49 @@ export default function ProjectModal({
                     </button>
                   </>
                 )}
-                {/* Counter — mniejszy, w rogu */}
-                <div className="absolute bottom-2 right-2 px-2 py-0.5 rounded-md bg-bg-deep/60 backdrop-blur-sm border border-border-subtle/50 font-mono text-[9px] uppercase tracking-wider text-text-secondary/85">
-                  {currentImg + 1} / {totalImages}
-                </div>
+                {/* Counter — mniejszy, w rogu (tylko gdy >1 obraz) */}
+                {totalImages > 1 && (
+                  <div className="absolute bottom-2 right-2 px-2 py-0.5 rounded-md bg-bg-deep/60 backdrop-blur-sm border border-border-subtle/50 font-mono text-[9px] uppercase tracking-wider text-text-secondary/85">
+                    {currentImg + 1} / {totalImages}
+                  </div>
+                )}
               </div>
 
-              {/* Caption + thumbs */}
+              {/* Caption + thumbs (thumbs tylko gdy >1 obraz) */}
               <div className="px-4 md:px-5 py-3 border-t border-border-subtle bg-bg-surface/40">
-                <p className={`font-mono text-[10px] md:text-xs uppercase tracking-[0.18em] ${a.text} mb-3`}>
+                <p className={`font-mono text-[10px] md:text-xs uppercase tracking-[0.18em] ${a.text} ${totalImages > 1 ? 'mb-3' : ''}`}>
                   {t(project.caseStudy.captionKeys[currentImg])}
                 </p>
-                <div className="grid grid-cols-4 gap-2">
-                  {project.caseStudy.images.map((img, i) => (
-                    <button
-                      key={img}
-                      type="button"
-                      onClick={() => setCurrentImg(i)}
-                      aria-label={`Obraz ${i + 1}`}
-                      aria-current={i === currentImg ? 'true' : undefined}
-                      className={`relative aspect-[7/4] rounded-md overflow-hidden border transition-all duration-200 ${
-                        i === currentImg
-                          ? `border-transparent ring-2 ${a.ring}`
-                          : 'border-border-subtle opacity-55 hover:opacity-100 hover:border-border-strong'
-                      }`}
-                    >
-                      <img
-                        src={img}
-                        alt=""
-                        loading="lazy"
-                        className="absolute inset-0 w-full h-full object-cover"
-                      />
-                    </button>
-                  ))}
-                </div>
+                {totalImages > 1 && (
+                  <div
+                    className="grid gap-2"
+                    style={{
+                      gridTemplateColumns: `repeat(${Math.min(totalImages, 5)}, minmax(0, 1fr))`,
+                    }}
+                  >
+                    {project.caseStudy.images.map((img, i) => (
+                      <button
+                        key={img}
+                        type="button"
+                        onClick={() => setCurrentImg(i)}
+                        aria-label={`Obraz ${i + 1}`}
+                        aria-current={i === currentImg ? 'true' : undefined}
+                        className={`relative aspect-[7/4] rounded-md overflow-hidden border transition-all duration-200 ${
+                          i === currentImg
+                            ? `border-transparent ring-2 ${a.ring}`
+                            : 'border-border-subtle opacity-55 hover:opacity-100 hover:border-border-strong'
+                        }`}
+                      >
+                        <img
+                          src={img}
+                          alt=""
+                          loading="lazy"
+                          className="absolute inset-0 w-full h-full object-cover"
+                        />
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
 
@@ -234,6 +245,31 @@ export default function ProjectModal({
                   ))}
                 </div>
               </div>
+
+              {(project.url || project.github) && (
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {project.url && (
+                    <a
+                      href={project.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`inline-flex items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-wider px-3.5 py-2 rounded-md border ${a.border} ${a.bg} ${a.text} hover:bg-bg-elevated transition-colors`}
+                    >
+                      <FiExternalLink /> Open App
+                    </a>
+                  )}
+                  {project.github && (
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-wider px-3.5 py-2 rounded-md border border-border-strong text-text-primary hover:bg-bg-elevated transition-colors"
+                    >
+                      <FiGithub /> Code
+                    </a>
+                  )}
+                </div>
+              )}
 
               {project.privateLabelKey && (
                 <div className="sm:hidden inline-flex items-center gap-1.5 self-start font-mono text-[10px] uppercase tracking-wider text-text-muted border border-dashed border-border-subtle rounded-md px-2.5 py-1">

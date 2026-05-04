@@ -115,7 +115,7 @@ export default function TechRadar() {
   const [hovered, setHovered] = useState<string | null>(null);
 
   return (
-    <section id="radar" className="relative px-6 sm:px-10 md:px-20 lg:px-28 xl:px-36 pt-20 pb-32 md:py-24">
+    <section id="radar" className="relative px-6 sm:px-10 md:px-16 lg:px-20 xl:px-24 pt-20 pb-32 md:py-24">
       <div className="w-full max-w-7xl mx-auto flex flex-col gap-5 md:gap-8">
 
         {/* Header */}
@@ -192,12 +192,12 @@ export default function TechRadar() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.55 }}
-          className="hidden md:block relative bg-bg-surface/30 backdrop-blur-sm border border-border-subtle rounded-3xl p-4 md:p-5 overflow-x-auto max-w-3xl mx-auto"
+          className="hidden md:block relative bg-bg-surface/30 backdrop-blur-sm border border-border-subtle rounded-3xl p-4 md:p-5 max-w-5xl mx-auto"
           style={{ boxShadow: '0 0 60px -25px rgb(99 102 241 / 0.25)' }}
         >
           {/* Matrix */}
           <div
-            className="grid gap-x-3 gap-y-1.5 min-w-[600px]"
+            className="grid gap-x-3 gap-y-1.5"
             style={{ gridTemplateColumns: '100px repeat(4, minmax(0, 1fr))' }}
           >
             <div />

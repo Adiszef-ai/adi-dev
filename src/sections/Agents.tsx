@@ -319,9 +319,9 @@ export default function Agents() {
   return (
     <section
       id="agents"
-      className="relative px-6 sm:px-10 md:px-20 lg:px-28 xl:px-36 pt-20 pb-32 md:py-16"
+      className="relative px-6 sm:px-10 md:px-16 lg:px-20 xl:px-24 pt-20 pb-32 md:py-16"
     >
-      <div className="w-full max-w-7xl mx-auto flex flex-col gap-5 md:gap-6">
+      <div className="w-full max-w-6xl mx-auto flex flex-col gap-5 md:gap-6">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -361,7 +361,7 @@ export default function Agents() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-6 md:gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-5 md:gap-6 max-w-5xl mx-auto w-full">
         {/* Diagram */}
         <motion.div
           key={`diagram-${activeWorkflowId}`}
@@ -516,11 +516,11 @@ export default function Agents() {
               }
               whileHover={isRunning ? undefined : { scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center gap-2 aura-bg-vital text-bg-deep font-mono text-xs md:text-sm font-bold uppercase tracking-wider px-5 py-2.5 md:px-7 md:py-3.5 rounded-full shadow-[0_0_30px_-5px_rgb(232_121_249/0.55)] hover:shadow-[0_0_45px_-5px_rgb(232_121_249/0.9)] transition-shadow disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex items-center gap-2 aura-bg-vital text-bg-deep font-mono text-xs font-bold uppercase tracking-wider px-4 py-2 md:px-5 md:py-2.5 rounded-full shadow-[0_0_25px_-5px_rgb(232_121_249/0.55)] hover:shadow-[0_0_40px_-5px_rgb(232_121_249/0.9)] transition-shadow disabled:opacity-50 disabled:cursor-not-allowed"
               style={{ backgroundSize: '200% auto' }}
             >
               {isRunning ? `${stepIdx + 1}/${wf.tracePlan.length}` : t('agentRun')}
-              {!isRunning && <FiArrowRight className="text-base md:text-lg" />}
+              {!isRunning && <FiArrowRight className="text-sm md:text-base" />}
             </motion.button>
           </div>
         </motion.div>

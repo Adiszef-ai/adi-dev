@@ -1,13 +1,13 @@
 import { motion } from 'framer-motion';
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import {
   FiArrowRight,
   FiGithub,
   FiLock,
   FiChevronLeft,
   FiChevronRight,
-  FiRotateCw,
   FiLayers,
+  FiExternalLink,
 } from 'react-icons/fi';
 import { useLang } from '../contexts/LanguageContext';
 import ProjectModal, { type CaseStudy } from '../components/ProjectModal';
@@ -42,6 +42,14 @@ const projects: ProjectData[] = [
     url: 'https://careerguide.pl',
     aura: 'vital',
     image: '/projects/career-guide.png',
+    caseStudy: {
+      images: [
+        '/projects/career-guide/career_1.png',
+        '/projects/career-guide/career_2.png',
+      ],
+      captionKeys: ['cgCap1', 'cgCap2'],
+      descKey: 'cgCaseStudy',
+    },
   },
   {
     id: 'runewitch',
@@ -54,6 +62,17 @@ const projects: ProjectData[] = [
     url: 'https://runewitch.app',
     aura: 'aether',
     image: '/projects/runewitch.png',
+    caseStudy: {
+      images: [
+        '/projects/rune-witch/rw-0.png',
+        '/projects/rune-witch/rw-1.png',
+        '/projects/rune-witch/rw-2.png',
+        '/projects/rune-witch/rw-3.png',
+        '/projects/rune-witch/rw-4.png',
+      ],
+      captionKeys: ['rwCap0', 'rwCap1', 'rwCap2', 'rwCap3', 'rwCap4'],
+      descKey: 'rwCaseStudy',
+    },
   },
   {
     id: 'rybai',
@@ -65,6 +84,11 @@ const projects: ProjectData[] = [
     tech: ['React', 'TypeScript (strict)', 'Vite', 'FastAPI', 'PostgreSQL', 'Redis', 'FAISS', 'GPT-4o-mini', 'Vitest'],
     aura: 'flow',
     image: '/projects/rybai.png',
+    caseStudy: {
+      images: ['/projects/rybai.png'],
+      captionKeys: ['ryCap1'],
+      descKey: 'ryCaseStudy',
+    },
   },
   {
     id: 'akasha',
@@ -97,11 +121,9 @@ const auraStyles: Record<Aura, {
   techHover: string;
   border: string;
   blob: string;
-  glow: string;
   link: string;
   shadowVar: string;
-  flipBtn: string;
-  dotActive: string;
+  caseStudyShadow: string;
 }> = {
   aether: {
     dot: 'bg-aura-aether-mid shadow-[0_0_10px_rgb(99_102_241/0.6)]',
@@ -110,11 +132,9 @@ const auraStyles: Record<Aura, {
     techHover: 'hover:border-aura-aether-mid/50 hover:bg-aura-aether-mid/5 hover:text-aura-aether-start',
     border: 'hover:border-aura-aether-mid/40',
     blob: 'bg-aura-aether-mid/15 group-hover:bg-aura-aether-mid/30',
-    glow: 'group-hover:shadow-[0_0_50px_-10px_rgb(99_102_241/0.45),0_0_100px_-30px_rgb(217_70_239/0.25)]',
     link: 'text-aura-aether-start hover:text-aura-aether-mid hover:bg-aura-aether-mid/10',
     shadowVar: '0 0 30px -10px rgb(99 102 241 / 0.2)',
-    flipBtn: 'border-aura-aether-mid/40 text-aura-aether-mid hover:bg-aura-aether-mid/10 hover:border-aura-aether-mid/70',
-    dotActive: 'bg-aura-aether-mid',
+    caseStudyShadow: 'shadow-[0_0_25px_-5px_rgb(99_102_241/0.55)] hover:shadow-[0_0_40px_-5px_rgb(99_102_241/0.85)]',
   },
   vital: {
     dot: 'bg-aura-vital-mid shadow-[0_0_10px_rgb(232_121_249/0.6)]',
@@ -123,11 +143,9 @@ const auraStyles: Record<Aura, {
     techHover: 'hover:border-aura-vital-mid/50 hover:bg-aura-vital-mid/5 hover:text-aura-vital-start',
     border: 'hover:border-aura-vital-mid/40',
     blob: 'bg-aura-vital-mid/15 group-hover:bg-aura-vital-mid/30',
-    glow: 'group-hover:shadow-[0_0_50px_-10px_rgb(232_121_249/0.45),0_0_100px_-30px_rgb(168_85_247/0.25)]',
     link: 'text-aura-vital-start hover:text-aura-vital-mid hover:bg-aura-vital-mid/10',
     shadowVar: '0 0 30px -10px rgb(232 121 249 / 0.2)',
-    flipBtn: 'border-aura-vital-mid/40 text-aura-vital-mid hover:bg-aura-vital-mid/10 hover:border-aura-vital-mid/70',
-    dotActive: 'bg-aura-vital-mid',
+    caseStudyShadow: 'shadow-[0_0_25px_-5px_rgb(232_121_249/0.55)] hover:shadow-[0_0_40px_-5px_rgb(232_121_249/0.85)]',
   },
   flow: {
     dot: 'bg-aura-flow-mid shadow-[0_0_10px_rgb(244_114_182/0.6)]',
@@ -136,11 +154,9 @@ const auraStyles: Record<Aura, {
     techHover: 'hover:border-aura-flow-mid/50 hover:bg-aura-flow-mid/5 hover:text-aura-flow-start',
     border: 'hover:border-aura-flow-mid/40',
     blob: 'bg-aura-flow-mid/15 group-hover:bg-aura-flow-mid/30',
-    glow: 'group-hover:shadow-[0_0_50px_-10px_rgb(244_114_182/0.45),0_0_100px_-30px_rgb(52_211_153/0.25)]',
     link: 'text-aura-flow-start hover:text-aura-flow-mid hover:bg-aura-flow-mid/10',
     shadowVar: '0 0 30px -10px rgb(244 114 182 / 0.2)',
-    flipBtn: 'border-aura-flow-mid/40 text-aura-flow-mid hover:bg-aura-flow-mid/10 hover:border-aura-flow-mid/70',
-    dotActive: 'bg-aura-flow-mid',
+    caseStudyShadow: 'shadow-[0_0_25px_-5px_rgb(244_114_182/0.55)] hover:shadow-[0_0_40px_-5px_rgb(244_114_182/0.85)]',
   },
 };
 
@@ -150,10 +166,10 @@ const auraGradients: Record<Aura, string> = {
   flow: 'linear-gradient(135deg, #34d399 0%, #f472b6 50%, #fbbf24 100%)',
 };
 
-// Carousel geometry — coverflow stack: aktywna karta z przodu, sąsiednie wystają z boku częściowo schowane.
+// Coverflow: aktywna karta z przodu, sąsiednie wystają z boku częściowo schowane.
 const CARD_W = 380;
-const CARD_H = 456;          // aspect 5:6 → 380 * 6/5
-const SHIFT = 170;           // translateX między sąsiadami
+const CARD_H = 540; // wyższe niż 5:6 — single side z highlightem mieści się komfortowo
+const SHIFT = 170;
 
 function ProjectImage({ project }: { project: ProjectData }) {
   const [errored, setErrored] = useState(false);
@@ -191,23 +207,25 @@ function ProjectImage({ project }: { project: ProjectData }) {
   );
 }
 
-interface FaceProps {
+function ProjectCard({
+  project,
+  t,
+  onOpenCaseStudy,
+}: {
   project: ProjectData;
-  s: typeof auraStyles[Aura];
   t: (key: string) => string;
-  onFlip: () => void;
   onOpenCaseStudy?: () => void;
-}
-
-function FrontFace({ project, s, t, onFlip }: FaceProps) {
+}) {
+  const s = auraStyles[project.aura];
   return (
     <div
-      className={`absolute inset-0 [backface-visibility:hidden] bg-bg-surface/60 backdrop-blur-sm border border-border-subtle rounded-2xl p-5 overflow-hidden flex flex-col`}
+      className={`group relative w-full max-w-[380px] mx-auto bg-bg-surface/60 backdrop-blur-sm border border-border-subtle rounded-2xl p-5 overflow-hidden flex flex-col transition-all duration-300 ${s.border}`}
       style={{ boxShadow: s.shadowVar }}
     >
       <div
         className={`absolute -right-12 -top-12 w-40 h-40 blur-3xl rounded-full pointer-events-none ${s.blob}`}
       />
+
       <div className="relative flex flex-col h-full">
         <ProjectImage project={project} />
 
@@ -222,9 +240,7 @@ function FrontFace({ project, s, t, onFlip }: FaceProps) {
           {project.title}
         </h3>
 
-        <span
-          className="inline-block self-start font-mono text-[10px] uppercase tracking-widest px-2 py-0.5 rounded-md border border-border-subtle bg-bg-elevated/30 text-text-secondary mb-2.5"
-        >
+        <span className="inline-block self-start font-mono text-[10px] uppercase tracking-widest px-2 py-0.5 rounded-md border border-border-subtle bg-bg-elevated/30 text-text-secondary mb-2.5">
           {t(project.roleKey)}
         </span>
 
@@ -232,175 +248,76 @@ function FrontFace({ project, s, t, onFlip }: FaceProps) {
           {t(project.descKey)}
         </p>
 
-        <button
-          type="button"
-          onClick={onFlip}
-          className={`mt-auto self-start inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider font-semibold px-3 py-1.5 rounded-md border transition-all duration-200 ${s.flipBtn}`}
-          aria-label="Pokaż szczegóły"
-        >
-          <FiRotateCw />
-          Szczegóły
-        </button>
-      </div>
-    </div>
-  );
-}
+        {project.highlightKey && (
+          <div
+            className={`px-3 py-2 rounded-lg border font-mono text-[11px] leading-relaxed mb-3 ${s.highlight}`}
+          >
+            {t(project.highlightKey)}
+          </div>
+        )}
 
-function BackFace({ project, s, t, onFlip, onOpenCaseStudy }: FaceProps) {
-  return (
-    <div
-      className={`absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-bg-surface/60 backdrop-blur-sm border border-border-subtle rounded-2xl p-5 overflow-hidden flex flex-col`}
-      style={{ boxShadow: s.shadowVar }}
-    >
-      <div
-        className={`absolute -left-12 -top-12 w-40 h-40 blur-3xl rounded-full pointer-events-none ${s.blob}`}
-      />
-      <div className="relative flex flex-col h-full">
-        {/* Image (sama pozycja co na FrontFace) z OPEN APP overlay */}
-        <div className="relative">
-          <ProjectImage project={project} />
+        {/* Stack — kompakt 5 najważniejszych, reszta w modalu */}
+        <div className="flex flex-wrap gap-1.5 mb-4">
+          {project.tech.slice(0, 5).map((tech) => (
+            <span
+              key={tech}
+              className={`px-2 py-0.5 rounded-md border border-border-subtle bg-bg-elevated/40 font-mono text-[10px] text-text-secondary transition-colors duration-200 ${s.techHover}`}
+            >
+              {tech}
+            </span>
+          ))}
+          {project.tech.length > 5 && (
+            <span className="px-2 py-0.5 rounded-md border border-dashed border-border-subtle font-mono text-[10px] text-text-muted">
+              +{project.tech.length - 5}
+            </span>
+          )}
+        </div>
+
+        {/* Action bar — push to bottom */}
+        <div className="mt-auto flex flex-wrap items-center gap-2">
           {project.url && (
             <a
               href={project.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="absolute inset-0 z-10 flex items-center justify-center group/openapp"
+              className="inline-flex items-center gap-1.5 font-mono text-[11px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-md border border-border-strong bg-bg-elevated/60 text-text-primary hover:bg-bg-elevated transition-colors"
             >
-              <span
-                className={`inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-[0.18em] px-5 py-3 rounded-full text-text-primary backdrop-blur-md transition-all duration-300 group-hover/openapp:scale-105`}
-                style={{
-                  background: auraGradients[project.aura],
-                  boxShadow: `0 0 0 1px rgb(255 255 255 / 0.3), 0 8px 32px -8px ${project.aura === 'aether' ? 'rgb(99 102 241 / 0.7)' : project.aura === 'vital' ? 'rgb(232 121 249 / 0.7)' : 'rgb(244 114 182 / 0.7)'}, 0 0 60px -10px rgb(0 0 0 / 0.6)`,
-                }}
-              >
-                OPEN APP
-                <FiArrowRight className="text-base transition-transform duration-300 group-hover/openapp:translate-x-1" />
-              </span>
+              <FiExternalLink /> Open
             </a>
           )}
-        </div>
-
-        {/* Content */}
-        <div className="flex flex-col gap-2.5 mt-2 flex-1 min-h-0">
-          {project.highlightKey && (
-            <div
-              className={`px-3 py-2 rounded-lg border font-mono text-[11px] leading-relaxed ${s.highlight}`}
+          {project.github && (
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`inline-flex items-center gap-1.5 font-mono text-[11px] font-bold uppercase tracking-wider px-3 py-1.5 rounded-md transition-all duration-200 ${s.link}`}
             >
-              {t(project.highlightKey)}
-            </div>
+              <FiGithub /> Code
+            </a>
           )}
-
-          <div>
-            <span className="block font-mono text-[10px] uppercase tracking-[0.2em] text-text-muted mb-1.5">
-              STACK
+          {project.privateLabelKey && (
+            <span className="inline-flex items-center gap-1.5 font-mono text-[10px] font-semibold uppercase tracking-wider px-2 py-1 rounded-md border border-dashed border-border-subtle text-text-muted">
+              <FiLock /> {t(project.privateLabelKey)}
             </span>
-            <div className="flex flex-wrap gap-1.5">
-              {project.tech.map((tech) => (
-                <span
-                  key={tech}
-                  className={`px-2 py-0.5 rounded-md border border-border-subtle bg-bg-elevated/40 font-mono text-[10px] text-text-secondary transition-colors duration-200 ${s.techHover}`}
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {(project.github || project.privateLabelKey || (project.caseStudy && onOpenCaseStudy)) && (
-            <div className="flex flex-wrap items-center gap-2">
-              {project.github && (
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`inline-flex items-center gap-1.5 font-mono text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md transition-all duration-200 ${s.link}`}
-                >
-                  <FiGithub /> CODE
-                </a>
-              )}
-              {project.caseStudy && onOpenCaseStudy && (
-                <motion.button
-                  type="button"
-                  onClick={onOpenCaseStudy}
-                  animate={{
-                    scale: [1, 1.04, 1],
-                    boxShadow: [
-                      '0 0 0 0 rgba(99,102,241,0)',
-                      '0 0 0 10px rgba(99,102,241,0.18)',
-                      '0 0 0 0 rgba(99,102,241,0)',
-                    ],
-                  }}
-                  transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                  whileHover={{ scale: 1.08 }}
-                  whileTap={{ scale: 0.96 }}
-                  className={`inline-flex items-center gap-2 aura-bg-${project.aura} text-bg-deep font-mono text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-full shadow-[0_0_25px_-5px_rgb(99_102_241/0.55)] hover:shadow-[0_0_40px_-5px_rgb(99_102_241/0.85)] transition-shadow`}
-                  style={{ backgroundSize: '200% auto' }}
-                >
-                  <FiLayers className="text-sm" /> {t('caseStudy')}
-                  <FiArrowRight className="text-sm" />
-                </motion.button>
-              )}
-              {project.privateLabelKey && (
-                <span className="inline-flex items-center gap-1.5 font-mono text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md border border-dashed border-border-subtle text-text-muted">
-                  <FiLock /> {t(project.privateLabelKey)}
-                </span>
-              )}
-            </div>
+          )}
+          {project.caseStudy && onOpenCaseStudy && (
+            <motion.button
+              type="button"
+              onClick={onOpenCaseStudy}
+              animate={{
+                scale: [1, 1.04, 1],
+              }}
+              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+              whileHover={{ scale: 1.08 }}
+              whileTap={{ scale: 0.96 }}
+              className={`ml-auto inline-flex items-center gap-2 aura-bg-${project.aura} text-bg-deep font-mono text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-full ${s.caseStudyShadow} transition-shadow`}
+              style={{ backgroundSize: '200% auto' }}
+            >
+              <FiLayers className="text-sm" /> {t('caseStudy')}
+              <FiArrowRight className="text-sm" />
+            </motion.button>
           )}
         </div>
-
-        {/* Return button — prawy dolny róg */}
-        <button
-          type="button"
-          onClick={onFlip}
-          className={`mt-auto self-end inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider font-semibold px-3 py-1.5 rounded-md border transition-all duration-200 ${s.flipBtn}`}
-          aria-label="Wróć"
-        >
-          <FiRotateCw className="rotate-180" />
-          Wróć
-        </button>
-      </div>
-    </div>
-  );
-}
-
-function FlipCard({
-  project,
-  t,
-  isActive = true,
-  onOpenCaseStudy,
-}: {
-  project: ProjectData;
-  t: (key: string) => string;
-  isActive?: boolean;
-  onOpenCaseStudy?: () => void;
-}) {
-  const [flipped, setFlipped] = useState(false);
-  const s = auraStyles[project.aura];
-
-  // Reset flip when card leaves the carousel slot (navigation between projects).
-  useEffect(() => {
-    if (!isActive && flipped) setFlipped(false);
-  }, [isActive, flipped]);
-
-  return (
-    <div className="w-full max-w-[380px] mx-auto" style={{ perspective: '1400px' }}>
-      <div
-        className="relative w-full transition-transform duration-700"
-        style={{
-          aspectRatio: '5 / 6',
-          transformStyle: 'preserve-3d',
-          transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
-        }}
-      >
-        <FrontFace project={project} s={s} t={t} onFlip={() => setFlipped(true)} />
-        <BackFace
-          project={project}
-          s={s}
-          t={t}
-          onFlip={() => setFlipped(false)}
-          onOpenCaseStudy={onOpenCaseStudy}
-        />
       </div>
     </div>
   );
@@ -422,7 +339,7 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className="relative px-6 sm:px-10 md:px-20 lg:px-28 xl:px-36 pt-20 pb-32 md:py-24"
+      className="relative px-6 sm:px-10 md:px-16 lg:px-20 xl:px-24 pt-20 pb-32 md:py-24"
     >
       <div className="w-full max-w-7xl mx-auto flex flex-col gap-5 md:gap-8">
         <motion.div
@@ -440,10 +357,10 @@ export default function Projects() {
           </h2>
         </motion.div>
 
-        {/* Mobile: pionowy stack — wszystkie projekty pełna karta, naturalna szerokość */}
+        {/* Mobile: pionowy stack — naturalnie wyższe karty */}
         <div className="md:hidden flex flex-col gap-6 w-full max-w-[380px] mx-auto pt-2">
           {projects.map((project) => (
-            <FlipCard
+            <ProjectCard
               key={project.id}
               project={project}
               t={t}
@@ -452,7 +369,7 @@ export default function Projects() {
           ))}
         </div>
 
-        {/* Desktop (md+): Coverflow karuzela — aktywna karta z przodu, sąsiednie z boku częściowo schowane */}
+        {/* Desktop (md+): Coverflow karuzela — aktywna karta z przodu */}
         <div
           className="hidden md:block relative w-full mx-auto"
           style={{ maxWidth: `${CARD_W + 4 * SHIFT}px` }}
@@ -462,7 +379,6 @@ export default function Projects() {
             style={{ height: `${CARD_H}px` }}
           >
             {projects.map((project, i) => {
-              // Symetryczny offset (-half ... +half) liczony cyklicznie wokół currentIdx
               const half = Math.floor(projects.length / 2);
               let offset = i - currentIdx;
               if (offset > half) offset -= projects.length;
@@ -489,10 +405,9 @@ export default function Projects() {
                   }}
                   aria-hidden={!isActive}
                 >
-                  <FlipCard
+                  <ProjectCard
                     project={project}
                     t={t}
-                    isActive={isActive}
                     onOpenCaseStudy={project.caseStudy ? () => setModalProject(project) : undefined}
                   />
                 </div>
@@ -500,8 +415,7 @@ export default function Projects() {
             })}
           </div>
 
-          {/* Prev / Next — pulsujące, dobrze widoczne, zastąpiły kropki */}
-          {/* Prev/Next przylegają do active karty (calc 50% - card_half - button - gap) */}
+          {/* Prev / Next */}
           <motion.button
             type="button"
             onClick={goPrev}
@@ -539,6 +453,8 @@ export default function Projects() {
                 title: modalProject.title,
                 category: modalProject.category,
                 tech: modalProject.tech,
+                url: modalProject.url,
+                github: modalProject.github,
                 privateLabelKey: modalProject.privateLabelKey,
                 aura: modalProject.aura,
                 caseStudy: modalProject.caseStudy,

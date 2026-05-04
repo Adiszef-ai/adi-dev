@@ -1,0 +1,17 @@
+{
+  "name": "Adrian Runiewicz — AI Product Engineer",
+  "short_name": "AdrianR",
+  "description": "AI Product Engineer · System Builder. Co-creator Career Guide, solo founder RuneWitch, frontend & PO Rybai, solo dev Akasha.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#08070d",
+  "theme_color": "#08070d",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

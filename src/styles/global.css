@@ -211,3 +211,13 @@ a {
   background: var(--color-aura-vital-mid, #c026d3);
   color: white;
 }
+
+/* Sidebar profile photo — w light mode ciemne tło zdjęcia kontrastuje
+   z jasnym motywem. Radialna maska wycieniowuje krawędzie do warstwy
+   bg-bg-deep pod img (która w light mode jest jasna), plus subtelny
+   lift jasności żeby twarz nie wyglądała na "wyciętą" z ciemności. */
+[data-theme='light'] .profile-photo {
+  -webkit-mask-image: radial-gradient(ellipse at 50% 42%, black 55%, transparent 92%);
+  mask-image: radial-gradient(ellipse at 50% 42%, black 55%, transparent 92%);
+  filter: brightness(1.04) contrast(0.97);
+}

@@ -2,10 +2,10 @@ import { motion } from 'framer-motion';
 import { useLang } from '../contexts/LanguageContext';
 import {
   SiPython, SiTypescript, SiJavascript,
-  SiReact, SiNextdotjs, SiFastapi, SiStreamlit,
-  SiOpenai, SiDocker, SiNginx, SiGithubactions,
+  SiReact, SiNextdotjs, SiFastapi, SiStreamlit, SiTailwindcss, SiThreedotjs,
+  SiOpenai, SiDocker, SiNginx, SiGithubactions, SiScikitlearn,
   SiPostgresql, SiSqlite, SiSupabase,
-  SiGit, SiVite, SiFramer, SiPandas, SiHetzner,
+  SiGit, SiVite, SiFramer, SiPandas, SiHetzner, SiBlender,
 } from 'react-icons/si';
 import { FiDatabase, FiCpu, FiCloud, FiTool, FiCode } from 'react-icons/fi';
 import type { ReactNode } from 'react';
@@ -44,6 +44,8 @@ const skillGroups: SkillGroup[] = [
       { name: 'React', icon: <SiReact /> },
       { name: 'Next.js', icon: <SiNextdotjs /> },
       { name: 'FastAPI', icon: <SiFastapi /> },
+      { name: 'Tailwind', icon: <SiTailwindcss /> },
+      { name: 'Three.js', icon: <SiThreedotjs /> },
       { name: 'Streamlit', icon: <SiStreamlit /> },
     ],
   },
@@ -56,6 +58,8 @@ const skillGroups: SkillGroup[] = [
       { name: 'Groq', icon: <FiCpu /> },
       { name: 'Gemini', icon: <FiCpu /> },
       { name: 'ElevenLabs', icon: <FiCpu /> },
+      { name: 'scikit-learn', icon: <SiScikitlearn /> },
+      { name: 'FAISS', icon: <FiCpu /> },
       { name: 'Langfuse', icon: <FiCpu /> },
       { name: 'Embeddings', icon: <FiCpu /> },
     ],
@@ -91,6 +95,7 @@ const skillGroups: SkillGroup[] = [
       { name: 'Vite', icon: <SiVite /> },
       { name: 'Framer Motion', icon: <SiFramer /> },
       { name: 'Pandas', icon: <SiPandas /> },
+      { name: 'Blender', icon: <SiBlender /> },
       { name: 'Alembic', icon: <FiTool /> },
     ],
   },
@@ -142,7 +147,7 @@ export default function Skills() {
   return (
     <section
       id="skills"
-      className="relative px-6 sm:px-10 md:px-20 lg:px-28 xl:px-36 pt-20 pb-32 md:py-24"
+      className="relative px-6 sm:px-10 md:px-16 lg:px-20 xl:px-24 pt-20 pb-32 md:py-24"
     >
       <div className="w-full max-w-7xl mx-auto flex flex-col gap-5 md:gap-8">
       <motion.div
@@ -165,7 +170,7 @@ export default function Skills() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: '-50px' }}
-        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 auto-rows-fr gap-4 md:gap-6 max-w-3xl mx-auto"
+        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 auto-rows-fr gap-4 md:gap-6 max-w-6xl mx-auto"
       >
         {skillGroups.map((group) => {
           const s = auraStyles[group.aura];

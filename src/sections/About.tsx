@@ -7,7 +7,7 @@ export default function About() {
   return (
     <section
       id="about"
-      className="relative px-6 sm:px-10 md:px-20 lg:px-28 xl:px-36 pt-20 pb-32 md:py-24"
+      className="relative px-6 sm:px-10 md:px-16 lg:px-20 xl:px-24 pt-20 pb-32 md:py-24"
     >
       <div className="w-full max-w-6xl mx-auto flex flex-col gap-5 md:gap-8">
 
@@ -33,9 +33,10 @@ export default function About() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.55, delay: 0.1 }}
-          className="flex flex-col gap-5 md:gap-6 max-w-3xl mx-auto text-left md:text-center"
+          className="flex flex-col gap-4 md:gap-5 max-w-3xl mx-auto text-left md:text-center"
         >
-          <p className="text-base sm:text-lg md:text-lg text-text-secondary leading-relaxed">
+          {/* Lead — subtelnie wyróżniony: jaśniejszy + lekko większy, ale nie konkuruje z h2 */}
+          <p className="text-lg sm:text-xl md:text-xl text-text-primary leading-relaxed">
             {t('aboutP1')}
           </p>
           <p className="text-base sm:text-lg md:text-lg text-text-secondary leading-relaxed">

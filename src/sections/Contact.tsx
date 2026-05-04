@@ -19,10 +19,10 @@ const socialCards = [
     aura: 'vital' as const,
   },
   {
-    href: 'mailto:kontakt@adrianruniewicz.pl',
+    href: 'mailto:adiszefai@gmail.com',
     icon: <FiMail />,
     label: 'Email',
-    valueKey: 'contactEmail',
+    value: 'adiszefai@gmail.com',
     aura: 'flow' as const,
   },
 ];
@@ -54,7 +54,7 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="relative px-6 sm:px-10 md:px-20 lg:px-28 xl:px-36 pt-20 pb-32 md:py-24"
+      className="relative px-6 sm:px-10 md:px-16 lg:px-20 xl:px-24 pt-20 pb-32 md:py-24"
     >
       <div className="w-full max-w-7xl mx-auto flex flex-col gap-5 md:gap-8">
       <motion.div
@@ -109,7 +109,7 @@ export default function Contact() {
                     {card.label}
                   </span>
                   <span className="text-text-primary font-medium">
-                    {card.valueKey ? t(card.valueKey) : card.value}
+                    {card.value}
                   </span>
                 </div>
               </motion.a>

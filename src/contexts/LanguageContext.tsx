@@ -10,8 +10,8 @@ const translations: Translations = {
   // Hero
   greeting: { pl: 'CZEŚĆ, JESTEM', en: 'HI, I\'M' },
   heroDesc: {
-    pl: 'AI Product Engineer od 2024. Buduję produkty AI od architektury po deploy — sam, w trzyosobowych zespołach, w korpo. Trzy live, każdy inny. Co-creator Career Guide (ProfileVector, engine matchowania, Avi 3D), solo founder RuneWitch, frontend i product owner Rybai.',
-    en: 'AI Product Engineer since 2024. I build AI products from architecture to deploy — solo, in three-person teams, at scale. Three live, each different. Co-creator of Career Guide (ProfileVector, matching engine, Avi 3D), solo founder of RuneWitch, frontend & product owner at Rybai.',
+    pl: 'Buduję produkty AI od białej tablicy po produkcję — solo, w 3-osobowych zespołach i w 16-osobowym teamie Crait. Trzy live, każdy inny: co-creator Career Guide (Crait P.S.A.), solo founder RuneWitch, frontend i product owner Rybai. Konkretne produkty z użytkownikami, nie POC do slajdów.',
+    en: 'I build AI products from whiteboard to production — solo, in 3-person teams, and in a 16-person team at Crait. Three live, each different: co-creator of Career Guide (Crait P.S.A.), solo founder of RuneWitch, frontend & product owner at Rybai. Real products with users, not slideware POCs.',
   },
   viewProjects: { pl: 'Zobacz projekty', en: 'See the projects' },
   contact: { pl: 'Kontakt', en: 'Contact' },
@@ -50,6 +50,18 @@ const translations: Translations = {
     pl: 'ProfileVector + Matcher Engine + Avi — od białej tablicy po produkcję',
     en: 'ProfileVector + Matcher Engine + Avi — from whiteboard to production',
   },
+  cgCap1: {
+    pl: 'Career Guide — landing produkcyjny z Avi i Profile Matcherem',
+    en: 'Career Guide — production landing with Avi and Profile Matcher',
+  },
+  cgCap2: {
+    pl: 'Profile Matcher — engine 5 matcherów (Tech / Exp / Soft / Loc / Lang) na żywo',
+    en: 'Profile Matcher — 5-matcher engine (Tech / Exp / Soft / Loc / Lang) live',
+  },
+  cgCaseStudy: {
+    pl: 'Career Guide to platforma matchująca kandydatów IT z ofertami pracy. Co-creator w Crait P.S.A. (3-osobowy core team), moje rejony to silnik matchowania, Profile Matcher i avatar Avi.\n\nProfileVector (v1.0 → v1.3) — autorski silnik wektoryzacji profili kandydatów. Engine 5 matcherów z wagami dobranymi po pięćdziesięciu iteracjach: Tech 30% / Exp 25% / Soft 18% / Loc 15% / Lang 12%. ThreadPoolExecutor pod scoringiem żeby trzymać latencję poniżej sekundy przy 397 ofertach w produkcji.\n\nProfile Matcher: ~200 komponentów React, strict TS, semantic design tokens. Avi — avatar 3D (Blender + lip-sync) jako conversational guide. Landing page od zera w trzy dni przed launchem.',
+    en: 'Career Guide is a platform matching IT candidates with job offers. Co-creator at Crait P.S.A. (3-person core team), my turf is the matching engine, Profile Matcher and the Avi avatar.\n\nProfileVector (v1.0 → v1.3) — custom profile vectorization engine. 5-matcher scoring engine with weights tuned over fifty iterations: Tech 30% / Exp 25% / Soft 18% / Loc 15% / Lang 12%. ThreadPoolExecutor under scoring to keep latency under one second at 397 production offers.\n\nProfile Matcher: ~200 React components, strict TS, semantic design tokens. Avi — 3D avatar (Blender + lip-sync) as a conversational guide. Landing page from scratch in three days before launch.',
+  },
 
   // RuneWitch
   rwRole: { pl: 'solo founder · 1.5 roku dev', en: 'solo founder · 1.5 yr dev' },
@@ -61,6 +73,30 @@ const translations: Translations = {
     pl: 'Multi-provider AI (Groq → Gemini → OpenAI) z auto-fallback',
     en: 'Multi-provider AI (Groq → Gemini → OpenAI) with auto-fallback',
   },
+  rwCap0: {
+    pl: 'Landing — brama do nordyckiej mądrości, 4 sekcje aplikacji',
+    en: 'Landing — gateway to Norse wisdom, 4 app sections',
+  },
+  rwCap1: {
+    pl: 'Galeria 47 bogów nordyckich (17 aktywnych) — portrety, atrybuty, autorskie prompty',
+    en: 'Gallery of 47 Norse gods (17 active) — portraits, attributes, custom prompts',
+  },
+  rwCap2: {
+    pl: 'Starszy Futhark — wybór z 24 run pradawnego alfabetu',
+    en: 'Elder Futhark — pick from 24 runes of the ancient alphabet',
+  },
+  rwCap3: {
+    pl: 'Osiągnięcia — postępy, statystyki, odznaki za interakcje z bogami',
+    en: 'Achievements — progress, stats, badges earned via interactions with gods',
+  },
+  rwCap4: {
+    pl: 'Wyniki układu run — interpretacja per bóg z mitologicznym kontekstem',
+    en: 'Rune layout results — per-god interpretation with mythological context',
+  },
+  rwCaseStudy: {
+    pl: 'RuneWitch to mój solo founder project — mitologia nordycka × generative AI. 1.5 roku dev end-to-end: backend, frontend, design, deploy, marketing, copy. Wszystko sam.\n\n47 bogów nordyckich (17 aktywnych) z autorskimi promptami i głosami ElevenLabs. 24 układy runiczne Elder Futhark, każdy z własną interpretacją per bóg. System Patrona z długoterminową pamięcią — 5 nordyckich poziomów relacji (Framandi → Kunningi → Vinr → Náinn → Fylgja) z mechanizmem decay; bóg pamięta co mówiłeś poprzednim razem.\n\n6 języków UI (PL/EN/DE/SV/NO/IS) z native voice per język. Multi-provider AI z auto-fallback (Groq → Gemini → OpenAI) — gdy jedno API pada, system jedzie dalej. Blue-green deployment na Hetznerze, monitoring 24/7 w Akashy. Kiedyś straciłem prod-database przez brakujący Docker volume — od tamtej pory volumes to first-class citizen.',
+    en: 'RuneWitch is my solo-founder project — Norse mythology × generative AI. 1.5 years of end-to-end dev: backend, frontend, design, deploy, marketing, copy. All me.\n\n47 Norse gods (17 active) with custom prompts and ElevenLabs voices. 24 Elder Futhark rune layouts, each with its own interpretation per god. Patron System with long-term memory — 5 Norse relationship tiers (Framandi → Kunningi → Vinr → Náinn → Fylgja) with decay; the god remembers what you said last time.\n\n6 UI languages (PL/EN/DE/SV/NO/IS) with native voice per language. Multi-provider AI with auto-fallback (Groq → Gemini → OpenAI) — when one API dies, the system keeps going. Blue-green deployment on Hetzner, 24/7 monitoring in Akasha. Once lost a prod database to a missing Docker volume — since then volumes are a first-class citizen.',
+  },
 
   // Rybai
   ryRole: { pl: 'frontend + product owner · 3-os. zespół', en: 'frontend + product owner · 3-person team' },
@@ -71,6 +107,14 @@ const translations: Translations = {
   ryHighlight: {
     pl: 'Polski RAG (sdadas/mmlw) + FAISS — wiedza wędkarska na wyciągnięcie ręki',
     en: 'Polish RAG (sdadas/mmlw) + FAISS — angling knowledge at your fingertips',
+  },
+  ryCap1: {
+    pl: 'Rybai — mapa łowisk PZW, RAG po polskim modelu embeddings',
+    en: 'Rybai — PZW fishing spots map, RAG over a Polish embeddings model',
+  },
+  ryCaseStudy: {
+    pl: 'Rybai to inteligentna platforma dla wędkarzy. 3-osobowy zespół (backend AI / frontend / ja jako frontend + product owner). Pracuję z gotowym backendem RAG i biorę odpowiedzialność za UI, roadmapę i priorytety produktowe.\n\nRAG zbudowany na polskim modelu embeddings sdadas/mmlw-roberta (768-dim) + FAISS — działa na polskim slangu wędkarskim, którego anglojęzyczne modele nie rozumieją. 53 gatunki ryb z autorskimi grafikami, 1599 łowisk PZW na interaktywnej mapie, fishing index liczony w czasie rzeczywistym z pogody (temperatura, ciśnienie, faza księżyca).\n\nFrontend: strict TypeScript, semantic design tokens (jeden źródłowy plik kolorów), Vite. 28 z 28 testów Vitest na zielono, GitHub Actions CI/CD blokuje merge przy czerwonym buildzie. Cache w Redis dla queries RAG → druga identyczna jest darmowa.',
+    en: 'Rybai is a smart platform for anglers. 3-person team (AI backend / frontend / me as frontend + product owner). I work with a ready RAG backend and own UI, roadmap and product priorities.\n\nRAG built on the Polish embeddings model sdadas/mmlw-roberta (768-dim) + FAISS — works on Polish angling slang that English-language models do not understand. 53 fish species with custom artwork, 1599 PZW fishing spots on an interactive map, fishing index computed in real time from weather (temperature, pressure, moon phase).\n\nFrontend: strict TypeScript, semantic design tokens (one source-of-truth color file), Vite. 28 of 28 Vitest tests green, GitHub Actions CI/CD blocks merges on a red build. Redis cache on RAG queries → the second identical query is free.',
   },
 
   // Akasha
@@ -113,23 +157,22 @@ const translations: Translations = {
     pl: 'Masz coś do zrobienia? Pomysł, problem, projekt? Daj znać. Odpowiadam zawsze.',
     en: 'Got something to build? Idea, problem, project? Reach out. I always reply.',
   },
-  contactEmail: { pl: 'Napisz do mnie', en: 'Write to me' },
 
   // About
   aboutLabel: { pl: 'O MNIE', en: 'ABOUT ME' },
   aboutTitle: { pl: 'Kim jestem', en: 'Who I am' },
   aboutAvailable: { pl: 'Dostępny do współpracy', en: 'Available for work' },
   aboutP1: {
-    pl: 'Samouk z 35-letnią dawką życiowej determinacji. Przez lata pracowałem fizycznie — montowałem rusztowania — ale komputer zawsze ciągnął mocniej. Produkcja muzyczna, Blender, montaż wideo, Photoshop — cyfrowe tworzenie to mój żywioł od dawna. W 2024 wsiadłem do pociągu, na który czekałem: programowanie i AI. Od pierwszego dnia wiedziałem, że to moja droga.',
-    en: 'Self-taught, with thirty-five years of life experience pushing me forward. For years I worked construction — scaffolding — but computers always pulled harder. Music production, Blender, video editing, Photoshop — digital creation has been my element for a long time. In 2024 I caught the train I\'d been waiting for: programming and AI. From day one I knew this was the path.',
+    pl: 'Łapałem się przez lata różnych prac — od rusztowań po dorywcze zlecenia. Komputer ciągnął mnie zawsze do tworzenia — produkcja muzyczna, Blender, montaż wideo, Photoshop. Warsztat estetyczny budowałem od dawna, kod dołożyłem na końcu. We wrześniu 2024 wszedłem w programowanie i AI na poważnie. Uczę się przez budowanie, nie przez podręczniki — pierwszy produkcyjny commit poszedł osiem miesięcy później.',
+    en: 'I worked all kinds of jobs over the years — from scaffolding to odd gigs. Computers always pulled me toward creating — music production, Blender, video editing, Photoshop. The aesthetic toolkit was there long before the code. In September 2024 I went all-in on programming and AI. I learn by building, not by reading manuals — my first production commit shipped eight months later.',
   },
   aboutP2: {
-    pl: 'Dziś jestem AI Product Engineer w Crait P.S.A. W Career Guide mam swoje rejony: ProfileVector (silnik wektoryzacji profili, v1.0 → v1.3), engine 5 matcherów z wagami dobranymi po pięćdziesięciu iteracjach, około 200 komponentów React do Profile Matchera, Avi — avatar 3D z lip-sync. Architektura, backend, model w Blenderze, frontend — wszystko moje, od białej tablicy po produkcję. W roadmapie: 6. matcher (Cultural Fit), 7. (Salary), ProfileVector v1.4 z explainable embeddings.',
-    en: 'Today I work as an AI Product Engineer at Crait P.S.A. At Career Guide I own my turf: ProfileVector (profile vectorization engine, v1.0 → v1.3), the 5-matcher scoring engine with weights tuned over fifty iterations, ~200 React components for the Profile Matcher, and Avi — a 3D avatar with lip-sync. Architecture, backend, Blender model, frontend — all mine, from whiteboard to production. Roadmap: 6th matcher (Cultural Fit), 7th (Salary), ProfileVector v1.4 with explainable embeddings.',
+    pl: 'Dziś AI Product Engineer w Crait P.S.A. (Career Guide), współzałożyciel. Mam tam swoje terytorium — ProfileVector (silnik wektoryzacji profili), engine 5 matcherów z wagami dobranymi po pięćdziesięciu iteracjach, ~200 komponentów Profile Matchera, Avi (avatar 3D, model w Blenderze, lip-sync). Architektura, backend, frontend — od białej tablicy po deploy. 167k linii w produkcji, 252 pliki w 100% moje, #2 contributor z 60+ osób. Peer leader w swoim obszarze, nie CTO — to świadomy wybór.',
+    en: 'Today I\'m an AI Product Engineer at Crait P.S.A. (Career Guide), co-founder. My turf there — ProfileVector (profile vectorization engine), the 5-matcher engine with weights tuned over fifty iterations, ~200 Profile Matcher components, Avi (3D avatar, Blender model, lip-sync). Architecture, backend, frontend — from whiteboard to deploy. 167k lines in production, 252 files 100% mine, #2 contributor out of 60+. Peer leader in my domain, not CTO — a deliberate choice.',
   },
   aboutP3: {
-    pl: 'RuneWitch to mój solo projekt — 1.5 roku roboty od pomysłu po deploy. 47 bogów nordyckich z autorskimi promptami, System Patrona z długoterminową pamięcią, 6 języków UI, blue-green deployment. Równolegle frontend i product owner w Rybai (3-osobowy zespół) i własny AI dashboard, którego używam codziennie. Szukam miejsca, gdzie mogę dalej budować. Solo, w zespole, gdziekolwiek — byle produkty, których ktoś naprawdę używa. Nie POC do prezentacji.',
-    en: 'RuneWitch is my solo project — 1.5 years of work from idea to deploy. 47 Norse gods with custom prompts, Patron System with long-term memory, 6 UI languages, blue-green deployment. In parallel I lead frontend and product on Rybai (3-person team) and run my own AI dashboard daily. I\'m looking for a place where I can keep building. Solo, in a team, anywhere — as long as it\'s products people actually use. Not proof-of-concept slideware.',
+    pl: 'RuneWitch to mój solo projekt — 1.5 roku roboty, 47 bogów nordyckich z AI persona, 6 języków, blue-green deploy na Hetznerze. Mitologia i AI w jednym — bo forma ma znaczenie, estetyka to język, nie dodatek. Równolegle frontend i product owner w Rybai (3-osobowy zespół, polski RAG na FAISS) i własny AI dashboard, którego używam codziennie. Szukam miejsca, gdzie mogę dalej budować rzeczy, których ktoś naprawdę używa. Solo, w zespole, gdziekolwiek — byle nie POC do prezentacji.',
+    en: 'RuneWitch is my solo project — 1.5 years of work, 47 Norse gods with AI personas, 6 languages, blue-green deploy on Hetzner. Mythology and AI in one piece — because form matters, aesthetics is a language, not an add-on. In parallel I lead frontend and product on Rybai (3-person team, Polish RAG on FAISS) and run my own AI dashboard daily. I\'m looking for a place where I can keep building things people actually use. Solo, on a team, anywhere — as long as it\'s not slideware POCs.',
   },
   aboutLines: { pl: 'linii kodu w produkcji', en: 'lines of code in production' },
   aboutApps: { pl: 'projekty live', en: 'live projects' },

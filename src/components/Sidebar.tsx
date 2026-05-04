@@ -69,13 +69,15 @@ export default function Sidebar() {
         {/* A: Brand */}
         <div className="flex flex-col items-center gap-3 pb-1">
           <div className="relative w-[150px] h-[150px] rounded-2xl p-[2px] aura-bg-aether shadow-[0_0_36px_-8px_rgb(99_102_241/0.6)]">
-            <img
-              src="/projects/adi.png"
-              alt="Adrian Runiewicz"
-              className="w-full h-full rounded-[14px] object-cover bg-bg-deep"
-              loading="eager"
-              decoding="async"
-            />
+            <div className="w-full h-full rounded-[14px] overflow-hidden bg-bg-deep">
+              <img
+                src="/projects/adi.png"
+                alt="Adrian Runiewicz"
+                className="profile-photo w-full h-full object-cover"
+                loading="eager"
+                decoding="async"
+              />
+            </div>
           </div>
           <div className="flex flex-col items-center gap-0.5 text-center">
             <span className="text-base md:text-lg font-semibold text-text-primary leading-tight">Adrian Runiewicz</span>

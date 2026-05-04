@@ -20,7 +20,7 @@ export default function ContactForm() {
       const emailjsTemplateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
 
       if (!emailjsPublicKey || !emailjsServiceId || !emailjsTemplateId) {
-        window.location.href = `mailto:kontakt@adrianruniewicz.pl?subject=Portfolio Contact: ${form.name}&body=${form.message}%0A%0AFrom: ${form.email}`;
+        window.location.href = `mailto:adiszefai@gmail.com?subject=Portfolio Contact: ${form.name}&body=${form.message}%0A%0AFrom: ${form.email}`;
         setStatus('success');
         return;
       }
