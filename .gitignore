@@ -22,6 +22,7 @@ dist-ssr
 
 # Notebook source (rendered HTML lives in public/notebooks/, source na osobnym GitHub repo)
 notebooks/
+data-notebooks/
 
 # Editor directories and files
 .vscode/*
